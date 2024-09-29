@@ -1,0 +1,36 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      "error"
+    ],
+    "camelcase": [
+      "warning"
+    ],
+    "prefer-arrow-callback": [
+      "warning"
+    ],
+    "sort-imports": [
+      "error"
+    ],
+    "no-empty": [
+      "warning", 
+      { 
+        "allowEmptyCatch": true 
+      }
+    ],
+    "func-style": [
+      "error",
+      "expression",
+      {
+        "overrides": { 
+          "namedExports": "declaration" 
+        }
+      }
+    ]
+  }
+}
