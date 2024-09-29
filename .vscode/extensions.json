@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "stylelint.vscode-stylelint",
+    "bradlc.vscode-tailwindcss",
+    "vscjava.vscode-java-pack",
+    "eamodio.gitlens",
+    "vmware.vscode-boot-dev-pack",
+    "PKief.material-icon-theme"
+  ],
+  "unwantedRecommendations": []
+}

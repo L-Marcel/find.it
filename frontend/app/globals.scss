@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-zinc-950 
+    hover:flex 
+    flex-col 
+    gap-8 
+    m-16 
+    text-zinc-200 
+    font-roboto 
+    font-normal;
+}
