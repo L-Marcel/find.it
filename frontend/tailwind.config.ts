@@ -13,6 +13,9 @@ const config: Config = {
         inter: "var(--font-inter)",
         tilt: "var(--font-tilt-warp)",
       },
+      variants: {
+        textColor: ["group-focus"],
+      },
     },
   },
   plugins: [],
