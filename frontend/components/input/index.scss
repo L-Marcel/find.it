@@ -1,0 +1,73 @@
+.input {
+  @apply relative
+    flex
+    flex-col
+    gap-2
+    font-roboto
+    font-normal
+    text-base
+    min-w-52
+    max-w-[35rem];
+
+  div {
+    @apply bg-zinc-900
+      px-3
+      py-1
+      flex
+      gap-2
+      rounded-2xl
+      h-12
+      items-center
+      ring-offset-4
+      ring-indigo-600
+      ring-offset-zinc-950
+      focus-within:text-indigo-600
+      focus-within:ring-2;
+  }
+
+  svg {
+    @apply size-7;
+  }
+
+  div:has(textarea) {
+    @apply p-0 
+      h-full;
+
+    svg {
+      @apply absolute
+        left-[0.625rem]
+        top-2;
+    }
+  }
+
+  input,
+  textarea {
+    @apply w-full
+      bg-transparent
+      outline-none
+      placeholder:uppercase
+      placeholder:text-zinc-500
+      group-focus:text-inherit;
+  }
+
+  textarea {
+    @apply px-3
+      py-[0.625rem]
+      indent-8
+      min-h-32
+      overflow-hidden
+      resize-none;
+  }
+
+  p {
+    @apply text-red-500
+      text-base;
+  }
+}
+
+.error {
+  div {
+    @apply ring-red-500
+      focus-within:text-red-500;
+  }
+}
