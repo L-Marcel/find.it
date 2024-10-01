@@ -8,6 +8,8 @@ import com.find.it.backend.models.User;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
   boolean existsByName(String name);
+
   boolean existsByEmail(String email);
+
   boolean existsByPhone(String phone);
 };
