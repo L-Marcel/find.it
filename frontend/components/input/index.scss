@@ -43,6 +43,7 @@
   input,
   textarea {
     @apply w-full
+      leading-4
       bg-transparent
       outline-none
       placeholder:uppercase
@@ -55,6 +56,7 @@
       py-[0.625rem]
       indent-8
       min-h-32
+      leading-6
       overflow-hidden
       resize-none;
   }

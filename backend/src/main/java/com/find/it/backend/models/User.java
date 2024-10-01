@@ -16,6 +16,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,18 +54,18 @@ public class User {
   private int finds = 0;
 
   @Enumerated(EnumType.ORDINAL)
-  private ContactType contact;
+  private ContactType contact = ContactType.NONE;
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "owner")
   private Set<It> its;
 
-  public User(UserDTO user){
-    this.id = user.id();
-    this.name = user.name();
-    this.email = user.email();
-    this.password = user.password();
-    this.phone = user.phone();
-    this.contact = user.contact();
+  public User(UserDTO user) {
+    this.id = user.getId();
+    this.name = user.getName();
+    this.email = user.getEmail();
+    this.password = user.getPassword();
+    this.phone = user.getPhone();
+    this.contact = user.getContact();
   }
 };

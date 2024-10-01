@@ -20,13 +20,11 @@ public class UserService {
   private UserRepository repository;
 
   public void validateAndCreateUser(UserDTO newUser) {
-    if(repository.existsByName(newUser.name())){
-      throw new AlreadyExists("Name already exists","Name");
-    }
-    if(repository.existsByEmail(newUser.email())){
+    if (repository.existsByName(newUser.getName())) {
+      throw new AlreadyExists("Name already exists", "Name");
+    } else if (repository.existsByEmail(newUser.getEmail())) {
       throw new AlreadyExists("Email already exists", "Email");
-    }
-    if(repository.existsByPhone(newUser.phone())){
+    } else if (repository.existsByPhone(newUser.getPhone())) {
       throw new AlreadyExists("Phone already exists", "Phone");
     }
 
@@ -36,8 +34,8 @@ public class UserService {
 
   public User findById(UUID id) {
     Optional<User> user = repository.findById(id);
-    if(!user.isPresent()){
-       throw new NotFound("User not found");
+    if (!user.isPresent()) {
+      throw new NotFound("User not found");
     }
     return user.get();
   }
@@ -46,4 +44,9 @@ public class UserService {
     List<User> allUsers = repository.findAll();
     return allUsers;
   }
+
+  public void deleteUser(UUID id) {
+    User user = this.findById(id);
+    repository.delete(user);
+  };
 }

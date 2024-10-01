@@ -1,0 +1,51 @@
+.button {
+  @apply h-12
+    flex
+    rounded-2xl
+    px-6
+    py-4
+    ring-offset-4
+    ring-offset-zinc-950
+    ring-indigo-600
+    text-zinc-50
+    hover:text-indigo-600
+    uppercase
+    font-roboto
+    font-medium
+    text-base
+    leading-4
+    outline-none
+    w-fit
+    bg-zinc-900
+    focus:ring-2
+    justify-center
+    items-center
+    disabled:opacity-75
+    disabled:cursor-not-allowed;
+}
+
+.button.red {
+  @apply hover:text-red-600
+    ring-red-600;
+}
+
+.button.default-fill {
+  @apply hover:text-zinc-50
+    bg-indigo-600
+    ring-indigo-600
+    hover:bg-indigo-700;
+}
+
+.button.pink-fill {
+  @apply hover:text-zinc-50
+    bg-pink-600
+    ring-pink-600
+    hover:bg-pink-700;
+}
+
+.button.green-fill {
+  @apply hover:text-zinc-50
+    bg-green-600
+    ring-green-600
+    hover:bg-green-700;
+}
