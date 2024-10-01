@@ -5,17 +5,16 @@ import Link from "next/link";
 import { At, Lock } from "@phosphor-icons/react/dist/ssr";
 import Button from "../button";
 import Input from "../input";
-import z, { ZodError } from "zod";
-import { useEffect, useState } from "react";
-import { useDebounce } from "@uidotdev/usehooks";
+import z from "zod";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 
 const schema = z.object({
   email: z
-    .string()
+    .string({ required_error: "É necessário informar um e-mail!" })
     .email("Formato inválido de e-mail!")
     .max(80, "E-mail grande demais!"),
   password: z
-    .string()
+    .string({ required_error: "É necessário informar uma senha!" })
     .max(24, "Senha grande demais!")
     .min(8, "Senha pequena demais!"),
 });
@@ -23,50 +22,78 @@ const schema = z.object({
 type Data = z.infer<typeof schema>;
 
 export default function LoginForm() {
-  let [canSubmit, setCanSubmit] = useState(false);
-  let [errors, setError] = useState<ZodError>();
+  let [errors, setErrors] = useState<Data & { new: boolean }>({
+    new: false,
+    email: "",
+    password: "",
+  });
+
   let [data, setData] = useState<Data>({
     email: "",
     password: "",
   });
 
-  const dataToValidate = useDebounce(data, 1000);
+  const update = useCallback(
+    (at: keyof Data, value: string) => {
+      setErrors((errors) => {
+        return {
+          ...errors,
+          new: false,
+          [at]: "",
+        };
+      });
+      setData((data) => {
+        return {
+          ...data,
+          [at]: value,
+        };
+      });
+    },
+    [setData, setErrors]
+  );
 
-  function getError(at: keyof Data) {
-    if (!errors || dataToValidate[at] === "") return "";
-
-    for (let i = 0; i < errors?.issues.length; i++) {
-      let issue = errors?.issues[i];
-      if (issue.path[0] === at) return issue.message;
-    }
-
-    return "";
-  }
-
-  function onDataChanged(at: keyof Data, value: string) {
-    setData({
-      ...data,
-      [at]: value,
-    });
-  }
-
-  function validate(data: Data = dataToValidate) {
+  const validate = useCallback(() => {
     let result = schema.safeParse(data);
     if (result.success) {
-      setError(undefined);
-      setCanSubmit(true);
+      setErrors({
+        new: false,
+        email: "",
+        password: "",
+      });
     } else {
-      setError(result.error);
-      setCanSubmit(false);
+      setErrors((errors) => {
+        var _errors = { ...errors, new: true };
+        result.error.errors.forEach((error) => {
+          _errors[error.path[0] as keyof Data] = error.message;
+        });
+        return _errors;
+      });
     }
-  }
+  }, [data, setErrors]);
+
+  const submit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      validate();
+    },
+    [validate]
+  );
 
   useEffect(() => {
-    validate(dataToValidate);
-  }, [dataToValidate]);
+    if (errors.new) {
+      for (let field of Object.keys(errors) as [keyof typeof errors]) {
+        if (field === "new") continue;
+        else if (errors[field] !== "") {
+          let input = document.getElementsByName(field)[0];
+          input.focus();
+          break;
+        }
+      }
+    }
+  }, [errors]);
 
   return (
-    <form className="form">
+    <form className="form" onSubmit={submit}>
       <header>
         <h1>
           <b>BEM VINDO</b> DE VOLTA!
@@ -78,25 +105,25 @@ export default function LoginForm() {
       </header>
       <main>
         <Input
+          name="email"
           value={data.email}
-          onChange={(e) => onDataChanged("email", e.currentTarget.value)}
-          error={getError("email")}
+          onChange={(e) => update("email", e.currentTarget.value)}
+          error={errors["email"]}
           icon={At}
           placeholder="E-mail"
         />
         <Input
+          name="password"
           value={data.password}
-          onChange={(e) => onDataChanged("password", e.currentTarget.value)}
-          error={getError("password")}
+          onChange={(e) => update("password", e.currentTarget.value)}
+          error={errors["password"]}
           icon={Lock}
           type="password"
           placeholder="Senha"
         />
       </main>
       <footer>
-        <Button disabled={!canSubmit} theme="default-fill">
-          Entrar
-        </Button>
+        <Button theme="default-fill">Entrar</Button>
         <p>
           Ainda não possui uma conta? <Link href="/register">cadastre-se</Link>
         </p>
