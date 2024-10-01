@@ -2,6 +2,8 @@ package com.find.it.backend.services;
 
 import com.find.it.backend.models.User;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,12 +22,20 @@ public class UserService {
   private UserRepository repository;
 
   public void validateAndCreateUser(UserDTO newUser) {
+    Map<String,String> errors = new HashMap<>();
+
     if (repository.existsByName(newUser.getName())) {
-      throw new AlreadyExists("Name already exists", "Name");
-    } else if (repository.existsByEmail(newUser.getEmail())) {
-      throw new AlreadyExists("Email already exists", "Email");
-    } else if (repository.existsByPhone(newUser.getPhone())) {
-      throw new AlreadyExists("Phone already exists", "Phone");
+      errors.put("Name", "Name already exists");
+    }
+    if (repository.existsByEmail(newUser.getEmail())) {
+      errors.put("Email", "Email already exists");
+    }
+    if (repository.existsByPhone(newUser.getPhone())) {
+      errors.put("Phone", "Phone already exists");
+    }
+
+    if(!errors.isEmpty()){
+      throw new AlreadyExists(errors);
     }
 
     User user = new User(newUser);
