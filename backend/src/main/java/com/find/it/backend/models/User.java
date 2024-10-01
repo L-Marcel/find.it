@@ -3,6 +3,8 @@ package com.find.it.backend.models;
 import java.util.Set;
 import java.util.UUID;
 
+import com.find.it.backend.dtos.UserDTO;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,13 +20,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-enum ContactType {
-  NONE,
-  PHONE,
-  EMAIL,
-  BOTH
-};
 
 @Entity
 @Table(name = "Users")
@@ -62,4 +57,13 @@ public class User {
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "owner")
   private Set<It> its;
+
+  public User(UserDTO user){
+    this.id = user.id();
+    this.name = user.name();
+    this.email = user.email();
+    this.password = user.password();
+    this.phone = user.phone();
+    this.contact = user.contact();
+  }
 };
