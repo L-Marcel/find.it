@@ -19,13 +19,13 @@ public class UserService {
   @Autowired
   private UserRepository repository;
 
-  public void validateAndCreateUser(UserDTO newUser) {
+  public void create(UserDTO newUser) {
     if (repository.existsByName(newUser.getName())) {
-      throw new AlreadyExists("Name already exists", "Name");
+      throw new AlreadyExists("Esse nome já está em uso!", "name");
     } else if (repository.existsByEmail(newUser.getEmail())) {
-      throw new AlreadyExists("Email already exists", "Email");
+      throw new AlreadyExists("Esse e-mail já está em uso!", "email");
     } else if (repository.existsByPhone(newUser.getPhone())) {
-      throw new AlreadyExists("Phone already exists", "Phone");
+      throw new AlreadyExists("Esse telefone já está em uso!", "phone");
     }
 
     User user = new User(newUser);

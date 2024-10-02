@@ -13,6 +13,7 @@ import com.find.it.backend.services.UserService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @Validated
 @RestController
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequestMapping("/api/users")
 public class UsersController {
   @Autowired
@@ -41,7 +43,7 @@ public class UsersController {
 
   @PostMapping
   public ResponseEntity<String> registerUser(@Validated(UserDTO.Create.class) @RequestBody UserDTO newUser) {
-    service.validateAndCreateUser(newUser);
+    service.create(newUser);
     return ResponseEntity.status(HttpStatus.CREATED).body("New user registered");
   }
 
