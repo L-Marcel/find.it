@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto, Inter, Tilt_Warp } from "next/font/google";
 import "./globals.scss";
 import Header from "@/components/header";
+import Provider from "@/context/provider";
 
 const roboto = Roboto({
   style: ["normal", "italic"],
@@ -39,8 +40,10 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${inter.variable} ${tiltWarp.variable} antialiased`}
       >
-        <Header />
-        {children}
+        <Provider>
+          <Header />
+          {children}
+        </Provider>
       </body>
     </html>
   );

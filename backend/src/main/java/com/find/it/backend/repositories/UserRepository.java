@@ -1,5 +1,6 @@
 package com.find.it.backend.repositories;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
   boolean existsByEmail(String email);
 
   boolean existsByPhone(String phone);
+
+  Optional<User> findByEmailAndPassword(String email, String password);
 };

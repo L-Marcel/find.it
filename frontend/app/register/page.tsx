@@ -1,3 +1,15 @@
-export default function Register() {
-  return <main></main>;
+import "./index.scss";
+import Image from "next/image";
+import logo from "@/images/logo.webp";
+import RegisterForm from "@/components/forms/register";
+
+export default function Login() {
+  return (
+    <main className="register">
+      <section>
+        <Image src={logo} alt="Fint.it" />
+        <RegisterForm />
+      </section>
+    </main>
+  );
 }

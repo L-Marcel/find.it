@@ -2,6 +2,7 @@ package com.find.it.backend.dtos;
 
 import java.util.UUID;
 import com.find.it.backend.models.ContactType;
+import com.find.it.backend.models.User;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -34,4 +35,15 @@ public class UserDTO {
   private String password;
 
   private ContactType contact = ContactType.NONE;
+
+  private String token;
+
+  public UserDTO(String token, User user) {
+    this.token = token;
+    this.id = user.getId();
+    this.name = user.getName();
+    this.email = user.getEmail();
+    this.phone = user.getPhone();
+    this.contact = user.getContact();
+  };
 }
