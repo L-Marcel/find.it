@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.find.it.backend.errors.AlreadyExists;
@@ -27,11 +26,9 @@ public class ApplicationControllerAdvice {
   @ExceptionHandler(AlreadyExists.class)
   public ResponseEntity<Map<String, Object>> handleAlreadyExistsException(AlreadyExists ex) {
     Map<String, Object> response = new HashMap<>();
-    Map<String, Object> fields = new HashMap<>();
 
-    fields.put(ex.getField(), ex.getMessage());
     response.put("status", HttpStatus.CONFLICT.value());
-    response.put("fields", fields);
+    response.put("fields", ex.getErrors());
     return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
   }
 
