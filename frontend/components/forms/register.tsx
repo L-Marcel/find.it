@@ -2,49 +2,15 @@
 
 import "./index.scss";
 import Link from "next/link";
-import { At, Lock, Phone, User } from "@phosphor-icons/react";
+import { At, Lock, Phone, User as UserIcon } from "@phosphor-icons/react";
 import Button from "../button";
 import Input from "../input";
-import z from "zod";
 import { FormEvent, useCallback, useEffect, useState } from "react";
-import { useLocalStorage } from "@uidotdev/usehooks";
 import { setTimeout } from "timers";
 import { redirect } from "next/navigation";
+import { userSchema as schema, type User } from "@/context/user";
 
-const schema = z
-  .object({
-    name: z
-      .string()
-      .min(1, "É necessário informar um nome!")
-      .min(8, "Nome pequeno demais!")
-      .max(90, "Nome muito grande!"),
-    email: z
-      .string()
-      .min(1, "É necessário informar um e-mail!")
-      .email("Formato inválido de e-mail!")
-      .max(80, "E-mail grande demais!"),
-    phone: z
-      .string()
-      .min(1, "É necessário informar um telefone!")
-      .regex(/^\d+$/gm, "Utilize apenas números!")
-      .regex(/^(\d{2}[9]?\d{8}|\d{10})$/g, "Telefone inválido!"),
-    password: z
-      .string()
-      .min(1, "É necessário informar uma senha!")
-      .max(24, "Senha grande demais!")
-      .min(8, "Senha pequena demais!"),
-    passwordConfirmation: z.string(),
-  })
-  .refine(
-    (data) => {
-      return data.password === data.passwordConfirmation;
-    },
-    { message: "Senhas não coincidem!", path: ["passwordConfirmation"] }
-  );
-
-type Data = z.infer<typeof schema>;
-
-const initial: Data = {
+const initial: User = {
   name: "",
   email: "",
   phone: "",
@@ -54,14 +20,14 @@ const initial: Data = {
 
 export default function LoginForm() {
   let [loading, setLoading] = useState(false);
-  let [data, setData] = useState<Data>(initial);
-  let [errors, setErrors] = useState<Data & { new: boolean }>({
+  let [data, setData] = useState<User>(initial);
+  let [errors, setErrors] = useState<User & { new: boolean }>({
     new: false,
     ...initial,
   });
 
   const update = useCallback(
-    (at: keyof Data, value: string) => {
+    (at: keyof User, value: string) => {
       setErrors((errors) => {
         return {
           ...errors,
@@ -91,7 +57,7 @@ export default function LoginForm() {
       setErrors((errors) => {
         var _errors = { ...errors, new: true };
         result.error.errors.reverse().forEach((error) => {
-          _errors[error.path[0] as keyof Data] = error.message;
+          _errors[error.path[0] as keyof User] = error.message;
         });
         return _errors;
       });
@@ -167,7 +133,7 @@ export default function LoginForm() {
           value={data.name}
           onChange={(e) => update("name", e.currentTarget.value)}
           error={errors["name"]}
-          icon={User}
+          icon={UserIcon}
           placeholder="Nome completo"
         />
         <Input

@@ -30,26 +30,32 @@ public class UsersController {
   private UserService service;
 
   @GetMapping
-  public ResponseEntity<List<User>> getAllUsers() {
+  public ResponseEntity<List<User>> getAll() {
     List<User> allUsers = service.findAll();
     return ResponseEntity.ok(allUsers);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<User> getUserById(@PathVariable UUID id) {
+  public ResponseEntity<User> getById(@PathVariable UUID id) {
     User user = service.findById(id);
     return ResponseEntity.ok(user);
   }
 
   @PostMapping
-  public ResponseEntity<String> registerUser(@Validated(UserDTO.Create.class) @RequestBody UserDTO newUser) {
+  public ResponseEntity<String> register(@Validated(UserDTO.Create.class) @RequestBody UserDTO newUser) {
     service.create(newUser);
     return ResponseEntity.status(HttpStatus.CREATED).body("New user registered");
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<String> deleteUserById(@PathVariable UUID id) {
+  public ResponseEntity<String> deleteById(@PathVariable UUID id) {
     service.deleteUser(id);
     return ResponseEntity.status(HttpStatus.OK).body("User deleted");
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity<UserDTO> login(@RequestBody UserDTO user) {
+    UserDTO currentUser = service.login(user);
+    return ResponseEntity.ok(currentUser);
   }
 }

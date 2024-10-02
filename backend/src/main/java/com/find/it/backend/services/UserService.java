@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import com.find.it.backend.dtos.UserDTO;
 import com.find.it.backend.errors.AlreadyExists;
 import com.find.it.backend.errors.NotFound;
+import com.find.it.backend.errors.Unauthorized;
 import com.find.it.backend.repositories.UserRepository;
+import com.find.it.backend.security.Auth;
 
 @Service
 public class UserService {
@@ -45,7 +47,7 @@ public class UserService {
   public User findById(UUID id) {
     Optional<User> user = repository.findById(id);
     if (!user.isPresent()) {
-      throw new NotFound("User not found");
+      throw new NotFound("Usuário não encontrado!");
     }
     return user.get();
   }
@@ -58,5 +60,17 @@ public class UserService {
   public void deleteUser(UUID id) {
     User user = this.findById(id);
     repository.delete(user);
+  };
+
+  public UserDTO login(UserDTO user) {
+    Optional<User> currentUser = repository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+
+    if (!currentUser.isPresent()) {
+      throw new Unauthorized("Permissão negada!");
+    }
+
+    String token = Auth.encrypt(currentUser.get().getId());
+
+    return new UserDTO(token, currentUser.get());
   };
 }

@@ -12,11 +12,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.find.it.backend.errors.AlreadyExists;
 import com.find.it.backend.errors.NotFound;
+import com.find.it.backend.errors.Unauthorized;
 
 @RestControllerAdvice
 public class ApplicationControllerAdvice {
   @ExceptionHandler(NotFound.class)
   public ResponseEntity<Map<String, Object>> handleNotFoundException(NotFound ex) {
+    Map<String, Object> response = new HashMap<>();
+    response.put("status", HttpStatus.UNAUTHORIZED.value());
+    response.put("message", ex.getMessage());
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+  }
+
+  @ExceptionHandler(Unauthorized.class)
+  public ResponseEntity<Map<String, Object>> handleUnauthorizedExpection(NotFound ex) {
     Map<String, Object> response = new HashMap<>();
     response.put("status", HttpStatus.NOT_FOUND.value());
     response.put("message", ex.getMessage());
