@@ -14,21 +14,23 @@ import { redirect } from "next/navigation";
 const schema = z
   .object({
     name: z
-      .string({ required_error: "É necessário informar um nome!" })
-      .min(12, "Nome muito pequeno!")
+      .string()
+      .min(1, "É necessário informar um nome!")
+      .min(8, "Nome pequeno demais!")
       .max(90, "Nome muito grande!"),
     email: z
-      .string({ required_error: "É necessário informar um e-mail!" })
+      .string()
+      .min(1, "É necessário informar um e-mail!")
       .email("Formato inválido de e-mail!")
       .max(80, "E-mail grande demais!"),
     phone: z
-      .string({ required_error: "É necessário informar um telefone!" })
-      .regex(
-        /^(\(\+84\) ?(9\d{4}|\d{4})-\d{4}|\d{10,11})$/g,
-        "Telefone inválido!"
-      ),
+      .string()
+      .min(1, "É necessário informar um telefone!")
+      .regex(/^\d+$/gm, "Utilize apenas números!")
+      .regex(/^(\d{2}[9]?\d{8}|\d{10})$/g, "Telefone inválido!"),
     password: z
-      .string({ required_error: "É necessário informar uma senha!" })
+      .string()
+      .min(1, "É necessário informar uma senha!")
       .max(24, "Senha grande demais!")
       .min(8, "Senha pequena demais!"),
     passwordConfirmation: z.string(),
@@ -52,7 +54,7 @@ const initial: Data = {
 
 export default function LoginForm() {
   let [loading, setLoading] = useState(false);
-  let [data, setData] = useLocalStorage<Data>("@find.it/register", initial);
+  let [data, setData] = useState<Data>(initial);
   let [errors, setErrors] = useState<Data & { new: boolean }>({
     new: false,
     ...initial,
@@ -88,7 +90,7 @@ export default function LoginForm() {
     } else {
       setErrors((errors) => {
         var _errors = { ...errors, new: true };
-        result.error.errors.forEach((error) => {
+        result.error.errors.reverse().forEach((error) => {
           _errors[error.path[0] as keyof Data] = error.message;
         });
         return _errors;
