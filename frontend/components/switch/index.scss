@@ -1,0 +1,59 @@
+.switch-body {
+  @apply h-9
+    flex
+    w-fit
+    items-center
+    justify-center;
+}
+
+.switch {
+  @apply w-fit
+  flex
+  items-center
+  justify-center
+  font-roboto
+  font-medium
+  select-none
+  text-zinc-200
+  bg-zinc-900
+  pl-2
+  pr-3
+  py-2
+  flex-row
+  space-x-1
+  rounded-2xl
+  h-9;
+}
+
+.switch.disabled {
+  @apply opacity-50;
+}
+
+.switch.default-fill {
+  @apply hover:text-zinc-50
+  bg-indigo-600
+  hover:bg-indigo-700
+  ring-indigo-600;
+}
+
+.switch.green-fill {
+  @apply hover:text-zinc-50
+  bg-green-600
+  hover:bg-green-700
+  ring-green-600;
+}
+
+.switch.pink-fill {
+  @apply hover:text-zinc-50
+  bg-pink-600
+  hover:bg-pink-700
+  ring-pink-600;
+}
+
+.switch-input {
+  @apply hidden;
+}
+
+.custom-icon {
+  @apply text-xl;
+}
