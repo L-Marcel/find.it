@@ -9,6 +9,11 @@
     min-w-52
     max-w-[35rem];
 
+  :has(input:disabled) {
+    @apply opacity-50
+      cursor-not-allowed;
+  }
+
   div {
     @apply bg-zinc-900
       px-3

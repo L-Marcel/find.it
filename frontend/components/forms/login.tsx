@@ -5,43 +5,26 @@ import Link from "next/link";
 import { At, Lock } from "@phosphor-icons/react/dist/ssr";
 import Button from "../button";
 import Input from "../input";
-import z from "zod";
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import { FormEvent, useCallback, useState } from "react";
+import useAuth from "@/context/auth";
 
-const schema = z.object({
-  email: z
-    .string({ required_error: "É necessário informar um e-mail!" })
-    .email("Formato inválido de e-mail!")
-    .max(80, "E-mail grande demais!"),
-  password: z
-    .string({ required_error: "É necessário informar uma senha!" })
-    .max(24, "Senha grande demais!")
-    .min(8, "Senha pequena demais!"),
-});
-
-type Data = z.infer<typeof schema>;
+type Data = {
+  email: string;
+  password: string;
+};
 
 export default function LoginForm() {
-  let [errors, setErrors] = useState<Data & { new: boolean }>({
-    new: false,
-    email: "",
-    password: "",
-  });
+  const { login } = useAuth();
+  const [hasError, setHasError] = useState<boolean>();
 
-  let [data, setData] = useState<Data>({
+  const [data, setData] = useState<Data>({
     email: "",
     password: "",
   });
 
   const update = useCallback(
     (at: keyof Data, value: string) => {
-      setErrors((errors) => {
-        return {
-          ...errors,
-          new: false,
-          [at]: "",
-        };
-      });
+      setHasError(false);
       setData((data) => {
         return {
           ...data,
@@ -49,48 +32,15 @@ export default function LoginForm() {
         };
       });
     },
-    [setData, setErrors]
+    [setData, setHasError]
   );
 
-  const validate = useCallback(() => {
-    let result = schema.safeParse(data);
-    if (result.success) {
-      setErrors({
-        new: false,
-        email: "",
-        password: "",
-      });
-    } else {
-      setErrors((errors) => {
-        var _errors = { ...errors, new: true };
-        result.error.errors.forEach((error) => {
-          _errors[error.path[0] as keyof Data] = error.message;
-        });
-        return _errors;
-      });
-    }
-  }, [data, setErrors]);
-
-  const submit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      validate();
-    },
-    [validate]
-  );
-
-  useEffect(() => {
-    if (errors.new) {
-      for (let field of Object.keys(errors) as [keyof typeof errors]) {
-        if (field === "new") continue;
-        else if (errors[field] !== "") {
-          let input = document.getElementsByName(field)[0];
-          input.focus();
-          break;
-        }
-      }
-    }
-  }, [errors]);
+  async function submit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    await login(data.email, data.password).catch(() => {
+      setHasError(true);
+    });
+  }
 
   return (
     <form className="form" onSubmit={submit}>
@@ -108,7 +58,7 @@ export default function LoginForm() {
           name="email"
           value={data.email}
           onChange={(e) => update("email", e.currentTarget.value)}
-          error={errors["email"]}
+          error={hasError ? "E-mail ou senha incorretos!" : ""}
           icon={At}
           placeholder="E-mail"
         />
@@ -116,7 +66,6 @@ export default function LoginForm() {
           name="password"
           value={data.password}
           onChange={(e) => update("password", e.currentTarget.value)}
-          error={errors["password"]}
           icon={Lock}
           type="password"
           placeholder="Senha"
