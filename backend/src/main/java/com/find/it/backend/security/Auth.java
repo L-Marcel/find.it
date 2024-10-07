@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import javax.crypto.SecretKey;
 
+import com.find.it.backend.errors.Unauthorized;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -33,14 +35,22 @@ public class Auth {
         .compact();
   };
 
-  public static boolean validate(UUID id, String token) {
-    Claims claims = Jwts
-        .parser()
-        .decryptWith(Auth.key)
-        .build()
-        .parseSignedClaims(token)
-        .getPayload();
+  public static void validate(UUID id, String token) {
+    if (token == null)
+      throw new Unauthorized("Permissão negada!");
 
-    return id.toString().equals(claims.getSubject());
+    try {
+      Claims claims = Jwts
+          .parser()
+          .verifyWith(Auth.key)
+          .build()
+          .parseSignedClaims(token)
+          .getPayload();
+
+      if (!id.toString().equals(claims.getSubject()))
+        throw new Unauthorized("Permissão negada!");
+    } catch (Exception e) {
+      throw new Unauthorized("Permissão negada!");
+    }
   };
 }

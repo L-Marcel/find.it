@@ -7,12 +7,15 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.find.it.backend.dtos.UserDTO;
-import com.find.it.backend.models.User;
+import com.find.it.backend.dtos.AuthData;
+import com.find.it.backend.dtos.UserData;
+import com.find.it.backend.dtos.records.UserCreateData;
+import com.find.it.backend.dtos.records.UserLoginData;
 import com.find.it.backend.services.UserService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,32 +33,36 @@ public class UsersController {
   private UserService service;
 
   @GetMapping
-  public ResponseEntity<List<User>> getAll() {
-    List<User> allUsers = service.findAll();
-    return ResponseEntity.ok(allUsers);
+  public ResponseEntity<List<UserData>> getAll() {
+    List<UserData> allUsersData = service.getAllUsersData();
+    return ResponseEntity.ok(allUsersData);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<User> getById(@PathVariable UUID id) {
-    User user = service.findById(id);
-    return ResponseEntity.ok(user);
+  public ResponseEntity<UserData> getById(
+      @PathVariable UUID id,
+      @RequestHeader(value = "Authorization", required = false) String token) {
+    UserData data = service.getDataById(id, token);
+    return ResponseEntity.ok(data);
   }
 
   @PostMapping
-  public ResponseEntity<String> register(@Validated(UserDTO.Create.class) @RequestBody UserDTO newUser) {
-    service.create(newUser);
+  public ResponseEntity<String> register(@Validated @RequestBody UserCreateData user) {
+    service.create(user);
     return ResponseEntity.status(HttpStatus.CREATED).body("New user registered");
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<String> deleteById(@PathVariable UUID id) {
-    service.deleteUser(id);
+  public ResponseEntity<String> deleteById(
+      @PathVariable UUID id,
+      @RequestHeader(value = "Authorization", required = false) String token) {
+    service.deleteUser(id, token);
     return ResponseEntity.status(HttpStatus.OK).body("User deleted");
   }
 
   @PostMapping("/login")
-  public ResponseEntity<UserDTO> login(@RequestBody UserDTO user) {
-    UserDTO currentUser = service.login(user);
-    return ResponseEntity.ok(currentUser);
+  public ResponseEntity<AuthData> login(@RequestBody UserLoginData user) {
+    AuthData auth = service.login(user);
+    return ResponseEntity.ok(auth);
   }
 }

@@ -7,11 +7,15 @@ import java.util.Map;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.find.it.backend.dtos.UserDTO;
+import com.find.it.backend.dtos.AuthData;
+import com.find.it.backend.dtos.UserData;
+import com.find.it.backend.dtos.records.UserCreateData;
+import com.find.it.backend.dtos.records.UserLoginData;
 import com.find.it.backend.errors.AlreadyExists;
 import com.find.it.backend.errors.NotFound;
 import com.find.it.backend.errors.Unauthorized;
@@ -23,17 +27,20 @@ public class UserService {
   @Autowired
   private UserRepository repository;
 
-  public void create(UserDTO newUser) {
+  public void create(UserCreateData newUser) {
     Map<String, String> errors = new HashMap<>();
 
-    if (repository.existsByName(newUser.getName())) {
+    if (repository.existsByName(newUser.name())) {
       errors.put("name", "Esse nome já está em uso!");
     }
-    if (repository.existsByEmail(newUser.getEmail())) {
+    if (repository.existsByEmail(newUser.email())) {
       errors.put("email", "Esse e-mail já está em uso!");
     }
-    if (repository.existsByPhone(newUser.getPhone())) {
+    if (repository.existsByPhone(newUser.phone())) {
       errors.put("phone", "Esse telefone já está em uso!");
+    }
+    if (!newUser.password().equals(newUser.passwordConfirmation())) {
+      errors.put("password", "Senhas não coincidem!");
     }
 
     if (!errors.isEmpty()) {
@@ -57,13 +64,30 @@ public class UserService {
     return allUsers;
   }
 
-  public void deleteUser(UUID id) {
+  public UserData getDataById(UUID id, String token) {
     User user = this.findById(id);
+    if (token == null)
+      return new UserData(user, false);
+    else {
+      Auth.validate(user.getId(), token);
+      return new UserData(user, true);
+    }
+  };
+
+  public List<UserData> getAllUsersData() {
+    return this.findAll().stream()
+        .map(user -> new UserData(user, false))
+        .collect(Collectors.toList());
+  };
+
+  public void deleteUser(UUID id, String token) {
+    User user = this.findById(id);
+    Auth.validate(user.getId(), token);
     repository.delete(user);
   };
 
-  public UserDTO login(UserDTO user) {
-    Optional<User> currentUser = repository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+  public AuthData login(UserLoginData user) {
+    Optional<User> currentUser = repository.findByEmailAndPassword(user.email(), user.password());
 
     if (!currentUser.isPresent()) {
       throw new Unauthorized("Permissão negada!");
@@ -71,6 +95,6 @@ public class UserService {
 
     String token = Auth.encrypt(currentUser.get().getId());
 
-    return new UserDTO(token, currentUser.get());
+    return new AuthData(token, new UserData(currentUser.get(), true));
   };
 }
