@@ -3,7 +3,8 @@ package com.find.it.backend.models;
 import java.util.Set;
 import java.util.UUID;
 
-import com.find.it.backend.dtos.UserDTO;
+import com.find.it.backend.dtos.UserData;
+import com.find.it.backend.dtos.records.UserCreateData;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -17,16 +18,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "Users")
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -58,12 +57,23 @@ public class User {
   @JoinColumn(name = "owner")
   private Set<It> its;
 
-  public User(UserDTO user) {
+  public User(UserData user) {
     this.id = user.getId();
     this.name = user.getName();
     this.email = user.getEmail();
-    this.password = user.getPassword();
     this.phone = user.getPhone();
+    this.picture = user.getPicture();
     this.contact = user.getContact();
+    this.donated = user.getDonated();
+    this.finds = user.getFinds();
+    this.recovered = user.getRecovered();
   }
+
+  public User(UserCreateData user) {
+    this.name = user.name();
+    this.phone = user.phone();
+    this.email = user.email();
+    this.password = user.password();
+    this.contact = user.contact();
+  };
 };
