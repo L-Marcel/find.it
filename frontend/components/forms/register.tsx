@@ -2,29 +2,93 @@
 
 import "./index.scss";
 import Link from "next/link";
-import { At, Lock, Phone, User as UserIcon } from "@phosphor-icons/react";
+import {
+  At,
+  Lock,
+  Phone,
+  User as UserIcon,
+  UserCircle,
+} from "@phosphor-icons/react";
 import Button from "../button";
 import Input from "../input";
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import { setTimeout } from "timers";
 import { redirect } from "next/navigation";
 import { userSchema as schema, type User } from "@/context/user";
+import Switch from "../switch";
+import File from "../input/file";
+import Image from "next/image";
 
 const initial: User = {
   name: "",
   email: "",
   phone: "",
   password: "",
+  profile: "",
   passwordConfirmation: "",
+  contact: "NONE",
+};
+
+export type Errors = {
+  [key in keyof User]: string;
+} & {
+  new: boolean;
 };
 
 export default function LoginForm() {
-  let [loading, setLoading] = useState(false);
-  let [data, setData] = useState<User>(initial);
-  let [errors, setErrors] = useState<User & { new: boolean }>({
+  const [avatar, setAvatar] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState<User>(initial);
+  const [errors, setErrors] = useState<Errors>({
     new: false,
     ...initial,
   });
+
+  const updateContact = useCallback(
+    (at: "email" | "phone") => {
+      setData((data) => {
+        let contact: User["contact"] = "NONE";
+
+        if (at === "email") {
+          switch (data.contact) {
+            case "BOTH":
+              contact = "PHONE";
+              break;
+            case "NONE":
+              contact = "EMAIL";
+              break;
+            case "EMAIL":
+              contact = "NONE";
+              break;
+            case "PHONE":
+              contact = "BOTH";
+              break;
+          }
+        } else {
+          switch (data.contact) {
+            case "BOTH":
+              contact = "EMAIL";
+              break;
+            case "NONE":
+              contact = "PHONE";
+              break;
+            case "EMAIL":
+              contact = "BOTH";
+              break;
+            case "PHONE":
+              contact = "NONE";
+              break;
+          }
+        }
+
+        return {
+          ...data,
+          contact,
+        };
+      });
+    },
+    [setData, setErrors]
+  );
 
   const update = useCallback(
     (at: keyof User, value: string) => {
@@ -127,34 +191,68 @@ export default function LoginForm() {
         <hr />
       </header>
       <main>
-        <Input
-          disabled={loading}
-          name="name"
-          value={data.name}
-          onChange={(e) => update("name", e.currentTarget.value)}
-          error={errors["name"]}
-          icon={UserIcon}
-          placeholder="Nome completo"
-        />
-        <Input
-          disabled={loading}
-          name="email"
-          value={data.email}
-          onChange={(e) => update("email", e.currentTarget.value)}
-          error={errors["email"]}
-          icon={At}
-          placeholder="E-mail"
-        />
-        <Input
-          disabled={loading}
-          name="phone"
-          value={data.phone}
-          onChange={(e) => update("phone", e.currentTarget.value)}
-          error={errors["phone"]}
-          icon={Phone}
-          type="phone"
-          placeholder="DDD + Telefone"
-        />
+        <div className="profile">
+          {avatar ? (
+            <Image width={98} height={98} alt="avatar" src={avatar} />
+          ) : (
+            <UserCircle width={98} height={98} />
+          )}
+          <div>
+            <Input
+              disabled={loading}
+              name="name"
+              value={data.name}
+              onChange={(e) => update("name", e.currentTarget.value)}
+              error={errors["name"]}
+              icon={UserIcon}
+              placeholder="Nome completo"
+            />
+            <File
+              name="profile"
+              onFileLoaded={(base64, blob) => {
+                update("profile", base64);
+                const url = URL.createObjectURL(blob);
+                setAvatar(url);
+              }}
+            />
+          </div>
+        </div>
+        <div>
+          <Input
+            disabled={loading}
+            name="email"
+            value={data.email}
+            onChange={(e) => update("email", e.currentTarget.value)}
+            error={errors["email"]}
+            icon={At}
+            placeholder="E-mail"
+          />
+          <Switch
+            checked={data.contact === "BOTH" || data.contact === "EMAIL"}
+            onChange={() => updateContact("email")}
+          >
+            Disponibilizar para contato
+          </Switch>
+        </div>
+        <div>
+          <Input
+            disabled={loading}
+            name="phone"
+            value={data.phone}
+            onChange={(e) => update("phone", e.currentTarget.value)}
+            error={errors["phone"]}
+            icon={Phone}
+            type="phone"
+            placeholder="DDD + Telefone"
+          />
+          <Switch
+            checked={data.contact === "BOTH" || data.contact === "PHONE"}
+            onChange={() => updateContact("phone")}
+          >
+            Disponibilizar para contato
+          </Switch>
+          <Switch>Vinculado ao Whatsapp</Switch>
+        </div>
         <Input
           disabled={loading}
           name="password"

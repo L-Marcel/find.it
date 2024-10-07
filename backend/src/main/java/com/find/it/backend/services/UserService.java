@@ -20,12 +20,16 @@ import com.find.it.backend.errors.AlreadyExists;
 import com.find.it.backend.errors.NotFound;
 import com.find.it.backend.errors.Unauthorized;
 import com.find.it.backend.repositories.UserRepository;
+import com.find.it.backend.repositories.PictureRepository;
 import com.find.it.backend.security.Auth;
 
 @Service
 public class UserService {
   @Autowired
   private UserRepository repository;
+
+  @Autowired
+  private PictureRepository pictures;
 
   public void create(UserCreateData newUser) {
     Map<String, String> errors = new HashMap<>();
@@ -48,6 +52,8 @@ public class UserService {
     }
 
     User user = new User(newUser);
+    user = repository.save(user);
+    user.setPicture(pictures.createUserPicture(user.getId(), newUser.profile()));
     repository.save(user);
   }
 

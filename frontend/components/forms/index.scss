@@ -9,6 +9,35 @@
     @apply flex
       flex-col
       gap-6;
+
+    > div {
+      @apply flex
+        flex-col
+        gap-3;
+    }
+
+    .profile {
+      @apply flex
+        flex-row
+        gap-4;
+
+      > svg,
+      > img {
+        @apply rounded-full
+          w-[6.125rem]
+          h-[6.125rem];
+      }
+
+      > img {
+        @apply bg-zinc-900;
+      }
+
+      > div {
+        @apply flex
+          flex-col
+          gap-3;
+      }
+    }
   }
 
   header {

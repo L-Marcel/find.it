@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { useContextSelector } from "use-context-selector";
 import { context } from "./provider";
+import { profile } from "console";
 
 //#region Schemas
 export const userSchema = z
@@ -20,6 +21,8 @@ export const userSchema = z
       .min(1, "É necessário informar um telefone!")
       .regex(/^\d+$/gm, "Utilize apenas números!")
       .regex(/^(\d{2}[9]?\d{8}|\d{10})$/g, "Telefone inválido!"),
+    contact: z.enum(["NONE", "BOTH", "EMAIL", "PHONE"]),
+    profile: z.string(),
     password: z
       .string()
       .min(1, "É necessário informar uma senha!")
