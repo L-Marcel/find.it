@@ -7,6 +7,9 @@ import Button from "../button";
 import Input from "../input";
 import { FormEvent, useCallback, useState } from "react";
 import useAuth from "@/context/auth";
+import { useRouter } from "next/router";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 type Data = {
   email: string;
@@ -37,9 +40,11 @@ export default function LoginForm() {
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    await login(data.email, data.password).catch(() => {
+    try {
+      await login(data.email, data.password);
+    } catch (error) {
       setHasError(true);
-    });
+    }
   }
 
   return (

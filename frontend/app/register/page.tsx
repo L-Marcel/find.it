@@ -2,14 +2,18 @@ import "./index.scss";
 import Image from "next/image";
 import logo from "@/images/logo.webp";
 import RegisterForm from "@/components/forms/register";
+import Header from "@/components/header";
 
 export default function Login() {
   return (
-    <main className="register">
-      <section>
-        <Image src={logo} alt="Fint.it" />
-        <RegisterForm />
-      </section>
-    </main>
+    <>
+      <Header back="/login" />
+      <main className="register">
+        <section>
+          <Image src={logo} alt="Fint.it" />
+          <RegisterForm />
+        </section>
+      </main>
+    </>
   );
 }

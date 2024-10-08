@@ -13,11 +13,12 @@ import Button from "../button";
 import Input from "../input";
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import { setTimeout } from "timers";
-import { redirect } from "next/navigation";
 import { userSchema as schema, type User } from "@/context/user";
 import Switch from "../switch";
 import File from "../input/file";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { redirect } from "next/navigation";
 
 const initial: User = {
   name: "",
@@ -36,6 +37,8 @@ export type Errors = {
 };
 
 export default function LoginForm() {
+  //#region States
+  const router = useRouter();
   const [avatar, setAvatar] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<User>(initial);
@@ -43,7 +46,9 @@ export default function LoginForm() {
     new: false,
     ...initial,
   });
+  //#endregion
 
+  //#region Form
   const updateContact = useCallback(
     (at: "email" | "phone") => {
       setData((data) => {
@@ -147,10 +152,7 @@ export default function LoginForm() {
             return await response.json();
           })
           .then(() => {
-            setTimeout(() => {
-              setLoading(false);
-              redirect("/login");
-            }, 1500);
+            setLoading(false);
           })
           .catch((error) => {
             setTimeout(() => {
@@ -163,7 +165,7 @@ export default function LoginForm() {
           });
       }
     },
-    [validate, setErrors, setLoading]
+    [redirect, validate, setErrors, setLoading]
   );
 
   useEffect(() => {
@@ -178,6 +180,44 @@ export default function LoginForm() {
       }
     }
   }, [errors]);
+  //#endregion
+
+  //#region Local Components
+  const Avatar = () =>
+    avatar ? (
+      <Image width={98} height={98} alt="avatar" src={avatar} />
+    ) : (
+      <UserCircle width={98} height={98} />
+    );
+
+  const InputName = () => (
+    <Input
+      disabled={loading}
+      name="name"
+      value={data.name}
+      onChange={(e) => update("name", e.currentTarget.value)}
+      error={errors["name"]}
+      icon={UserIcon}
+      placeholder="Nome completo"
+    />
+  );
+
+  const InputFile = () => (
+    <File
+      name="profile"
+      canClear={!!avatar}
+      onFileClear={() => {
+        update("profile", "");
+        setAvatar("");
+      }}
+      onFileLoaded={(base64, blob) => {
+        update("profile", base64);
+        const url = URL.createObjectURL(blob);
+        setAvatar(url);
+      }}
+    />
+  );
+  //#endregion
 
   return (
     <form className="form" onSubmit={submit}>
@@ -192,30 +232,18 @@ export default function LoginForm() {
       </header>
       <main>
         <div className="profile">
-          {avatar ? (
-            <Image width={98} height={98} alt="avatar" src={avatar} />
-          ) : (
-            <UserCircle width={98} height={98} />
-          )}
+          <Avatar />
           <div>
-            <Input
-              disabled={loading}
-              name="name"
-              value={data.name}
-              onChange={(e) => update("name", e.currentTarget.value)}
-              error={errors["name"]}
-              icon={UserIcon}
-              placeholder="Nome completo"
-            />
-            <File
-              name="profile"
-              onFileLoaded={(base64, blob) => {
-                update("profile", base64);
-                const url = URL.createObjectURL(blob);
-                setAvatar(url);
-              }}
-            />
+            <InputName />
+            <InputFile />
           </div>
+        </div>
+        <div className="profile mobile">
+          <div>
+            <Avatar />
+            <InputName />
+          </div>
+          <InputFile />
         </div>
         <div>
           <Input
@@ -273,7 +301,7 @@ export default function LoginForm() {
           error={errors["passwordConfirmation"]}
           icon={Lock}
           type="password"
-          placeholder="Senha"
+          placeholder="Confirmação de senha"
         />
       </main>
       <footer>

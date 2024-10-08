@@ -1,10 +1,47 @@
-import "./index.scss";
+"use client";
 
-export default function Header() {
+import { Icon } from "@phosphor-icons/react";
+import "./index.scss";
+import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
+import Button from "../button";
+
+interface HeaderProps {
+  back?: string;
+  backTo?: string;
+  backIcon?: Icon;
+  search?: boolean;
+  login?: boolean;
+  rank?: boolean;
+  edit?: boolean;
+  create?: boolean;
+  close?: boolean;
+}
+
+export default function Header({
+  back = "",
+  backIcon = ArrowLeft,
+  close = false,
+  create = false,
+  edit = false,
+  login = false,
+  rank = false,
+  search = false,
+}: HeaderProps) {
   return (
     <header className="header">
-      <h1>Example</h1>
-      <p>Of a header</p>
+      {back && (
+        <Button to={back} icon={backIcon}>
+          Voltar
+        </Button>
+      )}
+      {login && (
+        <div className="login">
+          <Button to="/register">Cadastrar-se</Button>
+          <Button to="/login" theme="default-fill">
+            Entrar
+          </Button>
+        </div>
+      )}
     </header>
   );
 }

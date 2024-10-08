@@ -3,7 +3,6 @@
 import { ReactNode, useCallback, useState } from "react";
 import { User } from "./user";
 import { createContext } from "use-context-selector";
-import { redirect } from "next/navigation";
 
 export type Context = {
   user: User | null;
@@ -26,7 +25,7 @@ export default function Provider({ children }: ProviderProps) {
   //#region Authentication
   const login = useCallback(
     async (email: string, password: string) => {
-      return fetch(`${process.env.API_URL}/users/login`, {
+      return await fetch(`${process.env.API_URL}/users/login`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -44,6 +43,10 @@ export default function Provider({ children }: ProviderProps) {
         .then(({ token, ...user }: User & { token: string }) => {
           setToken(`Bearer ${token}`);
           setUser(user);
+          return true;
+        })
+        .catch(() => {
+          return false;
         });
     },
     [setToken, setUser]
@@ -51,7 +54,6 @@ export default function Provider({ children }: ProviderProps) {
   const logout = useCallback(() => {
     setUser(null);
     setToken("");
-    redirect("/login");
   }, [setUser, setToken]);
   //#endregion
 

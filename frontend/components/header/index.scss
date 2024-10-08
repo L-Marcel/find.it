@@ -1,3 +1,9 @@
 .header {
   @apply flex;
+
+  .login {
+    @apply flex
+      flex-row
+      gap-3;
+  }
 }
