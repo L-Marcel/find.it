@@ -43,10 +43,6 @@ export default function Provider({ children }: ProviderProps) {
         .then(({ token, ...user }: User & { token: string }) => {
           setToken(`Bearer ${token}`);
           setUser(user);
-          return true;
-        })
-        .catch(() => {
-          return false;
         });
     },
     [setToken, setUser]

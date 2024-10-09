@@ -7,9 +7,7 @@ import Button from "../button";
 import Input from "../input";
 import { FormEvent, useCallback, useState } from "react";
 import useAuth from "@/context/auth";
-import { useRouter } from "next/router";
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { useRouter } from "next/navigation";
 
 type Data = {
   email: string;
@@ -17,8 +15,10 @@ type Data = {
 };
 
 export default function LoginForm() {
+  const { push } = useRouter();
   const { login } = useAuth();
   const [hasError, setHasError] = useState<boolean>();
+  const [loading, setLoading] = useState(false);
 
   const [data, setData] = useState<Data>({
     email: "",
@@ -38,13 +38,19 @@ export default function LoginForm() {
     [setData, setHasError]
   );
 
-  async function submit(e: FormEvent<HTMLFormElement>) {
+  function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    try {
-      await login(data.email, data.password);
-    } catch (error) {
-      setHasError(true);
-    }
+    setLoading(true);
+    setHasError(false);
+    login(data.email, data.password)
+      .then(() => {
+        setLoading(false);
+        push("/");
+      })
+      .catch(() => {
+        setHasError(true);
+        setLoading(false);
+      });
   }
 
   return (
@@ -61,6 +67,7 @@ export default function LoginForm() {
       <main>
         <Input
           name="email"
+          disabled={loading}
           value={data.email}
           onChange={(e) => update("email", e.currentTarget.value)}
           error={hasError ? "E-mail ou senha incorretos!" : ""}
@@ -69,6 +76,7 @@ export default function LoginForm() {
         />
         <Input
           name="password"
+          disabled={loading}
           value={data.password}
           onChange={(e) => update("password", e.currentTarget.value)}
           icon={Lock}
@@ -77,7 +85,9 @@ export default function LoginForm() {
         />
       </main>
       <footer>
-        <Button theme="default-fill">Entrar</Button>
+        <Button disabled={loading} theme="default-fill">
+          Entrar
+        </Button>
         <p>
           Ainda não possui uma conta? <Link href="/register">cadastre-se</Link>
         </p>

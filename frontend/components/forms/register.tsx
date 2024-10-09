@@ -12,13 +12,11 @@ import {
 import Button from "../button";
 import Input from "../input";
 import { FormEvent, useCallback, useEffect, useState } from "react";
-import { setTimeout } from "timers";
 import { userSchema as schema, type User } from "@/context/user";
 import Switch from "../switch";
 import File from "../input/file";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const initial: User = {
   name: "",
@@ -28,6 +26,7 @@ const initial: User = {
   profile: "",
   passwordConfirmation: "",
   contact: "NONE",
+  whatsapp: false,
 };
 
 export type Errors = {
@@ -38,13 +37,14 @@ export type Errors = {
 
 export default function LoginForm() {
   //#region States
-  const router = useRouter();
+  const { push } = useRouter();
   const [avatar, setAvatar] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<User>(initial);
   const [errors, setErrors] = useState<Errors>({
     new: false,
     ...initial,
+    whatsapp: "",
   });
   //#endregion
 
@@ -86,9 +86,13 @@ export default function LoginForm() {
           }
         }
 
+        const whatsapp: boolean =
+          data.whatsapp && (contact === "BOTH" || contact === "PHONE");
+
         return {
           ...data,
           contact,
+          whatsapp,
         };
       });
     },
@@ -96,7 +100,7 @@ export default function LoginForm() {
   );
 
   const update = useCallback(
-    (at: keyof User, value: string) => {
+    (at: keyof User, value: string | boolean) => {
       setErrors((errors) => {
         return {
           ...errors,
@@ -105,9 +109,17 @@ export default function LoginForm() {
         };
       });
       setData((data) => {
+        let whatsapp: boolean = false;
+        if (at === "whatsapp") {
+          whatsapp =
+            (value as boolean) &&
+            (data.contact === "BOTH" || data.contact === "PHONE");
+        }
+
         return {
           ...data,
           [at]: value,
+          whatsapp,
         };
       });
     },
@@ -120,6 +132,7 @@ export default function LoginForm() {
       setErrors({
         new: false,
         ...initial,
+        whatsapp: "",
       });
       return true;
     } else {
@@ -135,11 +148,11 @@ export default function LoginForm() {
   }, [data, setErrors, setLoading]);
 
   const submit = useCallback(
-    async (e: FormEvent<HTMLFormElement>) => {
+    (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (validate()) {
         setLoading(true);
-        await fetch(`${process.env.API_URL}/users`, {
+        fetch(`${process.env.API_URL}/users`, {
           method: "POST",
           headers: {
             "Content-type": "application/json",
@@ -149,23 +162,19 @@ export default function LoginForm() {
         })
           .then(async (response) => {
             if (!response.ok) throw await response.json();
-            return await response.json();
-          })
-          .then(() => {
             setLoading(false);
+            push("/login");
           })
           .catch((error) => {
-            setTimeout(() => {
-              setLoading(false);
-              setErrors({
-                new: true,
-                ...error.fields,
-              });
-            }, 1500);
+            setLoading(false);
+            setErrors({
+              new: true,
+              ...error.fields,
+            });
           });
       }
     },
-    [redirect, validate, setErrors, setLoading]
+    [push, validate, setErrors, setLoading]
   );
 
   useEffect(() => {
@@ -190,21 +199,10 @@ export default function LoginForm() {
       <UserCircle width={98} height={98} />
     );
 
-  const InputName = () => (
-    <Input
-      disabled={loading}
-      name="name"
-      value={data.name}
-      onChange={(e) => update("name", e.currentTarget.value)}
-      error={errors["name"]}
-      icon={UserIcon}
-      placeholder="Nome completo"
-    />
-  );
-
   const InputFile = () => (
     <File
       name="profile"
+      disabled={loading}
       canClear={!!avatar}
       onFileClear={() => {
         update("profile", "");
@@ -234,21 +232,37 @@ export default function LoginForm() {
         <div className="profile">
           <Avatar />
           <div>
-            <InputName />
+            <Input
+              name="name"
+              disabled={loading}
+              value={data.name}
+              onChange={(e) => update("name", e.currentTarget.value)}
+              error={errors["name"]}
+              icon={UserIcon}
+              placeholder="Nome completo"
+            />
             <InputFile />
           </div>
         </div>
         <div className="profile mobile">
           <div>
             <Avatar />
-            <InputName />
+            <Input
+              name="name"
+              disabled={loading}
+              value={data.name}
+              onChange={(e) => update("name", e.currentTarget.value)}
+              error={errors["name"]}
+              icon={UserIcon}
+              placeholder="Nome completo"
+            />
           </div>
           <InputFile />
         </div>
         <div>
           <Input
-            disabled={loading}
             name="email"
+            disabled={loading}
             value={data.email}
             onChange={(e) => update("email", e.currentTarget.value)}
             error={errors["email"]}
@@ -256,6 +270,7 @@ export default function LoginForm() {
             placeholder="E-mail"
           />
           <Switch
+            disabled={loading}
             checked={data.contact === "BOTH" || data.contact === "EMAIL"}
             onChange={() => updateContact("email")}
           >
@@ -264,8 +279,8 @@ export default function LoginForm() {
         </div>
         <div>
           <Input
-            disabled={loading}
             name="phone"
+            disabled={loading}
             value={data.phone}
             onChange={(e) => update("phone", e.currentTarget.value)}
             error={errors["phone"]}
@@ -274,16 +289,25 @@ export default function LoginForm() {
             placeholder="DDD + Telefone"
           />
           <Switch
+            disabled={loading}
             checked={data.contact === "BOTH" || data.contact === "PHONE"}
             onChange={() => updateContact("phone")}
           >
             Disponibilizar para contato
           </Switch>
-          <Switch>Vinculado ao Whatsapp</Switch>
+          <Switch
+            disabled={
+              loading || (data.contact !== "BOTH" && data.contact !== "PHONE")
+            }
+            checked={data.whatsapp}
+            onChange={() => update("whatsapp", !data.whatsapp)}
+          >
+            Vinculado ao Whatsapp
+          </Switch>
         </div>
         <Input
-          disabled={loading}
           name="password"
+          disabled={loading}
           value={data.password}
           onChange={(e) => update("password", e.currentTarget.value)}
           error={errors["password"]}
@@ -292,8 +316,8 @@ export default function LoginForm() {
           placeholder="Senha"
         />
         <Input
-          disabled={loading}
           name="passwordConfirmation"
+          disabled={loading}
           value={data.passwordConfirmation}
           onChange={(e) =>
             update("passwordConfirmation", e.currentTarget.value)

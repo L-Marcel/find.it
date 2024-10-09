@@ -23,6 +23,7 @@ export const userSchema = z
       .regex(/^(\d{2}[9]?\d{8}|\d{10})$/g, "Telefone inválido!"),
     contact: z.enum(["NONE", "BOTH", "EMAIL", "PHONE"]),
     profile: z.string(),
+    whatsapp: z.boolean(),
     password: z
       .string()
       .min(1, "É necessário informar uma senha!")

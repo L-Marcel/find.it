@@ -8,17 +8,18 @@ import lombok.Data;
 
 @Data
 public class UserData {
-  protected UUID id;
-  protected String name;
-  protected String email = null;
-  protected String phone = null;
-  protected String picture;
+  private UUID id;
+  private String name;
+  private String email = null;
+  private String phone = null;
+  private String picture = "";
+  private boolean whatsapp = false;
 
-  protected int donated = 0;
-  protected int recovered = 0;
-  protected int finds = 0;
+  private int donated = 0;
+  private int recovered = 0;
+  private int finds = 0;
 
-  protected ContactType contact = ContactType.NONE;
+  private ContactType contact = ContactType.NONE;
 
   public UserData(User user, boolean authenticated) {
     this.id = user.getId();
@@ -28,6 +29,7 @@ public class UserData {
     this.donated = user.getDonated();
     this.recovered = user.getRecovered();
     this.finds = user.getFinds();
+    this.whatsapp = user.isWhatsapp();
     if (authenticated) {
       this.email = user.getEmail();
       this.phone = user.getPhone();

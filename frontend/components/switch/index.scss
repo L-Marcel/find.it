@@ -12,6 +12,11 @@
   svg {
     @apply size-6;
   }
+
+  .disabled {
+    @apply opacity-50
+      cursor-not-allowed;
+  }
 }
 
 .switch {
@@ -34,8 +39,7 @@
     flex-row
     space-x-1
     rounded-2xl
-    h-9
-    disabled:opacity-50;
+    h-9;
 }
 
 .switch.switch.default-fill {

@@ -19,6 +19,7 @@ export default function File({
   accept = "image/png, image/jpeg",
   placeholder = "Avatar",
   canClear,
+  disabled,
   onFileClear = () => {},
   onFileLoaded = () => {},
   ...props
@@ -26,7 +27,7 @@ export default function File({
   return (
     <div className="file-inputs">
       {canClear && (
-        <button className="input" onClick={onFileClear}>
+        <button disabled={disabled} className="input" onClick={onFileClear}>
           <Eraser />
         </button>
       )}
@@ -35,6 +36,7 @@ export default function File({
           <Icon />
           <input
             type="file"
+            disabled={disabled}
             onChange={async (e) => {
               if (e.currentTarget.files !== null) {
                 const reader = new FileReader();

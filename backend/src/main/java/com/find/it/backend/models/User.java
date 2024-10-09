@@ -44,6 +44,8 @@ public class User {
 
   private String password;
 
+  private boolean whatsapp = false;
+
   private int donated = 0;
 
   private int recovered = 0;
@@ -61,6 +63,7 @@ public class User {
     this.id = user.getId();
     this.name = user.getName();
     this.email = user.getEmail();
+    this.whatsapp = user.isWhatsapp();
     this.phone = user.getPhone();
     this.picture = user.getPicture();
     this.contact = user.getContact();
@@ -73,6 +76,7 @@ public class User {
     this.name = user.name();
     this.phone = user.phone();
     this.email = user.email();
+    this.whatsapp = user.whatsapp();
     this.password = user.password();
     this.contact = user.contact();
   };

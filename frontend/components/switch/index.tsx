@@ -17,6 +17,7 @@ export default function Switch({
   theme = "default-fill",
   checked = false,
   onChange = () => {},
+  disabled,
   children,
   ...props
 }: SwitchProps) {
@@ -27,9 +28,12 @@ export default function Switch({
         onChange={onChange}
         type="checkbox"
         className="switch-input"
+        disabled={disabled}
         {...props}
       />
-      <div className={`switch ${checked ? theme : "default"}`}>
+      <div
+        className={`switch ${checked ? theme : "default"} ${disabled ? "disabled" : ""}`}
+      >
         {checked ? (
           <CheckCircle className="custom-icon" />
         ) : (
