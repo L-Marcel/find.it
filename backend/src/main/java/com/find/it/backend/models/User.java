@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.find.it.backend.dtos.records.UserCreateData;
 
 import jakarta.persistence.CascadeType;
@@ -55,6 +56,7 @@ public class User {
   private ContactType contact = ContactType.NONE;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  @JsonIgnore
   private List<Item> items = new ArrayList<>();
 
   public User(UserCreateData user) {

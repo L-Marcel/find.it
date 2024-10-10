@@ -74,7 +74,7 @@ public class UserService {
     return allUsers.toList();
   }
 
-  public UserData getDataById(UUID id, String token) {
+  public UserData getById(UUID id, String token) {
     User user = this.findById(id);
     if (token == null)
       return new UserData(user, false);
@@ -84,13 +84,14 @@ public class UserService {
     }
   };
 
-  public List<UserData> getAllUsersData(int pageNumber) {
-    return this.findAll(pageNumber).stream()
+  public List<UserData> getAll(int pageNumber) {
+    return this.findAll(pageNumber)
+        .stream()
         .map(user -> new UserData(user, false))
         .collect(Collectors.toList());
   };
 
-  public void deleteUser(UUID id, String token) {
+  public void delete(UUID id, String token) {
     User user = this.findById(id);
     Auth.validate(user.getId(), token);
     repository.delete(user);

@@ -35,7 +35,7 @@ public class UsersController {
 
   @GetMapping
   public ResponseEntity<List<UserData>> getAll(@RequestParam(required = false, defaultValue = "0") Integer page) {
-    List<UserData> allUsersData = service.getAllUsersData(page);
+    List<UserData> allUsersData = service.getAll(page);
     return ResponseEntity.ok(allUsersData);
   }
 
@@ -43,7 +43,7 @@ public class UsersController {
   public ResponseEntity<UserData> getById(
       @PathVariable UUID id,
       @RequestHeader(value = "Authorization", required = false) String token) {
-    UserData data = service.getDataById(id, token);
+    UserData data = service.getById(id, token);
     return ResponseEntity.ok(data);
   }
 
@@ -57,7 +57,7 @@ public class UsersController {
   public ResponseEntity<String> deleteById(
       @PathVariable UUID id,
       @RequestHeader(value = "Authorization", required = false) String token) {
-    service.deleteUser(id, token);
+    service.delete(id, token);
     return ResponseEntity.status(HttpStatus.OK).body("User deleted");
   }
 

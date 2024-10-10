@@ -2,7 +2,6 @@ package com.find.it.backend.dtos.records;
 
 import com.find.it.backend.models.ItemType;
 
-import java.util.UUID;
 import jakarta.validation.constraints.NotBlank;
 
 public record ItemCreateData(
@@ -16,5 +15,5 @@ public record ItemCreateData(
     int number,
     String complement,
     ItemType type,
-    UUID owner) {
+    @NotBlank(message = "O responsável é obrigatório!") String owner) {
 };
