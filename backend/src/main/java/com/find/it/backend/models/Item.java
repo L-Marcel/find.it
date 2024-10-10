@@ -1,36 +1,32 @@
 package com.find.it.backend.models;
 
+import com.find.it.backend.dtos.records.ItemCreateData;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-enum ItType {
-  DONATION,
-  LOST,
-  FIND
-};
 
 @Entity
-@Table(name = "Its")
+@Table(name = "Items")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class It {
+public class Item {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private long id;
 
   @Enumerated(EnumType.ORDINAL)
-  private ItType type;
+  private ItemType type = ItemType.FIND;
 
   private String title;
 
@@ -46,7 +42,26 @@ public class It {
 
   private String district = "";
 
-  private String number = "";
+  private int number = 0;
 
   private String complement = "";
+
+  private boolean closed = false;
+
+  @ManyToOne
+  @JoinColumn(name = "owner")
+  private User user;
+
+  public Item(ItemCreateData item, User user) {
+    this.type = item.type();
+    this.title = item.title();
+    this.description = item.description();
+    this.city = item.city();
+    this.state = item.state();
+    this.street = item.street();
+    this.district = item.district();
+    this.number = item.number();
+    this.complement = item.complement();
+    this.user = user;
+  };
 };

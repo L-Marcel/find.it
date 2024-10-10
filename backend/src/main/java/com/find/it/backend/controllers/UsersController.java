@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.find.it.backend.dtos.AuthData;
@@ -33,8 +34,8 @@ public class UsersController {
   private UserService service;
 
   @GetMapping
-  public ResponseEntity<List<UserData>> getAll() {
-    List<UserData> allUsersData = service.getAllUsersData();
+  public ResponseEntity<List<UserData>> getAll(@RequestParam(required = false, defaultValue = "0") Integer page) {
+    List<UserData> allUsersData = service.getAllUsersData(page);
     return ResponseEntity.ok(allUsersData);
   }
 

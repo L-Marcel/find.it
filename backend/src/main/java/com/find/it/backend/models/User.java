@@ -1,9 +1,9 @@
 package com.find.it.backend.models;
 
-import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 
-import com.find.it.backend.dtos.UserData;
 import com.find.it.backend.dtos.records.UserCreateData;
 
 import jakarta.persistence.CascadeType;
@@ -14,7 +14,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -55,22 +54,8 @@ public class User {
   @Enumerated(EnumType.ORDINAL)
   private ContactType contact = ContactType.NONE;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "owner")
-  private Set<It> its;
-
-  public User(UserData user) {
-    this.id = user.getId();
-    this.name = user.getName();
-    this.email = user.getEmail();
-    this.whatsapp = user.isWhatsapp();
-    this.phone = user.getPhone();
-    this.picture = user.getPicture();
-    this.contact = user.getContact();
-    this.donated = user.getDonated();
-    this.finds = user.getFinds();
-    this.recovered = user.getRecovered();
-  }
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<Item> items = new ArrayList<>();
 
   public User(UserCreateData user) {
     this.name = user.name();

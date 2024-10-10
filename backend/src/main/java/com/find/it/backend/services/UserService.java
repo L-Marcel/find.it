@@ -10,6 +10,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.find.it.backend.dtos.AuthData;
@@ -65,9 +68,10 @@ public class UserService {
     return user.get();
   }
 
-  public List<User> findAll() {
-    List<User> allUsers = repository.findAll();
-    return allUsers;
+  public List<User> findAll(int pageNumber) {
+    Pageable page = PageRequest.of(pageNumber, 10);
+    Page<User> allUsers = repository.findAll(page);
+    return allUsers.toList();
   }
 
   public UserData getDataById(UUID id, String token) {
@@ -80,8 +84,8 @@ public class UserService {
     }
   };
 
-  public List<UserData> getAllUsersData() {
-    return this.findAll().stream()
+  public List<UserData> getAllUsersData(int pageNumber) {
+    return this.findAll(pageNumber).stream()
         .map(user -> new UserData(user, false))
         .collect(Collectors.toList());
   };
