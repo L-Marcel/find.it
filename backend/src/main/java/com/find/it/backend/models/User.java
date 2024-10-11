@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.find.it.backend.dtos.records.UserCreateData;
+import com.find.it.backend.dtos.records.UserUpdateData;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -66,5 +67,28 @@ public class User {
     this.whatsapp = user.whatsapp();
     this.password = user.password();
     this.contact = user.contact();
+  };
+
+  public void update(UserUpdateData user) {
+    this.name = user.name();
+    this.phone = user.phone();
+    this.email = user.email();
+    this.whatsapp = user.whatsapp();
+    if (user.updatePassword()) {
+      this.password = user.password();
+    }
+    this.contact = user.contact();
+  };
+
+  public void donate() {
+    donated++;
+  };
+
+  public void recevery() {
+    recovered++;
+  };
+
+  public void find() {
+    finds++;
   };
 };

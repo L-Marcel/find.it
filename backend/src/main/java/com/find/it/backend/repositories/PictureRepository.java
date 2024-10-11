@@ -4,6 +4,7 @@ import java.util.Base64;
 import java.util.UUID;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import javax.imageio.ImageIO;
@@ -23,7 +24,11 @@ public class PictureRepository {
     return resourceLoader.getResource("classpath:static/users").getFile().toPath().toAbsolutePath();
   };
 
-  public String createUserPicture(UUID id, String data) {
+  private Path getItemsPath() throws Exception {
+    return resourceLoader.getResource("classpath:static/items").getFile().toPath().toAbsolutePath();
+  };
+
+  private String create(String data, String filename, String path) {
     try {
       String[] parts = data.split(",");
       String base64 = parts[1];
@@ -36,12 +41,53 @@ public class PictureRepository {
       byte[] bytes = Base64.getDecoder().decode(base64);
       ByteArrayInputStream stream = new ByteArrayInputStream(bytes);
       BufferedImage image = ImageIO.read(stream);
-      System.out.println("path: " + this.getUsersPath());
-      File outputFile = new File(this.getUsersPath().toString() + "/" + id.toString() + "." + mine);
+      File outputFile = new File(path + "/" + filename + "." + mine);
       ImageIO.write(image, "png", outputFile);
       return outputFile.getName();
     } catch (Exception e) {
       return "";
+    }
+  };
+
+  public String createToUser(UUID id, String data) {
+    try {
+      String path = this.getUsersPath().toString();
+      return this.create(data, id.toString(), path);
+    } catch (Exception e) {
+      return "";
+    }
+  };
+
+  public String createToItem(Long id, String data) {
+    try {
+      String path = this.getItemsPath().toString();
+      return this.create(data, id.toString(), path);
+    } catch (Exception e) {
+      return "";
+    }
+  };
+
+  private void delete(String filename, String basePath) {
+    try {
+      Path path = Path.of(basePath + "/" + filename);
+      Files.deleteIfExists(path);
+    } catch (Exception e) {
+    }
+  };
+
+  public void deleteToUser(String filename) {
+    try {
+      String path = this.getUsersPath().toString();
+      delete(filename, path);
+    } catch (Exception e) {
+    }
+  };
+
+  public void deleteToItem(String filename) {
+    try {
+      String path = this.getItemsPath().toString();
+      delete(filename, path);
+    } catch (Exception e) {
     }
   };
 };

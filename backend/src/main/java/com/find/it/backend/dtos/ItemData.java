@@ -18,7 +18,6 @@ public class ItemData {
   private String district = "";
   private int number = 0;
   private String complement = "";
-  private boolean closed = false;
   private UserData user;
 
   public ItemData(Item item) {
@@ -33,7 +32,6 @@ public class ItemData {
     this.district = item.getDistrict();
     this.number = item.getNumber();
     this.complement = item.getComplement();
-    this.closed = item.isClosed();
     this.user = new UserData(item.getUser(), false);
   };
 }

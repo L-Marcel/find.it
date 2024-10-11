@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.find.it.backend.dtos.AuthData;
+import com.find.it.backend.dtos.RankData;
 import com.find.it.backend.dtos.UserData;
 import com.find.it.backend.dtos.records.UserCreateData;
 import com.find.it.backend.dtos.records.UserLoginData;
+import com.find.it.backend.dtos.records.UserUpdateData;
 import com.find.it.backend.services.UserService;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,7 +37,8 @@ public class UsersController {
   private UserService service;
 
   @GetMapping
-  public ResponseEntity<List<UserData>> getAll(@RequestParam(required = false, defaultValue = "0") Integer page) {
+  public ResponseEntity<List<UserData>> getAll(
+      @RequestParam(required = false, defaultValue = "0") Integer page) {
     List<UserData> allUsersData = service.getAll(page);
     return ResponseEntity.ok(allUsersData);
   }
@@ -48,9 +52,18 @@ public class UsersController {
   }
 
   @PostMapping
-  public ResponseEntity<String> register(@Validated @RequestBody UserCreateData user) {
+  public ResponseEntity<String> create(@Validated @RequestBody UserCreateData user) {
     service.create(user);
-    return ResponseEntity.status(HttpStatus.CREATED).body("New user registered");
+    return ResponseEntity.status(HttpStatus.CREATED).body("New user registered!");
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<String> update(
+      @Validated @RequestBody UserUpdateData user,
+      @PathVariable UUID id,
+      @RequestHeader(value = "Authorization", required = false) String token) {
+    service.update(user, id, token);
+    return ResponseEntity.status(HttpStatus.ACCEPTED).body("User updated!");
   }
 
   @DeleteMapping("/{id}")
@@ -58,12 +71,18 @@ public class UsersController {
       @PathVariable UUID id,
       @RequestHeader(value = "Authorization", required = false) String token) {
     service.delete(id, token);
-    return ResponseEntity.status(HttpStatus.OK).body("User deleted");
+    return ResponseEntity.status(HttpStatus.OK).body("User deleted!");
   }
 
   @PostMapping("/login")
   public ResponseEntity<AuthData> login(@RequestBody UserLoginData user) {
     AuthData auth = service.login(user);
+    return ResponseEntity.ok(auth);
+  }
+
+  @GetMapping("/rank")
+  public ResponseEntity<RankData> login() {
+    RankData auth = service.rank();
     return ResponseEntity.ok(auth);
   }
 }

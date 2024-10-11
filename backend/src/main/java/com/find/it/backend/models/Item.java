@@ -1,6 +1,6 @@
 package com.find.it.backend.models;
 
-import com.find.it.backend.dtos.records.ItemCreateData;
+import com.find.it.backend.dtos.records.ItemFormData;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -46,14 +46,14 @@ public class Item {
 
   private String complement = "";
 
-  private boolean closed = false;
-
   @ManyToOne
   @JoinColumn(name = "owner")
   private User user;
 
-  public Item(ItemCreateData item, User user) {
-    this.type = item.type();
+  public Item(ItemFormData item, User user) {
+    if (item.type() != null) {
+      this.type = item.type();
+    }
     this.title = item.title();
     this.description = item.description();
     this.city = item.city();
@@ -63,5 +63,19 @@ public class Item {
     this.number = item.number();
     this.complement = item.complement();
     this.user = user;
+  };
+
+  public void update(ItemFormData item) {
+    if (item.type() != null) {
+      this.type = item.type();
+    }
+    this.title = item.title();
+    this.description = item.description();
+    this.city = item.city();
+    this.state = item.state();
+    this.street = item.street();
+    this.district = item.district();
+    this.number = item.number();
+    this.complement = item.complement();
   };
 };
