@@ -4,6 +4,7 @@ import { Icon } from "@phosphor-icons/react";
 import "./index.scss";
 import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import Button from "../button";
+import Search from "./search";
 
 interface HeaderProps {
   back?: string;
@@ -29,6 +30,7 @@ export default function Header({
 }: HeaderProps) {
   return (
     <header className="header">
+      {search && <Search />}
       {back && (
         <Button to={back} icon={backIcon}>
           Voltar

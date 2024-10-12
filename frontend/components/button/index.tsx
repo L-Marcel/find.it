@@ -18,6 +18,7 @@ export interface ButtonProps extends ButtonOrLinkProps {
   icon?: Icon;
   theme?: "default" | "default-fill" | "pink-fill" | "green-fill" | "red";
   to?: string;
+  right?: boolean;
 }
 
 export default function Button({
@@ -25,25 +26,29 @@ export default function Button({
   icon: Icon,
   children,
   to,
+  right = false,
   ...props
 }: ButtonProps) {
+  const className = `button ${theme} ${Icon ? "icon" : ""} ${right ? "right" : ""}`;
+  const content = (
+    <>
+      {Icon && !right && <Icon />}
+      {children && <span>{children}</span>}
+      {Icon && right && <Icon />}
+    </>
+  );
+
   if (to) {
     return (
-      <Link
-        href={to}
-        className={`button ${theme} ${Icon ? "icon" : ""}`}
-        {...props}
-      >
-        {Icon && <Icon />}
-        {children && <span>{children}</span>}
+      <Link href={to} className={className} {...props}>
+        {content}
       </Link>
     );
   }
 
   return (
-    <button className={`button ${theme} ${Icon ? "icon" : ""}`} {...props}>
-      {Icon && <Icon />}
-      {children && <span>{children}</span>}
+    <button className={className} {...props}>
+      {content}
     </button>
   );
 }

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Roboto, Inter, Tilt_Warp } from "next/font/google";
 import "./globals.scss";
 import Provider from "@/context/provider";
+import { use } from "react";
+import { getCities } from "@/context/cities";
 
 const roboto = Roboto({
   style: ["normal", "italic"],
@@ -34,12 +36,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cities = use(getCities());
+
   return (
     <html lang="en">
       <body
         className={`${roboto.variable} ${inter.variable} ${tiltWarp.variable} antialiased`}
       >
-        <Provider>{children}</Provider>
+        <Provider cities={cities}>{children}</Provider>
       </body>
     </html>
   );

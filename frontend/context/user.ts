@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { useContextSelector } from "use-context-selector";
 import { context } from "./provider";
-import { profile } from "console";
 
 //#region Schemas
 export const userSchema = z
@@ -43,4 +42,8 @@ export type User = z.infer<typeof userSchema>;
 
 export default function useUser() {
   return useContextSelector(context, (context) => context.user);
+}
+
+export function useUserId() {
+  return useContextSelector(context, (context) => context.id);
 }
