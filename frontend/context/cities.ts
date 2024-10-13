@@ -40,7 +40,7 @@ export function getCities(): Promise<City[]> {
 }
 //#endregion
 
-export default function useCities() {
+export default function useSearchCities() {
   const cities = useContextSelector(context, (context) => context.cities);
   const { city, setCity } = useContextSelector(searchContext, (context) => ({
     city: context.city,

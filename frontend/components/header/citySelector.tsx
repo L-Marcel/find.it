@@ -2,10 +2,10 @@
 
 import { useMemo } from "react";
 import { Selector } from "../selector";
-import useCities, { cityToString } from "@/context/cities";
+import useSearchCities, { cityToString } from "@/context/cities";
 
 export default function CitySelector() {
-  const { cities, city, setCity } = useCities();
+  const { cities, city, setCity } = useSearchCities();
 
   const options = useMemo(() => {
     return cities.map((city) => cityToString(city));

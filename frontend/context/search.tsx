@@ -3,6 +3,8 @@
 import { createContext } from "use-context-selector";
 import { City } from "./cities";
 import { ReactNode, useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export type SearchContext = {
   query: string;
@@ -11,6 +13,7 @@ export type SearchContext = {
   setCity: (city: City) => void;
 };
 
+export const queryClient = new QueryClient();
 export const searchContext = createContext<SearchContext>({} as SearchContext);
 
 interface SearchProviderProps {
@@ -33,7 +36,10 @@ export default function SearchProvider({ children }: SearchProviderProps) {
         setCity,
       }}
     >
-      {children}
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        {children}
+      </QueryClientProvider>
     </searchContext.Provider>
   );
 }

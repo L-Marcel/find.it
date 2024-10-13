@@ -1,7 +1,10 @@
 .header {
   @apply flex
     justify-between
-    gap-9;
+    gap-9
+    sticky
+    top-0
+    z-10;
 
   .login,
   .search {
@@ -12,5 +15,26 @@
 
   .search {
     @apply w-full;
+  }
+
+  .background {
+    @apply absolute
+      -top-8
+      -left-8
+      -right-8
+      -bottom-2
+      min-h-10
+      bg-zinc-950;
+  }
+
+  .background-blur {
+    @apply absolute
+      top-6
+      -left-8
+      -right-8
+      -bottom-[1.6rem]
+      min-h-10
+      bg-zinc-950
+      blur-sm;
   }
 }

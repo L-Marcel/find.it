@@ -2,19 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  @apply overflow-y-auto h-screen;
+}
+
 body {
   @apply bg-zinc-950 
     flex 
     flex-col 
     gap-4
-    m-8
+    p-8
     text-zinc-200 
-    font-roboto 
-    font-normal;
+    font-roboto
+    h-full 
+    font-normal
+    overflow-y-auto
+    relative;
 
   > main {
     @apply flex
       flex-col
+      h-full
       gap-8;
   }
+}
+
+.tsqd-parent-container {
+  @apply absolute;
 }
