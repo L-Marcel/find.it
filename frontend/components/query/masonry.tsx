@@ -11,7 +11,7 @@ interface MasonryProps {
 }
 
 export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
-  const [alreadyEnded, setAlreadyEnded] = useState(false);
+  const [alreadyEnded, setAlreadyEnded] = useState<boolean>(false);
   const mansory = useRef<HTMLDivElement>(null);
   const { width } = useWindowSize();
   const [ref, setRef] = useState<HTMLElement | null>(null);
@@ -81,7 +81,7 @@ export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
 
         return (
           <MasonryItem
-            key={virtual.index}
+            key={`${virtual.index} - ${item.id}`}
             item={item}
             virtual={virtual}
             width={columnWidth}

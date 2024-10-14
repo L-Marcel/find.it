@@ -27,9 +27,11 @@ export default function Button({
   children,
   to,
   right = false,
+  className,
   ...props
 }: ButtonProps) {
-  const className = `button ${theme} ${Icon ? "icon" : ""} ${right ? "right" : ""}`;
+  const _className = `button ${theme} ${Icon ? "icon" : ""} ${right ? "right" : ""} ${className}`;
+
   const content = (
     <>
       {Icon && !right && <Icon />}
@@ -40,14 +42,14 @@ export default function Button({
 
   if (to) {
     return (
-      <Link href={to} className={className} {...props}>
+      <Link href={to} className={_className} {...props}>
         {content}
       </Link>
     );
   }
 
   return (
-    <button className={className} {...props}>
+    <button className={_className} {...props}>
       {content}
     </button>
   );

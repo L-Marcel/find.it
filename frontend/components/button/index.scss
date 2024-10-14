@@ -33,9 +33,12 @@
       top-[0.625rem];
   }
 
-  span {
+  > span {
     @apply pl-3
-      pr-6;
+      pr-6
+      flex
+      flex-row
+      items-center;
   }
 }
 
@@ -54,7 +57,7 @@
       left-auto;
   }
 
-  span {
+  > span {
     @apply pl-6
       pr-3;
   }

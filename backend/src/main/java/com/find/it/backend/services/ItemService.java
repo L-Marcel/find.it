@@ -7,13 +7,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.find.it.backend.dtos.ItemData;
 import com.find.it.backend.dtos.records.ItemFormData;
+import com.find.it.backend.errors.InvalidField;
 import com.find.it.backend.errors.NotFound;
+import com.find.it.backend.models.ContactType;
 import com.find.it.backend.models.Item;
 import com.find.it.backend.models.User;
 import com.find.it.backend.models.ItemType;
@@ -43,6 +47,31 @@ public class ItemService {
 
     User owner = users.findById(ownerId);
     Auth.validate(owner.getId(), token);
+
+    Map<String, String> errors = new HashMap<>();
+
+    if (newItem.picture().isEmpty()) {
+      errors.put("picture", "A imagem é obrigatória!");
+    }
+
+    if (owner.getContact() == ContactType.NONE) {
+      if (newItem.district().isEmpty()) {
+        errors.put("district", "Já que não tem contato, informe o bairro!");
+      }
+
+      if (newItem.street().isEmpty()) {
+        errors.put("street", "Já que não tem contato, informe a rua!");
+      }
+
+      if (newItem.number() >= 0) {
+        errors.put("district", "Já que não tem contato, informe o bairro!");
+      }
+    }
+
+    if (!errors.isEmpty()) {
+      throw new InvalidField(errors);
+    }
+
     Item item = new Item(newItem, owner);
     item = repository.save(item);
     item.setPicture(pictures.createToItem(item.getId(), newItem.picture()));

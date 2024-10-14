@@ -17,8 +17,8 @@ type Data = {
 export default function LoginForm() {
   const { push } = useRouter();
   const { login } = useAuth();
-  const [hasError, setHasError] = useState<boolean>();
-  const [loading, setLoading] = useState(false);
+  const [hasError, setHasError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [data, setData] = useState<Data>({
     email: "",

@@ -39,7 +39,7 @@ export default function LoginForm() {
   //#region States
   const { push } = useRouter();
   const [avatar, setAvatar] = useState<string>("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<User>(initial);
   const [errors, setErrors] = useState<Errors>({
     new: false,

@@ -44,5 +44,9 @@
         hover:bg-zinc-800
         hover:cursor-pointer;
     }
+
+    .selected {
+      @apply bg-indigo-700;
+    }
   }
 }

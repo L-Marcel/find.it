@@ -1,43 +1,80 @@
 import { CaretDown } from "@phosphor-icons/react/dist/ssr";
 import Button from "../button";
-import { List } from "react-virtualized";
 
 import "./index.scss";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  defaultRangeExtractor,
+  Range,
+  useVirtualizer,
+} from "@tanstack/react-virtual";
 
 export interface SelectorProps {
-  onChange: (value: string) => void;
+  onChange: (index: number) => void;
   options: string[];
-  selected: string;
+  selected: number;
 }
 
 export function Selector({ onChange, options, selected }: SelectorProps) {
+  const container = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
+
+  const virtualizer = useVirtualizer({
+    count: options.length,
+    getScrollElement: () => ref.current,
+    estimateSize: () => 48,
+    overscan: 5,
+  });
+
   return (
     <div className="selector">
-      <Button right theme="default" icon={CaretDown}>
-        {selected}
-      </Button>
-      <List
-        className="options"
-        width={200}
-        style={{
-          width: "100%",
-          position: "absolute",
+      <Button
+        onClick={() => {
+          if (container.current)
+            container.current.scrollTo(0, 48 * Math.max(0, selected - 1));
         }}
-        autoWidth={true}
-        height={860}
-        rowHeight={48}
-        rowCount={options.length}
-        rowRenderer={({ key, index, style }) => (
-          <span
-            key={key}
-            style={style}
-            onClick={() => onChange(options[index])}
-          >
-            {options[index]}
-          </span>
-        )}
-        overscanRowCount={5}
-      />
+        right
+        theme="default"
+        icon={CaretDown}
+      >
+        {options[selected]}
+      </Button>
+      <div
+        ref={container}
+        className="options"
+        style={{
+          height: 860,
+          width: 200,
+        }}
+      >
+        <div
+          ref={ref}
+          style={{
+            minHeight: virtualizer.getTotalSize(),
+            width: "100%",
+            position: "relative",
+          }}
+        >
+          {virtualizer.getVirtualItems().map((virtual) => (
+            <span
+              key={virtual.index}
+              className={virtual.index === selected ? "selected" : ""}
+              tabIndex={0}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: 48,
+                transform: `translateY(${virtual.start}px)`,
+              }}
+              onClick={() => onChange(virtual.index)}
+            >
+              {options[virtual.index]}
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

@@ -6,6 +6,8 @@ import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import Button from "../button";
 import Search from "./search";
 import CitySelector from "./citySelector";
+import useUser, { useUserId } from "@/context/user";
+import Profile from "../profile";
 
 interface HeaderProps {
   back?: string;
@@ -29,6 +31,9 @@ export default function Header({
   rank = false,
   search = false,
 }: HeaderProps) {
+  const user = useUser();
+  const id = useUserId();
+
   return (
     <header className="header">
       {search && (
@@ -42,14 +47,17 @@ export default function Header({
           Voltar
         </Button>
       )}
-      {login && (
-        <div className="login">
-          <Button to="/register">Cadastrar-se</Button>
-          <Button to="/login" theme="default-fill">
-            Entrar
-          </Button>
-        </div>
-      )}
+      {login &&
+        (user && id ? (
+          <Profile id={id} name={user.name} picture={user.profile} />
+        ) : (
+          <div className="login">
+            <Button to="/register">Cadastrar-se</Button>
+            <Button to="/login" theme="default-fill">
+              Entrar
+            </Button>
+          </div>
+        ))}
     </header>
   );
 }

@@ -2,6 +2,13 @@ import { Item, typeToText } from "@/context/items";
 import { VirtualItem } from "@tanstack/react-virtual";
 import Button from "../button";
 import Image from "next/image";
+import Profile from "../profile";
+import {
+  At,
+  MapPinArea,
+  Phone,
+  WhatsappLogo,
+} from "@phosphor-icons/react/dist/ssr";
 
 interface MasonryItemProps {
   item?: Item;
@@ -48,13 +55,36 @@ export default function MasonryItem({
               alt={item.title}
             />
           )}
+          <Profile
+            id={item.user.id}
+            name={item.user.name}
+            picture={item.user.picture}
+          />
         </header>
         <main>
           <h2>{item.title}</h2>
-          <p>Av. Amintas Barros, 3300 - Lagoa Nova, Natal - RN, 59075-250</p>
+          <p>
+            {[
+              item.street,
+              item.number,
+              item.complement,
+              item.district,
+              `${item.city} - ${item.state}`,
+            ]
+              .filter((value) => value)
+              .join(", ")}
+          </p>
         </main>
         <footer>
-          <Button theme={buttonTheme}>Verificar</Button>
+          <Button to={`/items/${item.id}`} theme={buttonTheme}>
+            Verificar
+          </Button>
+          {(item.user.contact === "PHONE" || item.user.contact === "BOTH") &&
+            (item.user.whatsapp ? <WhatsappLogo /> : <Phone />)}
+          {(item.user.contact === "EMAIL" || item.user.contact === "BOTH") && (
+            <At />
+          )}
+          {item.street && <MapPinArea />}
         </footer>
       </>
     );

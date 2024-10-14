@@ -1,6 +1,13 @@
 "use client";
 
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { User } from "./user";
 import { createContext } from "use-context-selector";
 import Cookies from "js-cookie";
@@ -13,6 +20,8 @@ export type Context = {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   cities: City[];
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
 };
 
 export const context = createContext<Context>({} as Context);
@@ -37,6 +46,7 @@ interface ProviderProps {
 }
 
 export default function Provider({ children, cities }: ProviderProps) {
+  const [loading, setLoading] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string>("");
   const [id, setId] = useState<string>("");
@@ -120,6 +130,11 @@ export default function Provider({ children, cities }: ProviderProps) {
   }, [setUser, setToken, setId]);
   //#endregion
 
+  const _setLoading = useCallback(
+    (loading: boolean) => setLoading(loading),
+    [setLoading]
+  );
+
   return (
     <context.Provider
       value={{
@@ -129,6 +144,8 @@ export default function Provider({ children, cities }: ProviderProps) {
         login,
         logout,
         cities,
+        loading,
+        setLoading: _setLoading,
       }}
     >
       {children}

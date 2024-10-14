@@ -23,7 +23,7 @@ import com.find.it.backend.dtos.UserData;
 import com.find.it.backend.dtos.records.UserCreateData;
 import com.find.it.backend.dtos.records.UserLoginData;
 import com.find.it.backend.dtos.records.UserUpdateData;
-import com.find.it.backend.errors.AlreadyExists;
+import com.find.it.backend.errors.InvalidField;
 import com.find.it.backend.errors.NotFound;
 import com.find.it.backend.errors.Unauthorized;
 import com.find.it.backend.repositories.UserRepository;
@@ -55,7 +55,7 @@ public class UserService {
     }
 
     if (!errors.isEmpty()) {
-      throw new AlreadyExists(errors);
+      throw new InvalidField(errors);
     }
 
     User user = new User(newUser);
@@ -140,7 +140,7 @@ public class UserService {
     }
 
     if (!errors.isEmpty()) {
-      throw new AlreadyExists(errors);
+      throw new InvalidField(errors);
     }
 
     pictures.deleteToUser(user.getPicture());

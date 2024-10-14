@@ -22,7 +22,14 @@
         bg-zinc-800
         w-full;
 
-      span {
+      > img {
+        @apply h-full
+          object-cover
+          object-center
+          mb-1;
+      }
+
+      > span {
         @apply absolute
           top-4
           left-0
@@ -35,6 +42,12 @@
           uppercase
           text-zinc-50
           rounded-r-2xl;
+      }
+
+      a {
+        @apply absolute
+          -bottom-3
+          left-5;
       }
     }
 
@@ -72,13 +85,22 @@
     footer {
       @apply px-5 
         pb-5 
-        pt-3;
+        pt-1
+        flex
+        flex-row
+        items-center
+        gap-3;
+
+      svg {
+        @apply size-8
+          text-gray-200;
+      }
     }
   }
 
   .item.pink {
     header {
-      span {
+      > span {
         @apply bg-pink-600;
       }
     }
@@ -92,7 +114,7 @@
 
   .item.green {
     header {
-      span {
+      > span {
         @apply bg-green-600;
       }
     }

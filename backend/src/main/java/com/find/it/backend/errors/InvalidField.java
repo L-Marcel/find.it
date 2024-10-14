@@ -9,21 +9,21 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 
 @Getter
-@ResponseStatus(HttpStatus.CONFLICT)
-public class AlreadyExists extends RuntimeException {
-  private String field;
-  private Map<String, String> errors;
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class InvalidField extends RuntimeException {
+  protected String field;
+  protected Map<String, String> errors;
 
-  public AlreadyExists(String message) {
+  public InvalidField(String message) {
     super(message);
   };
 
-  public AlreadyExists(String message, String field) {
+  public InvalidField(String message, String field) {
     super(message);
     this.field = field;
   }
 
-  public AlreadyExists(Map<String, String> errors) {
+  public InvalidField(Map<String, String> errors) {
     this.errors = errors;
   }
 };
