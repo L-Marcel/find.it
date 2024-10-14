@@ -7,6 +7,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 import "./index.scss";
 import Masonry from "./masonry";
+import { useState } from "react";
+import { useThrottle } from "@uidotdev/usehooks";
 
 export default function Query() {
   const { query } = useSearchQuery();
@@ -40,14 +42,20 @@ export default function Query() {
     throwOnError: false,
   });
 
-  const rows = new Array(10000)
-    .fill(true)
-    .map(() => 25 + Math.round(Math.random() * 100));
+  const delay = 100;
+  const fetching = useThrottle(isFetching, delay);
+  const items = useThrottle(data?.pages.flat() ?? [], delay);
 
   return (
     <section>
-      <p>{isFetching && "fetching..."}</p>
-      <Masonry rows={rows} />
+      <p>{fetching && "fetching..."}</p>
+      <Masonry
+        items={items}
+        fetching={fetching}
+        onEnd={() => {
+          if (hasNextPage) fetchNextPage();
+        }}
+      />
     </section>
   );
 }

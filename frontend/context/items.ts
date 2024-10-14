@@ -11,3 +11,16 @@ export type Item = {
   number: number;
   complement: string;
 };
+
+export function typeToText(type: "FIND" | "LOST" | "DONATION") {
+  switch (type) {
+    case "FIND":
+      return "Achado";
+    case "LOST":
+      return "Perdido";
+    case "DONATION":
+      return "Doação";
+    default:
+      return "Desconhecido";
+  }
+}

@@ -1,26 +1,42 @@
+import { Item } from "@/context/items";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { useEffect, useRef, useState } from "react";
+import MasonryItem from "./item";
 
-export default function Masonry({ rows }: { rows: Array<number> }) {
+interface MasonryProps {
+  items: Item[];
+  fetching: boolean;
+  onEnd: () => void;
+}
+
+export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
+  const [alreadyEnded, setAlreadyEnded] = useState(false);
   const mansory = useRef<HTMLDivElement>(null);
   const { width } = useWindowSize();
   const [ref, setRef] = useState<HTMLElement | null>(null);
 
   const gap = 30;
-  const minItemWidth = 300;
+  const minItemWidth = 360;
+  const itemHeight = 320;
   const mansoryWidth = mansory.current?.clientWidth || width || 1366;
   const columns = Math.max(Math.floor(mansoryWidth / (minItemWidth + gap)), 1);
   const columnWidth = (mansoryWidth - (columns - 1) * gap) / columns;
 
-  const rowVirtualizer = useVirtualizer({
-    count: rows.length,
-    getScrollElement: () => ref,
-    estimateSize: () => minItemWidth,
-    overscan: 5,
+  const virtualizer = useVirtualizer({
+    count: items.length + (fetching ? 10 : 0),
+    estimateSize: () => itemHeight,
+    overscan: columns * 2,
     lanes: columns,
     gap: gap,
+    getScrollElement: () => ref,
   });
+
+  const virtuals = virtualizer.getVirtualItems();
+
+  const ended = virtuals.some(
+    (virtual) => items.length - 1 === virtual.index && !fetching
+  );
 
   useEffect(() => {
     const element = document.getElementById("page");
@@ -28,33 +44,52 @@ export default function Masonry({ rows }: { rows: Array<number> }) {
   }, [setRef]);
 
   useEffect(() => {
-    rowVirtualizer.measure();
+    virtualizer.measure();
   }, [columns]);
+
+  useEffect(() => {
+    if (!alreadyEnded && ended) {
+      setAlreadyEnded(true);
+      onEnd();
+    } else if (alreadyEnded && !ended) {
+      setAlreadyEnded(false);
+    }
+  }, [ended, alreadyEnded, onEnd, setAlreadyEnded]);
 
   return (
     <div
       className="masonry"
       ref={mansory}
       style={{
-        height: rowVirtualizer.getTotalSize(),
+        height: virtualizer.getTotalSize(),
       }}
     >
-      {rowVirtualizer.getVirtualItems().map((virtualRow) => (
-        <div
-          key={virtualRow.index}
-          className="item"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: virtualRow.lane * (columnWidth + gap),
-            width: columnWidth,
-            height: 300,
-            transform: `translateY(${virtualRow.start}px)`,
-          }}
-        >
-          <p>{virtualRow.index}</p>
-        </div>
-      ))}
+      {virtuals.map((virtual) => {
+        if (fetching && virtual.index >= items.length) {
+          return (
+            <MasonryItem
+              key={virtual.index}
+              virtual={virtual}
+              width={columnWidth}
+              height={itemHeight}
+              gap={gap}
+            />
+          );
+        }
+
+        const item = items[virtual.index];
+
+        return (
+          <MasonryItem
+            key={virtual.index}
+            item={item}
+            virtual={virtual}
+            width={columnWidth}
+            height={itemHeight}
+            gap={gap}
+          />
+        );
+      })}
     </div>
   );
 }

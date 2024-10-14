@@ -31,8 +31,6 @@ export default function Header({
 }: HeaderProps) {
   return (
     <header className="header">
-      <div className="background" />
-      <div className="background-blur" />
       {search && (
         <div className="search">
           <CitySelector />
