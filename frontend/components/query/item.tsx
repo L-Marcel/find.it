@@ -25,7 +25,30 @@ export default function MasonryItem({
   height,
   gap,
 }: MasonryItemProps) {
-  let child = <p>{virtual.index}</p>;
+  let child = (
+    <>
+      <header>
+        <span id="tag">
+          <span id="value" />
+        </span>
+        <span id="profile">
+          <span id="avatar" />
+          <span id="name" />
+        </span>
+      </header>
+      <main>
+        <span id="title" />
+        <span id="location" />
+      </main>
+      <footer>
+        <span id="button" />
+        <span />
+        <span />
+        <span />
+      </footer>
+    </>
+  );
+
   let theme = "";
   let buttonTheme: "default-fill" | "pink-fill" | "green-fill" = "default-fill";
 
@@ -97,7 +120,7 @@ export default function MasonryItem({
         position: "absolute",
         top: 0,
         left: virtual.lane * (width + gap),
-        width: width,
+        width,
         height,
         transform: `translateY(${virtual.start}px)`,
       }}

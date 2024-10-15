@@ -2,12 +2,8 @@ import { CaretDown } from "@phosphor-icons/react/dist/ssr";
 import Button from "../button";
 
 import "./index.scss";
-import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  defaultRangeExtractor,
-  Range,
-  useVirtualizer,
-} from "@tanstack/react-virtual";
+import { useRef } from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 export interface SelectorProps {
   onChange: (index: number) => void;
@@ -25,6 +21,8 @@ export function Selector({ onChange, options, selected }: SelectorProps) {
     estimateSize: () => 48,
     overscan: 5,
   });
+
+  const virtuals = virtualizer.getVirtualItems();
 
   return (
     <div className="selector">
@@ -55,7 +53,7 @@ export function Selector({ onChange, options, selected }: SelectorProps) {
             position: "relative",
           }}
         >
-          {virtualizer.getVirtualItems().map((virtual) => (
+          {virtuals.map((virtual) => (
             <span
               key={virtual.index}
               className={virtual.index === selected ? "selected" : ""}

@@ -26,7 +26,7 @@ export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
   const virtualizer = useVirtualizer({
     count: items.length + (fetching ? 10 : 0),
     estimateSize: () => itemHeight,
-    overscan: columns * 2,
+    overscan: columns * columns,
     lanes: columns,
     gap: gap,
     getScrollElement: () => ref,
