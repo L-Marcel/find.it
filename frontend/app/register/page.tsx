@@ -7,7 +7,7 @@ import Header from "@/components/header";
 export default function Login() {
   return (
     <>
-      <Header back="/login" />
+      <Header back />
       <main className="register">
         <section>
           <Image src={logo} alt="Fint.it" />

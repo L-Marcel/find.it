@@ -1,3 +1,4 @@
+import Header from "@/components/header";
 import { getItem } from "@/context/items";
 
 export default async function ItemPage({
@@ -8,10 +9,13 @@ export default async function ItemPage({
   const item = await getItem(id);
 
   return (
-    <main>
-      <p>
-        {item.state} - {item.city} - {item.title}
-      </p>
-    </main>
+    <>
+      <Header back />
+      <main>
+        <p>
+          {item.state} - {item.city} - {item.title}
+        </p>
+      </main>
+    </>
   );
 }

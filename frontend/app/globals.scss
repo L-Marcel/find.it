@@ -25,6 +25,32 @@ body {
       h-full
       gap-8;
   }
+
+  > main.error {
+    @apply w-full
+      justify-center
+      items-center
+      gap-12;
+
+    section {
+      @apply flex
+        flex-col
+        gap-4
+        items-center
+        font-roboto
+        text-center
+        max-w-72
+        md:max-w-xl;
+
+      h1 {
+        @apply text-3xl
+          font-semibold
+          uppercase
+          max-w-96
+          md:max-w-3xl;
+      }
+    }
+  }
 }
 
 .tsqd-parent-container {

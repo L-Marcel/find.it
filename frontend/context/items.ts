@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { User } from "./user";
 
 export type Item = {
@@ -43,11 +44,11 @@ export async function getItem(id: string) {
       "Content-type": "application/json",
     },
     credentials: "include",
-  }).then((res) => {
+  }).then(async (res) => {
     if (res.ok) {
       return res.json() as Promise<Item>;
     } else {
-      throw new Error("Item not found");
+      notFound();
     }
   });
 }

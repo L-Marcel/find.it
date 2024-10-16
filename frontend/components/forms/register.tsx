@@ -229,7 +229,7 @@ export default function LoginForm() {
         <hr />
       </header>
       <main>
-        <div className="profile">
+        <div id="profile">
           <Avatar />
           <div>
             <Input
@@ -244,7 +244,7 @@ export default function LoginForm() {
             <InputFile />
           </div>
         </div>
-        <div className="profile mobile">
+        <div id="profile" className="mobile">
           <div>
             <Avatar />
             <Input

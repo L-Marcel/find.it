@@ -10,9 +10,10 @@ import useUser, { useUserId } from "@/context/user";
 import Profile from "../profile";
 import Filter from "../switch/filter";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface HeaderProps {
-  back?: string;
+  back?: boolean;
   backTo?: string;
   backIcon?: Icon;
   search?: boolean;
@@ -24,7 +25,8 @@ interface HeaderProps {
 }
 
 export default function Header({
-  back = "",
+  back = false,
+  backTo = "",
   backIcon = ArrowLeft,
   close = false,
   create = false,
@@ -33,6 +35,7 @@ export default function Header({
   rank = false,
   search = false,
 }: HeaderProps) {
+  const router = useRouter();
   const user = useUser();
   const id = useUserId();
 
@@ -45,8 +48,13 @@ export default function Header({
             <Search />
           </div>
         )}
-        {back && (
-          <Button to={back} icon={backIcon}>
+        {back && !backTo && (
+          <Button onClick={router.back} icon={backIcon}>
+            Voltar
+          </Button>
+        )}
+        {back && backTo && (
+          <Button to={backTo} icon={backIcon}>
             Voltar
           </Button>
         )}
