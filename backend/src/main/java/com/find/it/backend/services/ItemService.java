@@ -85,32 +85,63 @@ public class ItemService {
       boolean finds,
       boolean losts,
       boolean donateds,
-      UUID user,
       int pageNumber) {
     Pageable page = PageRequest.of(pageNumber, 10);
+    Page<Item> allItems = repository.search(
+        query,
+        city,
+        state,
+        finds,
+        losts,
+        donateds,
+        page);
+    return allItems.toList();
+  }
 
-    if (user == null) {
-      Page<Item> allItems = repository.search(
-          query,
-          city,
-          state,
-          finds,
-          losts,
-          donateds,
-          page);
-      return allItems.toList();
-    } else {
-      Page<Item> allItems = repository.search(
-          query,
-          city,
-          state,
-          finds,
-          losts,
-          donateds,
-          user.toString(),
-          page);
-      return allItems.toList();
-    }
+  protected List<Item> findByTextAndUser(
+      String query,
+      boolean finds,
+      boolean losts,
+      boolean donateds,
+      UUID userId,
+      int pageNumber,
+      String token) {
+    User user = users.findById(userId);
+    Auth.validate(user.getId(), token);
+    Pageable page = PageRequest.of(pageNumber, 10);
+    Page<Item> allItems = repository.search(
+        query,
+        finds,
+        losts,
+        donateds,
+        user.getId().toString(),
+        page);
+
+    return allItems.toList();
+  }
+
+  protected List<Item> findByTextAndUserAndLocation(
+      String query,
+      String state,
+      String city,
+      boolean finds,
+      boolean losts,
+      boolean donateds,
+      UUID userId,
+      int pageNumber) {
+    User user = users.findById(userId);
+    Pageable page = PageRequest.of(pageNumber, 10);
+    Page<Item> allItems = repository.search(
+        query,
+        state,
+        city,
+        finds,
+        losts,
+        donateds,
+        user.getId().toString(),
+        page);
+
+    return allItems.toList();
   }
 
   public List<ItemData> searchByTextAndLocation(
@@ -120,9 +151,37 @@ public class ItemService {
       boolean finds,
       boolean losts,
       boolean donateds,
+      int pageNumber) {
+    return this.findByTextAndLocation(query, city, state, finds, losts, donateds, pageNumber)
+        .stream()
+        .map(item -> new ItemData(item))
+        .collect(Collectors.toList());
+  };
+
+  public List<ItemData> searchByTextAndUser(
+      String query,
+      boolean finds,
+      boolean losts,
+      boolean donateds,
+      UUID user,
+      int pageNumber,
+      String token) {
+    return this.findByTextAndUser(query, finds, losts, donateds, user, pageNumber, token)
+        .stream()
+        .map(item -> new ItemData(item))
+        .collect(Collectors.toList());
+  };
+
+  public List<ItemData> searchByTextAndUserAndLocation(
+      String query,
+      String state,
+      String city,
+      boolean finds,
+      boolean losts,
+      boolean donateds,
       UUID user,
       int pageNumber) {
-    return this.findByTextAndLocation(query, city, state, finds, losts, donateds, user, pageNumber)
+    return this.findByTextAndUserAndLocation(query, state, city, finds, losts, donateds, user, pageNumber)
         .stream()
         .map(item -> new ItemData(item))
         .collect(Collectors.toList());

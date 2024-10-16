@@ -35,3 +35,19 @@ export function typeToText(type: "FIND" | "LOST" | "DONATION") {
       return "Desconhecido";
   }
 }
+
+export async function getItem(id: string) {
+  return await fetch(`${process.env.API_URL}/items/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+    },
+    credentials: "include",
+  }).then((res) => {
+    if (res.ok) {
+      return res.json() as Promise<Item>;
+    } else {
+      throw new Error("Item not found");
+    }
+  });
+}

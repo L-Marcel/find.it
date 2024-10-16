@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.find.it.backend.dtos.AuthData;
+import com.find.it.backend.dtos.ItemData;
 import com.find.it.backend.dtos.RankData;
 import com.find.it.backend.dtos.UserData;
 import com.find.it.backend.dtos.records.UserCreateData;
 import com.find.it.backend.dtos.records.UserLoginData;
 import com.find.it.backend.dtos.records.UserUpdateData;
+import com.find.it.backend.services.ItemService;
 import com.find.it.backend.services.UserService;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +38,9 @@ public class UsersController {
   @Autowired
   private UserService service;
 
+  @Autowired
+  private ItemService items;
+
   @GetMapping
   public ResponseEntity<List<UserData>> getAll(
       @RequestParam(required = false, defaultValue = "0") Integer page) {
@@ -49,6 +54,48 @@ public class UsersController {
       @RequestHeader(value = "Authorization", required = false) String token) {
     UserData data = service.getById(id, token);
     return ResponseEntity.ok(data);
+  }
+
+  @GetMapping("/{id}/items")
+  public ResponseEntity<List<ItemData>> searchByTextAndUser(
+      @RequestParam(required = false, defaultValue = "") String query,
+      @RequestParam(required = false, defaultValue = "0") Integer page,
+      @RequestParam(required = false, defaultValue = "true") Boolean finds,
+      @RequestParam(required = false, defaultValue = "true") Boolean losts,
+      @RequestParam(required = false, defaultValue = "true") Boolean donateds,
+      @PathVariable UUID id,
+      @RequestHeader(value = "Authorization", required = false) String token) {
+    List<ItemData> userItems = items.searchByTextAndUser(
+        query,
+        finds,
+        losts,
+        donateds,
+        id,
+        page,
+        token);
+    return ResponseEntity.ok(userItems);
+  }
+
+  @GetMapping("/{id}/items/{state}/{city}")
+  public ResponseEntity<List<ItemData>> searchByTextAndUserAndLocation(
+      @PathVariable UUID id,
+      @PathVariable String state,
+      @PathVariable String city,
+      @RequestParam(required = false, defaultValue = "") String query,
+      @RequestParam(required = false, defaultValue = "0") Integer page,
+      @RequestParam(required = false, defaultValue = "true") Boolean finds,
+      @RequestParam(required = false, defaultValue = "true") Boolean losts,
+      @RequestParam(required = false, defaultValue = "true") Boolean donateds) {
+    List<ItemData> userItems = items.searchByTextAndUserAndLocation(
+        query,
+        state,
+        city,
+        finds,
+        losts,
+        donateds,
+        id,
+        page);
+    return ResponseEntity.ok(userItems);
   }
 
   @PostMapping

@@ -1,7 +1,17 @@
-export default function ItemPage() {
+import { getItem } from "@/context/items";
+
+export default async function ItemPage({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
+  const item = await getItem(id);
+
   return (
     <main>
-      <p>1</p>
+      <p>
+        {item.state} - {item.city} - {item.title}
+      </p>
     </main>
   );
 }

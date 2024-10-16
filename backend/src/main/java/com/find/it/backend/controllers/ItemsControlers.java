@@ -1,7 +1,6 @@
 package com.find.it.backend.controllers;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,8 +44,7 @@ public class ItemsControlers {
       @RequestParam(required = false, defaultValue = "0") Integer page,
       @RequestParam(required = false, defaultValue = "true") Boolean finds,
       @RequestParam(required = false, defaultValue = "true") Boolean losts,
-      @RequestParam(required = false, defaultValue = "true") Boolean donateds,
-      @RequestParam(required = false) UUID user) {
+      @RequestParam(required = false, defaultValue = "true") Boolean donateds) {
     List<ItemData> items = service.searchByTextAndLocation(
         query,
         city,
@@ -54,7 +52,6 @@ public class ItemsControlers {
         finds,
         losts,
         donateds,
-        user,
         page);
     return ResponseEntity.ok(items);
   }
