@@ -8,6 +8,8 @@ import Search from "./search";
 import CitySelector from "./citySelector";
 import useUser, { useUserId } from "@/context/user";
 import Profile from "../profile";
+import Filter from "../switch/filter";
+import Link from "next/link";
 
 interface HeaderProps {
   back?: string;
@@ -36,28 +38,40 @@ export default function Header({
 
   return (
     <header className="header">
-      {search && (
-        <div className="search">
-          <CitySelector />
-          <Search />
-        </div>
-      )}
-      {back && (
-        <Button to={back} icon={backIcon}>
-          Voltar
-        </Button>
-      )}
-      {login &&
-        (user && id ? (
-          <Profile id={id} name={user.name} picture={user.profile} />
-        ) : (
-          <div className="login">
-            <Button to="/register">Cadastrar-se</Button>
-            <Button to="/login" theme="default-fill">
-              Entrar
-            </Button>
+      <section>
+        {search && (
+          <div className="search">
+            <CitySelector />
+            <Search />
           </div>
-        ))}
+        )}
+        {back && (
+          <Button to={back} icon={backIcon}>
+            Voltar
+          </Button>
+        )}
+        {login &&
+          (user && id ? (
+            <Profile id={id} name={user.name} picture={user.profile} />
+          ) : (
+            <div className="login">
+              <Button to="/register">Cadastrar-se</Button>
+              <Button to="/login" theme="default-fill">
+                Entrar
+              </Button>
+            </div>
+          ))}
+      </section>
+      <section>
+        {search && (
+          <div className="filters">
+            <Filter />
+            <p>
+              Quer nos ajudar a manter a plataforma? <Link href="#">DOE</Link>
+            </p>
+          </div>
+        )}
+      </section>
     </header>
   );
 }

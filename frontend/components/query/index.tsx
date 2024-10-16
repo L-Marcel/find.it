@@ -7,23 +7,17 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 import "./index.scss";
 import Masonry from "./masonry";
+import useFilters from "@/context/filters";
 
 export default function Query() {
+  const { donateds, finds, losts } = useFilters();
   const { query } = useSearchQuery();
   const { city } = useSearchCities();
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
     queryFn: async ({ pageParam }) => {
       return fetch(
-        `${process.env.API_URL}/items/${city.state}/${city.name}?query=${query}&page=${pageParam}`,
+        `${process.env.API_URL}/items/${city.state}/${city.name}?query=${query}&page=${pageParam}&finds=${finds}&losts=${losts}&donateds=${donateds}`,
         {
           method: "GET",
           headers: {
@@ -33,21 +27,20 @@ export default function Query() {
         }
       ).then((res) => res.json() as Promise<Item[]>);
     },
-    queryKey: [cityToString(city), query],
+    queryKey: [cityToString(city), query, donateds, finds, losts],
     initialPageParam: 0,
     getNextPageParam: (lastPage, pages, lastPageParam) =>
       lastPage.length >= 10 ? lastPageParam + 1 : undefined,
     throwOnError: false,
   });
 
-  const fetching = isFetching;
   const items = data?.pages.flat() ?? [];
 
   return (
     <section>
       <Masonry
         items={items}
-        fetching={fetching}
+        fetching={isFetching}
         onEnd={() => {
           if (hasNextPage) fetchNextPage();
         }}

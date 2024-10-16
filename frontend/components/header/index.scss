@@ -1,9 +1,16 @@
 .header {
   @apply flex
-    justify-between
-    gap-9
-    top-0
-    z-10;
+    flex-col
+    gap-8;
+
+  section {
+    @apply flex
+      justify-between
+      w-full
+      items-center
+      gap-9
+      first:z-10;
+  }
 
   .login,
   .search {
@@ -18,5 +25,29 @@
 
   .profile {
     @apply min-w-52;
+  }
+
+  .filters {
+    @apply flex
+      justify-between
+      w-full
+      items-center
+      gap-3;
+
+    p {
+      @apply font-roboto
+        font-light
+        uppercase
+        text-lg;
+
+      a {
+        @apply underline
+          underline-offset-2
+          outline-none
+          hover:underline-offset-4
+          focus:underline-offset-4
+          focus:text-indigo-500;
+      }
+    }
   }
 }

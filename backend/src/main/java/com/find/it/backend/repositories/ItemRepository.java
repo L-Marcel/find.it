@@ -18,11 +18,35 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
   @Query(value = "SELECT * FROM ITEMS "
       + "WHERE (LOWER(title) LIKE CONCAT('%', LOWER(:query), '%') OR "
       + "LOWER(description) LIKE CONCAT('%', LOWER(:query), '%')) AND "
-      + "city = :city AND state = :state", nativeQuery = true)
-  Page<Item> searchByCityAndState(
+      + "city = :city AND state = :state AND "
+      + "owner = :user AND "
+      + "((:finds = true AND type = 0) OR "
+      + "(:losts = true AND type = 1) OR "
+      + "(:donateds = true AND type = 2))", nativeQuery = true)
+  Page<Item> search(
       @Param("query") String query,
       @Param("city") String city,
       @Param("state") String state,
+      @Param("finds") Boolean finds,
+      @Param("losts") Boolean losts,
+      @Param("donateds") Boolean donateds,
+      @Param("user") String id,
+      @NonNull Pageable page);
+
+  @Query(value = "SELECT * FROM ITEMS "
+      + "WHERE (LOWER(title) LIKE CONCAT('%', LOWER(:query), '%') OR "
+      + "LOWER(description) LIKE CONCAT('%', LOWER(:query), '%')) AND "
+      + "city = :city AND state = :state AND "
+      + "((:finds = true AND type = 0) OR "
+      + "(:losts = true AND type = 1) OR "
+      + "(:donateds = true AND type = 2))", nativeQuery = true)
+  Page<Item> search(
+      @Param("query") String query,
+      @Param("city") String city,
+      @Param("state") String state,
+      @Param("finds") Boolean finds,
+      @Param("losts") Boolean losts,
+      @Param("donateds") Boolean donateds,
       @NonNull Pageable page);
 
   Optional<Item> findByUserAndId(User user, Long id);

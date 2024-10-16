@@ -78,14 +78,51 @@ public class ItemService {
     repository.save(item);
   }
 
-  protected List<Item> findByTextAndLocation(String query, String city, String state, int pageNumber) {
+  protected List<Item> findByTextAndLocation(
+      String query,
+      String city,
+      String state,
+      boolean finds,
+      boolean losts,
+      boolean donateds,
+      UUID user,
+      int pageNumber) {
     Pageable page = PageRequest.of(pageNumber, 10);
-    Page<Item> allItems = repository.searchByCityAndState(query, city, state, page);
-    return allItems.toList();
+
+    if (user == null) {
+      Page<Item> allItems = repository.search(
+          query,
+          city,
+          state,
+          finds,
+          losts,
+          donateds,
+          page);
+      return allItems.toList();
+    } else {
+      Page<Item> allItems = repository.search(
+          query,
+          city,
+          state,
+          finds,
+          losts,
+          donateds,
+          user.toString(),
+          page);
+      return allItems.toList();
+    }
   }
 
-  public List<ItemData> searchByTextAndLocation(String query, String city, String state, int pageNumber) {
-    return this.findByTextAndLocation(query, city, state, pageNumber)
+  public List<ItemData> searchByTextAndLocation(
+      String query,
+      String city,
+      String state,
+      boolean finds,
+      boolean losts,
+      boolean donateds,
+      UUID user,
+      int pageNumber) {
+    return this.findByTextAndLocation(query, city, state, finds, losts, donateds, user, pageNumber)
         .stream()
         .map(item -> new ItemData(item))
         .collect(Collectors.toList());

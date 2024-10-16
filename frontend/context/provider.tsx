@@ -21,7 +21,7 @@ export type Context = {
   logout: () => void;
   cities: City[];
   loading: boolean;
-  setLoading: (loading: boolean) => void;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 export const context = createContext<Context>({} as Context);
@@ -130,11 +130,6 @@ export default function Provider({ children, cities }: ProviderProps) {
   }, [setUser, setToken, setId]);
   //#endregion
 
-  const _setLoading = useCallback(
-    (loading: boolean) => setLoading(loading),
-    [setLoading]
-  );
-
   return (
     <context.Provider
       value={{
@@ -145,7 +140,7 @@ export default function Provider({ children, cities }: ProviderProps) {
         logout,
         cities,
         loading,
-        setLoading: _setLoading,
+        setLoading,
       }}
     >
       {children}

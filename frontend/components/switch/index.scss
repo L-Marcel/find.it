@@ -62,3 +62,9 @@
   hover:bg-pink-700
   ring-pink-600;
 }
+
+.filter {
+  @apply flex
+    flex-row
+    gap-3;
+}
