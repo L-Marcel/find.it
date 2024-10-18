@@ -22,6 +22,7 @@ export default function Switch({
   children,
   ...props
 }: SwitchProps) {
+  //MARK: Change focused colors
   return (
     <button
       disabled={disabled}
