@@ -3,10 +3,18 @@
 
   button {
     border-radius: 1rem !important;
+
+    span {
+      @apply block
+        overflow-hidden
+        text-nowrap
+        text-ellipsis;
+    }
   }
 
   .options {
-    @apply hidden;
+    @apply hidden
+      z-20;
   }
 }
 
@@ -38,6 +46,10 @@
 
     span {
       @apply min-h-9
+        block
+        overflow-hidden
+        text-nowrap
+        text-ellipsis
         text-left
         place-content-center
         px-6

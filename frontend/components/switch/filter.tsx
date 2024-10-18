@@ -2,10 +2,15 @@
 
 import useFilters from "@/context/filters";
 import Switch from ".";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import "./index.scss";
+import { useDraggable } from "react-use-draggable-scroll";
 
 export default function Filter() {
+  const ref = useRef<HTMLDivElement>(
+    null
+  ) as React.MutableRefObject<HTMLInputElement>;
+  const { events } = useDraggable(ref);
   const { setFilters, finds, losts, donateds } = useFilters();
 
   const switchFinds = useCallback(() => {
@@ -21,21 +26,21 @@ export default function Filter() {
   }, [setFilters]);
 
   return (
-    <div className="filter">
+    <div ref={ref} className="filter" {...events}>
       <Switch
         theme="default-fill"
         checked={finds}
-        onChange={() => switchFinds()}
+        onClick={() => switchFinds()}
       >
         Achados
       </Switch>
-      <Switch theme="pink-fill" checked={losts} onChange={() => switchLosts()}>
+      <Switch theme="pink-fill" checked={losts} onClick={() => switchLosts()}>
         Perdidos
       </Switch>
       <Switch
         theme="green-fill"
         checked={donateds}
-        onChange={() => switchDonateds()}
+        onClick={() => switchDonateds()}
       >
         Doações
       </Switch>

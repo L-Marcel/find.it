@@ -27,10 +27,10 @@ export default function Button({
   children,
   to,
   right = false,
-  className,
+  className = "",
   ...props
 }: ButtonProps) {
-  const _className = `button ${theme} ${Icon ? "icon" : ""} ${right ? "right" : ""} ${className}`;
+  const _className = `${className} button ${theme} ${Icon ? "icon" : ""} ${right ? "right" : ""}`;
 
   const content = (
     <>
@@ -42,7 +42,7 @@ export default function Button({
 
   if (to) {
     return (
-      <Link href={to} className={_className} {...props}>
+      <Link tabIndex={0} href={to} className={_className} {...props}>
         {content}
       </Link>
     );

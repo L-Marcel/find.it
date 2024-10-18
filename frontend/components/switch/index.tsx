@@ -11,36 +11,30 @@ export interface SwitchProps
   > {
   theme?: "default" | "default-fill" | "pink-fill" | "green-fill";
   children: string;
+  onClick: () => void;
 }
 
 export default function Switch({
   theme = "default-fill",
   checked = false,
-  onChange = () => {},
+  onClick = () => {},
   disabled,
   children,
   ...props
 }: SwitchProps) {
   return (
-    <label className="switch-body">
-      <input
-        checked={checked}
-        onChange={onChange}
-        type="checkbox"
-        className="switch-input"
-        disabled={disabled}
-        {...props}
-      />
-      <div
-        className={`switch ${checked ? theme : "default"} ${disabled ? "disabled" : ""}`}
-      >
-        {checked ? (
-          <CheckCircle className="custom-icon" />
-        ) : (
-          <Circle className="custom-icon" />
-        )}
-        <span>{children}</span> {}
-      </div>
-    </label>
+    <button
+      disabled={disabled}
+      className={`switch ${checked ? theme : "default"} ${disabled ? "disabled" : ""}`}
+      onClick={onClick}
+    >
+      <input checked={checked} disabled={disabled} type="checkbox" {...props} />
+      {checked ? (
+        <CheckCircle className="custom-icon" />
+      ) : (
+        <Circle className="custom-icon" />
+      )}
+      <span>{children}</span> {}
+    </button>
   );
 }

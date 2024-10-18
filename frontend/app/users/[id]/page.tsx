@@ -1,4 +1,4 @@
-import Header from "@/components/header";
+import BackButton from "@/components/button/backButton";
 import { getUser } from "@/context/user";
 import { headers } from "next/headers";
 
@@ -15,7 +15,11 @@ export default async function UserPage({
     if (user) {
       return (
         <>
-          <Header back />
+          <header className="header">
+            <section>
+              <BackButton />
+            </section>
+          </header>
           <main>
             <p>Autenticado</p>
             <p>{user.name}</p>
@@ -31,7 +35,11 @@ export default async function UserPage({
 
   return (
     <>
-      <Header back />
+      <header className="header">
+        <section>
+          <BackButton />
+        </section>
+      </header>
       <main>
         <p>Não autenticado</p>
         <p>

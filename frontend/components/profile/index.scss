@@ -60,3 +60,11 @@
     ring-green-600
     hover:bg-green-700;
 }
+
+.profile:not(:has(p)) {
+  @apply w-12 min-w-12;
+
+  svg {
+    @apply ml-0;
+  }
+}

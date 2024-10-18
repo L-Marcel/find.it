@@ -39,17 +39,11 @@ export default function LoginForm() {
 
   function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLoading(true);
     setHasError(false);
-    login(data.email, data.password)
-      .then((id) => {
-        setLoading(false);
-        onLogin(id);
-      })
-      .catch(() => {
-        setHasError(true);
-        setLoading(false);
-      });
+    login(data.email, data.password).catch(() => {
+      setHasError(true);
+      setLoading(false);
+    });
   }
 
   return (

@@ -271,7 +271,7 @@ export default function LoginForm() {
           <Switch
             disabled={loading}
             checked={data.contact === "BOTH" || data.contact === "EMAIL"}
-            onChange={() => updateContact("email")}
+            onClick={() => updateContact("email")}
           >
             Disponibilizar para contato
           </Switch>
@@ -290,7 +290,7 @@ export default function LoginForm() {
           <Switch
             disabled={loading}
             checked={data.contact === "BOTH" || data.contact === "PHONE"}
-            onChange={() => updateContact("phone")}
+            onClick={() => updateContact("phone")}
           >
             Disponibilizar para contato
           </Switch>
@@ -299,7 +299,7 @@ export default function LoginForm() {
               loading || (data.contact !== "BOTH" && data.contact !== "PHONE")
             }
             checked={data.whatsapp}
-            onChange={() => update("whatsapp", !data.whatsapp)}
+            onClick={() => update("whatsapp", !data.whatsapp)}
           >
             Vinculado ao Whatsapp
           </Switch>

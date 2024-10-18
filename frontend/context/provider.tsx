@@ -48,6 +48,7 @@ export default function Provider({ children, cities }: ProviderProps) {
   //#region Authentication
   const login = useCallback(
     async (email: string, password: string) => {
+      setLoading(true);
       return await fetch(`${process.env.API_URL}/users/login`, {
         method: "POST",
         headers: {
@@ -78,11 +79,14 @@ export default function Provider({ children, cities }: ProviderProps) {
   );
 
   const logout = useCallback(() => {
+    setLoading(true);
     const id = Cookies.get("x-auth-id");
     Cookies.remove("x-auth-id");
     Cookies.remove("x-auth-token");
-    onLogout(id);
-  }, []);
+    onLogout(id).then(() => {
+      setLoading(false);
+    });
+  }, [setLoading]);
   //#endregion
 
   return (

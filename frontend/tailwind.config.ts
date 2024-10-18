@@ -17,6 +17,9 @@ const config: Config = {
       variants: {
         textColor: ["group-focus"],
       },
+      screens: {
+        xs: "420px",
+      },
     },
   },
   plugins: [],
