@@ -1,5 +1,5 @@
 import { Item } from "@/context/items";
-import { useVirtualizer } from "@tanstack/react-virtual";
+import { defaultRangeExtractor, useVirtualizer } from "@tanstack/react-virtual";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { useEffect, useRef, useState } from "react";
 import MasonryItem from "./item";
@@ -22,14 +22,23 @@ export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
   const mansoryWidth = mansory.current?.clientWidth || width || 1366;
   const columns = Math.max(Math.floor(mansoryWidth / (minItemWidth + gap)), 1);
   const columnWidth = (mansoryWidth - (columns - 1) * gap) / columns;
+  const count = items.length + (fetching ? 10 : 0);
 
   const virtualizer = useVirtualizer({
-    count: items.length + (fetching ? 10 : 0),
+    count,
     estimateSize: () => itemHeight,
     overscan: columns * columns,
     lanes: columns,
     gap: gap,
     getScrollElement: () => ref,
+    rangeExtractor: (range) => {
+      const ranges = defaultRangeExtractor(range);
+      if (!ranges.includes(count - 1)) {
+        ranges.push(count - 1);
+      }
+
+      return ranges;
+    },
   });
 
   const virtuals = virtualizer.getVirtualItems();

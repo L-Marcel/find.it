@@ -28,7 +28,13 @@ export default function Switch({
       className={`switch ${checked ? theme : "default"} ${disabled ? "disabled" : ""}`}
       onClick={onClick}
     >
-      <input checked={checked} disabled={disabled} type="checkbox" {...props} />
+      <input
+        checked={checked}
+        onChange={onClick}
+        disabled={disabled}
+        type="checkbox"
+        {...props}
+      />
       {checked ? (
         <CheckCircle className="custom-icon" />
       ) : (

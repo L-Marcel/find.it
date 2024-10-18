@@ -13,14 +13,13 @@
   }
 
   .options {
-    @apply hidden
-      z-20;
-  }
-}
-
-.selector:focus-within {
-  .options {
     @apply flex
+      z-20
+      ring-offset-4
+    ring-offset-zinc-950
+    ring-indigo-600
+      focus:ring-2
+      outline-none
       absolute
       top-16
       flex-col
@@ -33,12 +32,17 @@
       overflow-y-scroll
       overflow-clip
       max-h-[80vh]
-      max-w-[90vw];
+      max-w-[calc(100vw-4rem)]
+      -ml-[calc(380px+2rem)];
 
-    width: 300px !important;
+    width: 380px !important;
 
     div {
-      @apply flex;
+      @apply flex
+        flex-col
+        relative
+        w-full;
+
       max-width: none !important;
       overflow: hidden auto !important;
       width: 100% !important;
@@ -54,11 +58,23 @@
         place-content-center
         px-6
         hover:bg-zinc-800
-        hover:cursor-pointer;
+        hover:cursor-pointer
+        outline-none
+        focus:ring-2
+        focus:font-semibold
+        focus:pl-8
+        focus:ring-zinc-200
+        focus:z-10;
     }
 
     .selected {
       @apply bg-indigo-700;
     }
+  }
+}
+
+.selector:focus-within {
+  .options {
+    @apply ml-0;
   }
 }

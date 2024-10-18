@@ -26,7 +26,7 @@ export default function Filter() {
   }, [setFilters]);
 
   return (
-    <div ref={ref} className="filter" {...events}>
+    <div tabIndex={-1} ref={ref} className="filter" {...events}>
       <Switch
         theme="default-fill"
         checked={finds}

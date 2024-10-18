@@ -59,10 +59,16 @@
 
 .filter {
   @apply flex
+    py-[6px]
+    px-[6px]
+    -mx-[6px]
+    -my-[6px]
     flex-row
     gap-3
     w-full
     flex-nowrap
     cursor-grab
-    sm:cursor-default;
+    overflow-auto
+    sm:cursor-default
+    scrollbar-none;
 }
