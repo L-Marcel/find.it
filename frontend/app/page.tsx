@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <SearchProvider>
       <Loading />
-      <Header search login rank />
+      <Header search profile rank />
       <main>
         <Query />
       </main>

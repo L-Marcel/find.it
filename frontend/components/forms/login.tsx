@@ -7,7 +7,7 @@ import Button from "../button";
 import Input from "../input";
 import { FormEvent, useCallback, useState } from "react";
 import useAuth from "@/context/auth";
-import { useRouter } from "next/navigation";
+import { onLogin } from "@/app/actions";
 
 type Data = {
   email: string;
@@ -15,7 +15,6 @@ type Data = {
 };
 
 export default function LoginForm() {
-  const { push } = useRouter();
   const { login } = useAuth();
   const [hasError, setHasError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -43,9 +42,9 @@ export default function LoginForm() {
     setLoading(true);
     setHasError(false);
     login(data.email, data.password)
-      .then(() => {
+      .then((id) => {
         setLoading(false);
-        push("/");
+        onLogin(id);
       })
       .catch(() => {
         setHasError(true);

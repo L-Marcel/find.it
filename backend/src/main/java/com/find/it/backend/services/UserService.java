@@ -60,7 +60,7 @@ public class UserService {
 
     User user = new User(newUser);
     user = repository.save(user);
-    user.setPicture(pictures.createToUser(user.getId(), newUser.profile()));
+    user.setPicture(pictures.createToUser(user.getId(), newUser.picture()));
     repository.save(user);
   }
 
@@ -145,7 +145,7 @@ public class UserService {
 
     pictures.deleteToUser(user.getPicture());
     user.update(updatedUser);
-    user.setPicture(pictures.createToUser(user.getId(), updatedUser.profile()));
+    user.setPicture(pictures.createToUser(user.getId(), updatedUser.picture()));
     repository.save(user);
   };
 

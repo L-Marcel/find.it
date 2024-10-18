@@ -32,7 +32,7 @@ import java.util.List;
 
 @Validated
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin
 @RequestMapping("/api/users")
 public class UsersController {
   @Autowired

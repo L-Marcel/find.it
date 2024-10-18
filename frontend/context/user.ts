@@ -1,6 +1,5 @@
 import { z } from "zod";
-import { useContextSelector } from "use-context-selector";
-import { context } from "./provider";
+import { notFound } from "next/navigation";
 
 //#region Schemas
 export const userSchema = z
@@ -21,7 +20,7 @@ export const userSchema = z
       .regex(/^\d+$/gm, "Utilize apenas números!")
       .regex(/^(\d{2}[9]?\d{8}|\d{10})$/g, "Telefone inválido!"),
     contact: z.enum(["NONE", "BOTH", "EMAIL", "PHONE"]),
-    profile: z.string(),
+    picture: z.string(),
     whatsapp: z.boolean(),
     password: z
       .string()
@@ -40,10 +39,31 @@ export const userSchema = z
 
 export type User = z.infer<typeof userSchema>;
 
-export default function useUser() {
-  return useContextSelector(context, (context) => context.user);
-}
+export async function getUser(
+  id: string | null,
+  token: string | null,
+  errors: boolean = true
+) {
+  if (!id || !token) {
+    return null;
+  }
 
-export function useUserId() {
-  return useContextSelector(context, (context) => context.id);
+  return await fetch(`${process.env.API_URL}/users/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: token,
+    },
+    next: {
+      tags: [id],
+    },
+  }).then(async (res) => {
+    if (res.ok) {
+      return res.json() as Promise<User & { id: string }>;
+    } else if (errors) {
+      notFound();
+    } else {
+      return null;
+    }
+  });
 }

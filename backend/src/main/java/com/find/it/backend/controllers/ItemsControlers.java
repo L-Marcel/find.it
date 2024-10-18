@@ -24,7 +24,7 @@ import com.find.it.backend.services.ItemService;
 
 @Validated
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin
 @RequestMapping("/api/items")
 public class ItemsControlers {
   @Autowired

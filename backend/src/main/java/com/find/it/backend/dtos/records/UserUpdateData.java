@@ -11,7 +11,7 @@ public record UserUpdateData(
     @NotBlank(message = "O telefone é obrigatório!") String phone,
     String password,
     boolean whatsapp,
-    String profile,
+    String picture,
     String passwordConfirmation,
     boolean updatePassword,
     ContactType contact) {

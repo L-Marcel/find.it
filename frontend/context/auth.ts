@@ -5,6 +5,5 @@ export default function useAuth() {
   return useContextSelector(context, (context) => ({
     login: context.login,
     logout: context.logout,
-    token: context.token,
   }));
 }

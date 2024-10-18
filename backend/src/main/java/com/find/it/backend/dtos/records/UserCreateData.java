@@ -11,7 +11,7 @@ public record UserCreateData(
     @NotBlank(message = "O telefone é obrigatório!") String phone,
     @NotBlank(message = "A senha é obrigatória!") String password,
     boolean whatsapp,
-    String profile,
+    String picture,
     String passwordConfirmation,
     ContactType contact) {
 };

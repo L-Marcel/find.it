@@ -1,23 +1,22 @@
-"use client";
-
 import { Icon } from "@phosphor-icons/react";
 import "./index.scss";
 import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import Button from "../button";
 import Search from "./search";
 import CitySelector from "./citySelector";
-import useUser, { useUserId } from "@/context/user";
-import Profile from "../profile";
 import Filter from "../switch/filter";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import BackButton from "../button/backButton";
+
+import { Suspense } from "react";
+import HeaderProfile from "./headerProfile";
 
 interface HeaderProps {
   back?: boolean;
   backTo?: string;
   backIcon?: Icon;
   search?: boolean;
-  login?: boolean;
+  profile?: boolean;
   rank?: boolean;
   edit?: boolean;
   create?: boolean;
@@ -31,14 +30,10 @@ export default function Header({
   close = false,
   create = false,
   edit = false,
-  login = false,
+  profile = false,
   rank = false,
   search = false,
 }: HeaderProps) {
-  const router = useRouter();
-  const user = useUser();
-  const id = useUserId();
-
   return (
     <header className="header">
       <section>
@@ -48,27 +43,17 @@ export default function Header({
             <Search />
           </div>
         )}
-        {back && !backTo && (
-          <Button onClick={router.back} icon={backIcon}>
-            Voltar
-          </Button>
-        )}
+        {back && !backTo && <BackButton />}
         {back && backTo && (
           <Button to={backTo} icon={backIcon}>
             Voltar
           </Button>
         )}
-        {login &&
-          (user && id ? (
-            <Profile id={id} name={user.name} picture={user.profile} />
-          ) : (
-            <div className="login">
-              <Button to="/register">Cadastrar-se</Button>
-              <Button to="/login" theme="default-fill">
-                Entrar
-              </Button>
-            </div>
-          ))}
+        {profile && (
+          <Suspense fallback={<div id="login-or-profile" />}>
+            <HeaderProfile />
+          </Suspense>
+        )}
       </section>
       <section>
         {search && (

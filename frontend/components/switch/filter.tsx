@@ -1,3 +1,5 @@
+"use client";
+
 import useFilters from "@/context/filters";
 import Switch from ".";
 import { useCallback } from "react";

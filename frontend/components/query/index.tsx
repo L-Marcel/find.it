@@ -23,7 +23,6 @@ export default function Query() {
           headers: {
             "Content-type": "application/json",
           },
-          credentials: "include",
         }
       ).then((res) => res.json() as Promise<Item[]>);
     },

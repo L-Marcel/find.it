@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Roboto, Inter, Tilt_Warp } from "next/font/google";
 import "./globals.scss";
 import Provider from "@/context/provider";
-import { use } from "react";
 import { getCities } from "@/context/cities";
 
 const roboto = Roboto({
@@ -31,12 +30,12 @@ export const metadata: Metadata = {
   description: "Encontre o que procura...",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cities = use(getCities());
+  const cities = await getCities();
 
   return (
     <html lang="en">

@@ -23,7 +23,7 @@ const initial: User = {
   email: "",
   phone: "",
   password: "",
-  profile: "",
+  picture: "",
   passwordConfirmation: "",
   contact: "NONE",
   whatsapp: false,
@@ -157,7 +157,6 @@ export default function LoginForm() {
           headers: {
             "Content-type": "application/json",
           },
-          credentials: "include",
           body: JSON.stringify(data),
         })
           .then(async (response) => {
@@ -201,15 +200,15 @@ export default function LoginForm() {
 
   const InputFile = () => (
     <File
-      name="profile"
+      name="picture"
       disabled={loading}
       canClear={!!avatar}
       onFileClear={() => {
-        update("profile", "");
+        update("picture", "");
         setAvatar("");
       }}
       onFileLoaded={(base64, blob) => {
-        update("profile", base64);
+        update("picture", base64);
         const url = URL.createObjectURL(blob);
         setAvatar(url);
       }}
