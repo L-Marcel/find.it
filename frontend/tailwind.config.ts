@@ -6,6 +6,7 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  mode: "jit",
   theme: {
     extend: {
       fontFamily: {
@@ -16,9 +17,12 @@ const config: Config = {
       variants: {
         textColor: ["group-focus"],
       },
+      screens: {
+        xs: "420px",
+      },
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar")],
 };
 
 export default config;

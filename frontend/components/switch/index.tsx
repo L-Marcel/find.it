@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import "./index.scss";
 import { CheckCircle, Circle } from "@phosphor-icons/react/dist/ssr";
@@ -9,30 +9,39 @@ export interface SwitchProps
     InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   > {
-  theme?: "default" |"default-fill" | "pink-fill" | "green-fill" | "disabled";
-  label: string;
+  theme?: "default" | "default-fill" | "pink-fill" | "green-fill";
+  children: string;
+  onClick: () => void;
 }
 
-export default function Switch({ theme = "default",
-  label,
+export default function Switch({
+  theme = "default-fill",
+  checked = false,
+  onClick = () => {},
+  disabled,
+  children,
   ...props
 }: SwitchProps) {
-
-  const [isChecked, setIsChecked] = useState(false);
-
+  //MARK: Change focused colors
   return (
-    <label className="switch-body">
+    <button
+      disabled={disabled}
+      className={`switch ${checked ? theme : "default"} ${disabled ? "disabled" : ""}`}
+      onClick={onClick}
+    >
       <input
+        checked={checked}
+        onChange={onClick}
+        disabled={disabled}
         type="checkbox"
-        className="switch-input"
-        onChange={() => setIsChecked(!isChecked)}
-        checked={isChecked}
         {...props}
       />
-      <div className={`switch ${isChecked? theme : "default"}`}>
-        {isChecked ? <CheckCircle className="custom-icon" /> : <Circle className="custom-icon" />}
-        <span>{label}</span> {}
-      </div>
-    </label>
+      {checked ? (
+        <CheckCircle className="custom-icon" />
+      ) : (
+        <Circle className="custom-icon" />
+      )}
+      <span>{children}</span> {}
+    </button>
   );
 }

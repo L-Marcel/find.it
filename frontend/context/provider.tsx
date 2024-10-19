@@ -1,37 +1,59 @@
 "use client";
 
-import { ReactNode, useCallback, useState } from "react";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useCallback,
+  useState,
+} from "react";
 import { User } from "./user";
 import { createContext } from "use-context-selector";
-import { redirect } from "next/navigation";
+import Cookies from "js-cookie";
+import { City } from "./cities";
+import { onLogin, onLogout } from "@/app/actions";
 
 export type Context = {
-  user: User | null;
-  token: string;
-  login: (email: string, password: string) => Promise<Response>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  bearer: () => string;
+  cities: City[];
+  loading: boolean;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 export const context = createContext<Context>({} as Context);
 
+type UserWithId = {
+  id: string;
+} & User;
+
+type DefaultAuth = {
+  token: string;
+  user: UserWithId;
+};
+
+export type SafeAuth = {
+  token: string;
+  id: string;
+};
+
 interface ProviderProps {
   children: ReactNode;
+  cities: City[];
 }
 
-export default function Provider({ children }: ProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string>("");
+export default function Provider({ children, cities }: ProviderProps) {
+  const [loading, setLoading] = useState<boolean>(false);
 
   //#region Authentication
   const login = useCallback(
     async (email: string, password: string) => {
-      return fetch(`${process.env.API_URL}/users/login`, {
+      setLoading(true);
+      return await fetch(`${process.env.API_URL}/users/login`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
         },
-        credentials: "include",
         body: JSON.stringify({
           email,
           password,
@@ -41,27 +63,40 @@ export default function Provider({ children }: ProviderProps) {
           if (!response.ok) throw new Error();
           return await response.json();
         })
-        .then(({ token, ...user }: User & { token: string }) => {
-          setToken(`Bearer ${token}`);
-          setUser(user);
+        .then(({ token, user: { id } }: DefaultAuth) => {
+          Cookies.set("x-auth-id", id, {
+            expires: 1,
+          });
+          Cookies.set("x-auth-token", token, {
+            expires: 1,
+          });
+          onLogin(id).then(() => {
+            setLoading(false);
+          });
         });
     },
-    [setToken, setUser]
+    [setLoading]
   );
+
   const logout = useCallback(() => {
-    setUser(null);
-    setToken("");
-    redirect("/login");
-  }, [setUser, setToken]);
+    setLoading(true);
+    const id = Cookies.get("x-auth-id");
+    Cookies.remove("x-auth-id");
+    Cookies.remove("x-auth-token");
+    onLogout(id).then(() => {
+      setLoading(false);
+    });
+  }, [setLoading]);
   //#endregion
 
   return (
     <context.Provider
       value={{
-        user,
-        token,
         login,
         logout,
+        cities,
+        loading,
+        setLoading,
       }}
     >
       {children}

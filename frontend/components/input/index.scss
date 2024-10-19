@@ -3,10 +3,11 @@
     flex
     flex-col
     gap-2
+    w-full
     font-roboto
     font-normal
     text-base
-    min-w-52
+    text-nowrap
     max-w-[35rem];
 
   :has(input:disabled) {
@@ -22,12 +23,16 @@
       gap-2
       rounded-2xl
       h-12
+      w-full
       items-center
       ring-offset-4
       ring-indigo-600
       ring-offset-zinc-950
       focus-within:text-indigo-600
-      focus-within:ring-2;
+      focus-within:ring-2
+      focus:text-indigo-600
+      focus:ring-2
+      outline-none;
   }
 
   svg {
@@ -70,11 +75,60 @@
     @apply text-red-500
       text-base;
   }
+
+  div:has(input[type="file"]) {
+    @apply h-10 
+      w-fit 
+      pr-4 
+      hover:cursor-pointer
+      hover:bg-zinc-800;
+
+    svg {
+      @apply size-6;
+    }
+
+    p {
+      @apply text-inherit
+        uppercase
+        font-medium;
+    }
+  }
+
+  input[type="file"] {
+    @apply file:hidden hidden;
+  }
 }
 
 .error {
   div {
     @apply ring-red-500
       focus-within:text-red-500;
+  }
+}
+
+.file-inputs {
+  @apply flex
+    flex-row
+    gap-2;
+
+  button.input {
+    @apply bg-zinc-900
+      size-10
+      min-w-10
+      max-w-10
+      hover:cursor-pointer
+      flex
+      rounded-2xl
+      items-center
+      justify-center
+      ring-offset-4
+      ring-indigo-600
+      ring-offset-zinc-950
+      focus-within:text-indigo-600
+      focus-within:ring-2
+      focus:text-indigo-600
+      focus:ring-2
+      outline-none
+      hover:bg-zinc-800;
   }
 }

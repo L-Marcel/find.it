@@ -10,7 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.find.it.backend.errors.AlreadyExists;
+import com.find.it.backend.errors.InvalidField;
 import com.find.it.backend.errors.NotFound;
 import com.find.it.backend.errors.Unauthorized;
 
@@ -32,13 +32,13 @@ public class ApplicationControllerAdvice {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
   }
 
-  @ExceptionHandler(AlreadyExists.class)
-  public ResponseEntity<Map<String, Object>> handleAlreadyExistsException(AlreadyExists ex) {
+  @ExceptionHandler(InvalidField.class)
+  public ResponseEntity<Map<String, Object>> handleInvalidFieldException(InvalidField ex) {
     Map<String, Object> response = new HashMap<>();
 
-    response.put("status", HttpStatus.CONFLICT.value());
+    response.put("status", HttpStatus.BAD_REQUEST.value());
     response.put("fields", ex.getErrors());
-    return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)

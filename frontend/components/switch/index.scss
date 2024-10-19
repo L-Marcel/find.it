@@ -1,32 +1,39 @@
-.switch-body {
-  @apply h-9
-    flex
-    w-fit
-    items-center
-    justify-center;
-}
-
 .switch {
-  @apply w-fit
-  flex
-  items-center
-  justify-center
-  font-roboto
-  font-medium
-  select-none
-  text-zinc-200
-  bg-zinc-900
-  pl-2
-  pr-3
-  py-2
-  flex-row
-  space-x-1
-  rounded-2xl
-  h-9;
-}
+  @apply h-9
+    ring-offset-4
+    ring-offset-zinc-950
+    ring-indigo-600
+    focus:ring-2
+    outline-none  
+    w-fit
+    flex
+    items-center
+    justify-center
+    font-roboto
+    font-medium
+    select-none
+    text-zinc-200
+    bg-zinc-900
+    hover:bg-zinc-800
+    hover:cursor-pointer
+    uppercase
+    pl-2
+    pr-3
+    py-2
+    gap-1
+    flex-row
+    space-x-1
+    rounded-2xl
+    disabled:opacity-50
+    disabled:cursor-not-allowed;
 
-.switch.disabled {
-  @apply opacity-50;
+  input {
+    @apply hidden;
+  }
+
+  svg {
+    @apply size-6;
+  }
 }
 
 .switch.default-fill {
@@ -50,10 +57,18 @@
   ring-pink-600;
 }
 
-.switch-input {
-  @apply hidden;
-}
-
-.custom-icon {
-  @apply text-xl;
+.filter {
+  @apply flex
+    py-[6px]
+    px-[6px]
+    -mx-[6px]
+    -my-[6px]
+    flex-row
+    gap-3
+    w-full
+    flex-nowrap
+    cursor-grab
+    overflow-auto
+    sm:cursor-default
+    scrollbar-none;
 }

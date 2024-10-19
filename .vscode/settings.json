@@ -1,21 +1,18 @@
 {
   "editor.detectIndentation": true,
   "editor.formatOnSave": true,
-  "editor.autoIndent": "advanced",
+  "editor.autoIndent": "full",
   "editor.tabSize": 2,
   "editor.indentSize": "tabSize",
   "css.validate": false,
   "less.validate": false,
   "scss.validate": false,
-  "stylelint.validate": [
-    "css",
-    "scss"
-  ],
+  "stylelint.validate": ["css", "scss"],
   "stylelint.configFile": "frontend/.stylelintrc.json",
   "[scss]": {
     "editor.defaultFormatter": "stylelint.vscode-stylelint",
     "editor.codeActionsOnSave": {
-      "source.fixAll.stylelint": "always",
+      "source.fixAll.stylelint": "always"
     }
   },
   "[typescriptreact]": {
@@ -35,5 +32,6 @@
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "always"
     }
-  }
+  },
+  "java.compile.nullAnalysis.mode": "disabled"
 }
