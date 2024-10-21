@@ -1,10 +1,10 @@
 "use client";
 
 import Button from "@/components/button";
-import { useRouter } from "next/navigation";
+import useNavigation from "@/context/navigation";
 
 export default function Error() {
-  const router = useRouter();
+  const navigation = useNavigation();
 
   return (
     <main className="error">
@@ -16,7 +16,7 @@ export default function Error() {
           equipe!
         </p>
       </section>
-      <Button theme="default-fill" onClick={router.back}>
+      <Button theme="default-fill" onClick={() => navigation.back()}>
         Voltar para a página anterior
       </Button>
     </main>
