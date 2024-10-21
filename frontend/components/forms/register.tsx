@@ -96,7 +96,7 @@ export default function LoginForm() {
         };
       });
     },
-    [setData, setErrors]
+    [setData]
   );
 
   const update = useCallback(
@@ -328,7 +328,7 @@ export default function LoginForm() {
         />
       </main>
       <footer>
-        <Button disabled={loading} theme="default-fill">
+        <Button type="submit" disabled={loading} theme="default-fill">
           Cadastrar
         </Button>
 

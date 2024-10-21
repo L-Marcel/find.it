@@ -9,24 +9,24 @@ export interface SwitchProps
     InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   > {
-  theme?: "default" | "default-fill" | "pink-fill" | "green-fill";
+  theme?: "default" | "pink" | "green";
   children: string;
   onClick: () => void;
 }
 
 export default function Switch({
-  theme = "default-fill",
+  theme = "default",
   checked = false,
   onClick = () => {},
   disabled,
   children,
   ...props
 }: SwitchProps) {
-  //MARK: Change focused colors
   return (
     <button
       disabled={disabled}
-      className={`switch ${checked ? theme : "default"} ${disabled ? "disabled" : ""}`}
+      type="button"
+      className={`switch ${theme} ${checked ? "fill" : ""} ${disabled ? "disabled" : ""}`}
       onClick={onClick}
     >
       <input

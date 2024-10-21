@@ -28,7 +28,7 @@ export default function Query() {
     },
     queryKey: [cityToString(city), query, donateds, finds, losts],
     initialPageParam: 0,
-    getNextPageParam: (lastPage, pages, lastPageParam) =>
+    getNextPageParam: (lastPage, _, lastPageParam) =>
       lastPage.length >= 10 ? lastPageParam + 1 : undefined,
     throwOnError: false,
   });

@@ -5,6 +5,7 @@ import {
   ReactNode,
   SetStateAction,
   useCallback,
+  useEffect,
   useState,
 } from "react";
 import { User } from "./user";
@@ -12,8 +13,10 @@ import { createContext } from "use-context-selector";
 import Cookies from "js-cookie";
 import { City } from "./cities";
 import { onLogin, onLogout } from "@/app/actions";
+import { usePathname, useRouter } from "next/navigation";
 
 export type Context = {
+  back: (alternative?: string) => void;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   cities: City[];
@@ -43,8 +46,32 @@ interface ProviderProps {
 }
 
 export default function Provider({ children, cities }: ProviderProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [history, setHistory] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
+  //#region Nagivation
+  useEffect(() => {
+    setHistory((prev) => {
+      if (prev[prev.length - 1] === pathname) return prev;
+      else return [...prev, pathname];
+    });
+  }, [pathname, setHistory]);
+
+  const back = useCallback(
+    (alternative: string = "/") => {
+      if (history.length > 1) {
+        setHistory((prev) => prev.slice(0, -1));
+        router.back();
+      } else if (history.length === 1) {
+        setHistory(() => []);
+        router.push(alternative);
+      }
+    },
+    [router.back, router.push, setHistory, history]
+  );
+  //#endregion
   //#region Authentication
   const login = useCallback(
     async (email: string, password: string) => {
@@ -92,6 +119,7 @@ export default function Provider({ children, cities }: ProviderProps) {
   return (
     <context.Provider
       value={{
+        back,
         login,
         logout,
         cities,
