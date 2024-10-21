@@ -4,7 +4,9 @@ import {
   Dispatch,
   ReactNode,
   SetStateAction,
+  startTransition,
   useCallback,
+  useDeferredValue,
   useEffect,
   useState,
 } from "react";
@@ -14,6 +16,7 @@ import Cookies from "js-cookie";
 import { City } from "./cities";
 import { onLogin, onLogout } from "@/app/actions";
 import { usePathname, useRouter } from "next/navigation";
+import { useDebounce } from "@uidotdev/usehooks";
 
 export type Context = {
   back: (alternative?: string) => void;
@@ -50,6 +53,7 @@ export default function Provider({ children, cities }: ProviderProps) {
   const pathname = usePathname();
   const [history, setHistory] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const _loading = useDebounce(loading, 100);
 
   //#region Nagivation
   useEffect(() => {
@@ -123,7 +127,7 @@ export default function Provider({ children, cities }: ProviderProps) {
         login,
         logout,
         cities,
-        loading,
+        loading: _loading,
         setLoading,
       }}
     >

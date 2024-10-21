@@ -7,7 +7,7 @@ import Button from "../button";
 import Input from "../input";
 import { FormEvent, useCallback, useState } from "react";
 import useAuth from "@/context/auth";
-import { onLogin } from "@/app/actions";
+import useLoading from "@/context/loading";
 
 type Data = {
   email: string;
@@ -15,9 +15,9 @@ type Data = {
 };
 
 export default function LoginForm() {
+  const { loading, setLoading } = useLoading();
   const { login } = useAuth();
   const [hasError, setHasError] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
 
   const [data, setData] = useState<Data>({
     email: "",
@@ -39,7 +39,6 @@ export default function LoginForm() {
 
   function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setHasError(false);
     login(data.email, data.password).catch(() => {
       setHasError(true);
       setLoading(false);
@@ -60,7 +59,6 @@ export default function LoginForm() {
       <main>
         <Input
           name="email"
-          disabled={loading}
           value={data.email}
           onChange={(e) => update("email", e.currentTarget.value)}
           error={hasError ? "E-mail ou senha incorretos!" : ""}
@@ -69,7 +67,6 @@ export default function LoginForm() {
         />
         <Input
           name="password"
-          disabled={loading}
           value={data.password}
           onChange={(e) => update("password", e.currentTarget.value)}
           icon={Lock}
@@ -82,7 +79,10 @@ export default function LoginForm() {
           Entrar
         </Button>
         <p>
-          Ainda não possui uma conta? <Link href="/register">cadastre-se</Link>
+          Ainda não possui uma conta?{" "}
+          <Link aria-disabled={loading} href="/register">
+            cadastre-se
+          </Link>
         </p>
       </footer>
     </form>

@@ -1,7 +1,10 @@
+"use client";
+
 import type { Icon } from "@phosphor-icons/react";
 import { Eraser, Pencil } from "@phosphor-icons/react/dist/ssr";
 import "./index.scss";
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
+import { useIsLoading } from "@/context/loading";
 
 export interface InputProps
   extends DetailedHTMLProps<
@@ -19,15 +22,16 @@ export default function File({
   accept = "image/png, image/jpeg",
   placeholder = "Avatar",
   canClear,
-  disabled,
   onFileClear = () => {},
   onFileLoaded = () => {},
   ...props
 }: InputProps) {
+  const loading = useIsLoading();
+
   return (
     <div className="file-inputs">
       {canClear && (
-        <button disabled={disabled} className="input" onClick={onFileClear}>
+        <button disabled={loading} className="input" onClick={onFileClear}>
           <Eraser />
         </button>
       )}
@@ -36,7 +40,7 @@ export default function File({
           <Icon />
           <input
             type="file"
-            disabled={disabled}
+            disabled={loading}
             onChange={async (e) => {
               if (e.currentTarget.files !== null) {
                 const reader = new FileReader();

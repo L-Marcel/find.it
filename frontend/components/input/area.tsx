@@ -10,6 +10,7 @@ import {
   useRef,
 } from "react";
 import { useWindowSize } from "@uidotdev/usehooks";
+import { useIsLoading } from "@/context/loading";
 
 export interface TextareaProps
   extends DetailedHTMLProps<
@@ -29,8 +30,9 @@ export default function Textarea({
   onResize = () => {},
   ...props
 }: TextareaProps) {
+  const loading = useIsLoading();
   const ref = useRef<HTMLLabelElement>(null);
-  let { width, height } = useWindowSize();
+  const { width, height } = useWindowSize();
 
   useEffect(() => {
     if (ref) {
@@ -50,6 +52,7 @@ export default function Textarea({
       <div>
         <Icon />
         <textarea
+          disabled={loading}
           maxLength={maxLength}
           onResize={(e) => {
             resize(e.currentTarget);

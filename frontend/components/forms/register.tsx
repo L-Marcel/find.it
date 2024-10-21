@@ -8,7 +8,7 @@ import {
   Phone,
   User as UserIcon,
   UserCircle,
-} from "@phosphor-icons/react";
+} from "@phosphor-icons/react/dist/ssr";
 import Button from "../button";
 import Input from "../input";
 import { FormEvent, useCallback, useEffect, useState } from "react";
@@ -17,6 +17,7 @@ import Switch from "../switch";
 import File from "../input/file";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import useLoading from "@/context/loading";
 
 const initial: User = {
   name: "",
@@ -39,7 +40,7 @@ export default function LoginForm() {
   //#region States
   const { push } = useRouter();
   const [avatar, setAvatar] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+  const { loading, setLoading } = useLoading();
   const [data, setData] = useState<User>(initial);
   const [errors, setErrors] = useState<Errors>({
     new: false,
@@ -145,7 +146,7 @@ export default function LoginForm() {
       });
       return false;
     }
-  }, [data, setErrors, setLoading]);
+  }, [data, setErrors]);
 
   const submit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
@@ -201,7 +202,6 @@ export default function LoginForm() {
   const InputFile = () => (
     <File
       name="picture"
-      disabled={loading}
       canClear={!!avatar}
       onFileClear={() => {
         update("picture", "");
@@ -233,7 +233,6 @@ export default function LoginForm() {
           <div>
             <Input
               name="name"
-              disabled={loading}
               value={data.name}
               onChange={(e) => update("name", e.currentTarget.value)}
               error={errors["name"]}
@@ -248,7 +247,6 @@ export default function LoginForm() {
             <Avatar />
             <Input
               name="name"
-              disabled={loading}
               value={data.name}
               onChange={(e) => update("name", e.currentTarget.value)}
               error={errors["name"]}
@@ -261,7 +259,6 @@ export default function LoginForm() {
         <div>
           <Input
             name="email"
-            disabled={loading}
             value={data.email}
             onChange={(e) => update("email", e.currentTarget.value)}
             error={errors["email"]}
@@ -269,7 +266,6 @@ export default function LoginForm() {
             placeholder="E-mail"
           />
           <Switch
-            disabled={loading}
             checked={data.contact === "BOTH" || data.contact === "EMAIL"}
             onClick={() => updateContact("email")}
           >
@@ -279,7 +275,6 @@ export default function LoginForm() {
         <div>
           <Input
             name="phone"
-            disabled={loading}
             value={data.phone}
             onChange={(e) => update("phone", e.currentTarget.value)}
             error={errors["phone"]}
@@ -288,7 +283,6 @@ export default function LoginForm() {
             placeholder="DDD + Telefone"
           />
           <Switch
-            disabled={loading}
             checked={data.contact === "BOTH" || data.contact === "PHONE"}
             onClick={() => updateContact("phone")}
           >
@@ -306,7 +300,6 @@ export default function LoginForm() {
         </div>
         <Input
           name="password"
-          disabled={loading}
           value={data.password}
           onChange={(e) => update("password", e.currentTarget.value)}
           error={errors["password"]}
@@ -316,7 +309,6 @@ export default function LoginForm() {
         />
         <Input
           name="passwordConfirmation"
-          disabled={loading}
           value={data.passwordConfirmation}
           onChange={(e) =>
             update("passwordConfirmation", e.currentTarget.value)
@@ -328,7 +320,7 @@ export default function LoginForm() {
         />
       </main>
       <footer>
-        <Button type="submit" disabled={loading} theme="default-fill">
+        <Button disabled={loading} type="submit" theme="default-fill">
           Cadastrar
         </Button>
 
@@ -336,7 +328,10 @@ export default function LoginForm() {
           <p>Cadastrando novo usuário . . .</p>
         ) : (
           <p>
-            Já possuí uma conta? <Link href="/register">entrar</Link>
+            Já possuí uma conta?{" "}
+            <Link aria-disabled={loading} href="/register">
+              entrar
+            </Link>
           </p>
         )}
       </footer>
