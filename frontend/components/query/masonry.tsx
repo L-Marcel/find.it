@@ -43,6 +43,7 @@ export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
 
   const virtuals = virtualizer.getVirtualItems();
 
+  //MARK: Button to load more items
   const ended = virtuals.some(
     (virtual) => items.length - 2 === virtual.index && !fetching
   );

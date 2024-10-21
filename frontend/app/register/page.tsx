@@ -9,7 +9,7 @@ export default function Register() {
     <>
       <header className="header">
         <section>
-          <BackButton alternative="/login" />
+          <BackButton />
         </section>
       </header>
       <main className="register">
