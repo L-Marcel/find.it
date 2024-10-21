@@ -1,0 +1,43 @@
+.label {
+  @apply max-w-fit
+  items-center
+  flex
+  gap-3
+  w-auto;
+}
+
+.icon {
+  @apply bg-indigo-700
+  rounded-full
+  p-3;
+}
+
+.label.default {
+  .content {
+    @apply text-zinc-200
+      text-2xl;
+  }
+}
+
+.label.small {
+  .content {
+    @apply text-zinc-200
+      text-sm;
+  }
+
+  .icon {
+    @apply p-2;
+  }
+}
+
+.header {
+  @apply text-indigo-500
+    font-medium;
+}
+
+.label-content {
+  @apply flex
+    gap-0.5
+    font-roboto
+    flex-col;
+}
