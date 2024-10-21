@@ -8,6 +8,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import "./index.scss";
 import Masonry from "./masonry";
 import useFilters from "@/context/filters";
+import { useDebounce, useThrottle } from "@uidotdev/usehooks";
 
 export default function Query() {
   const { donateds, finds, losts } = useFilters();
@@ -33,13 +34,14 @@ export default function Query() {
     throwOnError: false,
   });
 
-  const items = data?.pages.flat() ?? [];
+  const items = useDebounce(data?.pages.flat() || [], 1000);
+  const fecthing = useThrottle(isFetching, 1000);
 
   return (
     <section>
       <Masonry
         items={items}
-        fetching={isFetching}
+        fetching={fecthing}
         onEnd={() => {
           if (hasNextPage) fetchNextPage();
         }}

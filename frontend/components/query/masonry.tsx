@@ -44,7 +44,7 @@ export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
   const virtuals = virtualizer.getVirtualItems();
 
   const ended = virtuals.some(
-    (virtual) => items.length - 1 === virtual.index && !fetching
+    (virtual) => items.length - 2 === virtual.index && !fetching
   );
 
   useEffect(() => {
