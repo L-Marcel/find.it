@@ -1,6 +1,6 @@
 "use client";
 
-import "./index.scss";
+import "../index.scss";
 import Link from "next/link";
 import {
   At,
@@ -9,15 +9,20 @@ import {
   User as UserIcon,
   UserCircle,
 } from "@phosphor-icons/react/dist/ssr";
-import Button from "../button";
-import Input from "../input";
+import Button from "../../button";
+import Input from "../../input";
 import { FormEvent, useCallback, useEffect, useState } from "react";
-import { userSchema as schema, type User } from "@/context/user";
-import Switch from "../switch";
-import File from "../input/file";
+import {
+  userSchema as schema,
+  userUpdateSchema as updateSchema,
+  type User,
+} from "@/context/user";
+import Switch from "../../switch";
+import File from "../../input/file";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import useLoading from "@/context/loading";
+import Unauthorized from "@/errors/Unauthorized";
 
 const initial: User = {
   name: "",
@@ -36,12 +41,25 @@ export type Errors = {
   new: boolean;
 };
 
-export default function LoginForm() {
+interface EditUserFormProps {
+  user: User;
+  id: string;
+  token: string;
+}
+
+export default function EditUserForm({ user, id, token }: EditUserFormProps) {
   //#region States
   const { push } = useRouter();
-  const [avatar, setAvatar] = useState<string>("");
+  const [updatePassword, setUpdatePassword] = useState<boolean>(false);
+  const [avatar, setAvatar] = useState<string>(
+    user.picture ? `${process.env.API_DOMAIN}/users/${user.picture}` : ""
+  );
   const { loading, setLoading } = useLoading();
-  const [data, setData] = useState<User>(initial);
+  const [data, setData] = useState<User>({
+    ...user,
+    password: "",
+    passwordConfirmation: "",
+  });
   const [errors, setErrors] = useState<Errors>({
     new: false,
     ...initial,
@@ -110,7 +128,7 @@ export default function LoginForm() {
         };
       });
       setData((data) => {
-        let whatsapp: boolean = false;
+        let whatsapp: boolean = data.whatsapp;
         if (at === "whatsapp") {
           whatsapp =
             (value as boolean) &&
@@ -128,7 +146,9 @@ export default function LoginForm() {
   );
 
   const validate = useCallback(() => {
-    let result = schema.safeParse(data);
+    let result = updatePassword
+      ? schema.safeParse(data)
+      : updateSchema.safeParse(data);
     if (result.success) {
       setErrors({
         new: false,
@@ -146,32 +166,42 @@ export default function LoginForm() {
       });
       return false;
     }
-  }, [data, setErrors]);
+  }, [data, updatePassword, setErrors]);
 
   const submit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (validate()) {
         setLoading(true);
-        fetch(`${process.env.API_URL}/users`, {
-          method: "POST",
+        fetch(`${process.env.API_URL}/users/${id}`, {
+          method: "PUT",
           headers: {
             "Content-type": "application/json",
+            Authorization: token,
           },
-          body: JSON.stringify(data),
-        })
-          .then(async (response) => {
-            if (!response.ok) throw await response.json();
-            setLoading(false);
-            push("/login");
-          })
-          .catch((error) => {
+          body: JSON.stringify({
+            ...data,
+            updatePassword,
+            id: undefined,
+            donated: undefined,
+            recovered: undefined,
+            finds: undefined,
+            picture: user.picture === data.picture ? undefined : data.picture,
+          } as User),
+        }).then(async (response) => {
+          if (!response.ok && response.status == 401) throw new Unauthorized();
+          else if (!response.ok) {
+            const error = await response.json();
             setLoading(false);
             setErrors({
               new: true,
               ...error.fields,
             });
-          });
+          } else {
+            setLoading(false);
+            push("/login");
+          }
+        });
       }
     },
     [push, validate, setErrors, setLoading]
@@ -220,10 +250,10 @@ export default function LoginForm() {
     <form className="form" onSubmit={submit}>
       <header>
         <h1>
-          JUNTE-SE À COMUNIDADE QUE <b>REENCONTRA</b>.
+          ALTERE SEU <b>PERFIL</b>.
         </h1>
         <p>
-          Encontre o que procura na <b>FIND.IT</b>
+          E reforce sua presença na <b>FIND.IT</b>
         </p>
         <hr />
       </header>
@@ -298,42 +328,48 @@ export default function LoginForm() {
             Vinculado ao Whatsapp
           </Switch>
         </div>
-        <Input
-          name="password"
-          value={data.password}
-          onChange={(e) => update("password", e.currentTarget.value)}
-          error={errors["password"]}
-          icon={Lock}
-          type="password"
-          placeholder="Senha"
-        />
-        <Input
-          name="passwordConfirmation"
-          value={data.passwordConfirmation}
-          onChange={(e) =>
-            update("passwordConfirmation", e.currentTarget.value)
-          }
-          error={errors["passwordConfirmation"]}
-          icon={Lock}
-          type="password"
-          placeholder="Confirmação de senha"
-        />
+        <div>
+          <Input
+            name="password"
+            disabled={!updatePassword}
+            value={data.password}
+            onChange={(e) => update("password", e.currentTarget.value)}
+            error={errors["password"]}
+            icon={Lock}
+            type="password"
+            placeholder="Senha"
+          />
+          <Input
+            name="passwordConfirmation"
+            disabled={!updatePassword}
+            value={data.passwordConfirmation}
+            onChange={(e) =>
+              update("passwordConfirmation", e.currentTarget.value)
+            }
+            error={errors["passwordConfirmation"]}
+            icon={Lock}
+            type="password"
+            placeholder="Confirmação de senha"
+          />
+          <Switch
+            disabled={loading}
+            checked={updatePassword}
+            onClick={() => {
+              setUpdatePassword((updatePassword) => !updatePassword);
+              update("password", "");
+              update("passwordConfirmation", "");
+            }}
+          >
+            Alterar senha
+          </Switch>
+        </div>
       </main>
       <footer>
         <Button disabled={loading} type="submit" theme="default-fill">
-          Cadastrar
+          Salvar
         </Button>
 
-        {loading ? (
-          <p>Cadastrando novo usuário . . .</p>
-        ) : (
-          <p>
-            Já possuí uma conta?{" "}
-            <Link aria-disabled={loading} href="/register">
-              entrar
-            </Link>
-          </p>
-        )}
+        {loading && <p>Atualizando dados do usuário . . .</p>}
       </footer>
     </form>
   );

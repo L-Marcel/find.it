@@ -250,9 +250,17 @@ public class ItemService {
     User owner = users.findById(ownerId);
     Auth.validate(owner.getId(), token);
     Item item = this.findByUserAndId(owner, id);
-    pictures.deleteToItem(item.getPicture());
+
+    if (updateItem.picture() != null) {
+      pictures.deleteToItem(item.getPicture());
+    }
+
     item.update(updateItem);
-    item.setPicture(pictures.createToItem(item.getId(), updateItem.picture()));
+
+    if (updateItem.picture() != null) {
+      item.setPicture(pictures.createToItem(item.getId(), updateItem.picture()));
+    }
+
     repository.save(item);
   };
 }

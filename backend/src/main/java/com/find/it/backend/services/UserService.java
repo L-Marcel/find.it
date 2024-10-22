@@ -135,7 +135,10 @@ public class UserService {
         repository.existsByPhone(updatedUser.phone())) {
       errors.put("phone", "Esse telefone já está em uso!");
     }
-    if (updatedUser.updatePassword() && !updatedUser.password().equals(updatedUser.passwordConfirmation())) {
+
+    if (updatedUser.updatePassword() && (updatedUser.password() == null || updatedUser.password().trim().isEmpty())) {
+      errors.put("password", "A senha é obrigatória!");
+    } else if (updatedUser.updatePassword() && !updatedUser.password().equals(updatedUser.passwordConfirmation())) {
       errors.put("password", "Senhas não coincidem!");
     }
 
@@ -143,9 +146,16 @@ public class UserService {
       throw new InvalidField(errors);
     }
 
-    pictures.deleteToUser(user.getPicture());
+    if (updatedUser.picture() != null) {
+      pictures.deleteToUser(user.getPicture());
+    }
+
     user.update(updatedUser);
-    user.setPicture(pictures.createToUser(user.getId(), updatedUser.picture()));
+
+    if (updatedUser.picture() != null) {
+      user.setPicture(pictures.createToUser(user.getId(), updatedUser.picture()));
+    }
+
     repository.save(user);
   };
 

@@ -19,6 +19,7 @@ export default function Input({
   icon: Icon = MagnifyingGlass,
   error = "",
   placeholder = "Buscar por . . .",
+  disabled,
   ...props
 }: InputProps) {
   const loading = useIsLoading();
@@ -27,7 +28,11 @@ export default function Input({
     <label className={`input ${error ? "error" : ""}`}>
       <div>
         <Icon />
-        <input disabled={loading} placeholder={placeholder} {...props} />
+        <input
+          disabled={loading || disabled}
+          placeholder={placeholder}
+          {...props}
+        />
       </div>
       {error && <p>{error}</p>}
     </label>

@@ -74,7 +74,7 @@ export default function MasonryItem({
             <Image
               width={width}
               height={140}
-              src={item.picture}
+              src={`${process.env.API_DOMAIN}/items/${item.picture}`}
               alt={item.title}
             />
           )}
