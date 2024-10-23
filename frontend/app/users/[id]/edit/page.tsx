@@ -8,12 +8,14 @@ import Image from "next/image";
 import EditUserForm from "@/components/forms/user/edit";
 
 export default async function EditUser({
-  params: { id },
+  params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const userId = headers().get("x-auth-id");
-  const token = headers().get("x-auth-token");
+  const id = (await params).id;
+  const _headers = await headers();
+  const userId = _headers.get("x-auth-id");
+  const token = _headers.get("x-auth-token");
 
   if (userId !== id) throw new Unauthorized();
   const user = await getUser(id, token);

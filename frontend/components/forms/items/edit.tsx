@@ -13,13 +13,16 @@ import Input from "../../input";
 import { FormEvent, useCallback, useEffect, useState } from "react";
 
 import useLoading from "@/context/loading";
-import { CreateItemData, itemSchema as createSchema } from "@/context/items";
+import {
+  CreateItemData,
+  itemSchema as updateSchema,
+  Item,
+} from "@/context/items";
 import Textarea from "@/components/input/area";
 import CitySelector from "@/components/header/citySelector";
-import { User } from "@/context/user";
 import TypeSwitch from "@/components/switch/typeSwitch";
 import InputBanner from "@/components/input/banner";
-import { onCreateItem } from "@/app/actions";
+import { onUpdateItem } from "@/app/actions";
 
 const initial: CreateItemData = {
   cityAndState: "Natal - RN",
@@ -39,16 +42,28 @@ export type Errors = {
   new: boolean;
 };
 
-interface CreateItemFormProps {
-  user: User;
+interface UpdateItemFormProps {
+  item: Item;
   token: string;
 }
 
-export default function CreateItemForm({ user, token }: CreateItemFormProps) {
+export default function EditItemForm({ item, token }: UpdateItemFormProps) {
   //#region States
-  const [banner, setBanner] = useState<string>("");
+  const [banner, setBanner] = useState<string>(
+    item.picture ? `${process.env.API_DOMAIN}/items/${item.picture}` : ""
+  );
   const { loading, setLoading } = useLoading();
-  const [data, setData] = useState<CreateItemData>(initial);
+  const [data, setData] = useState<CreateItemData>({
+    cityAndState: `${item.city} - ${item.state}`,
+    title: item.title,
+    description: item.description,
+    picture: item.picture,
+    type: item.type,
+    complement: item.complement,
+    district: item.district,
+    number: item.number > 0 ? item.number.toString() : "",
+    street: item.street,
+  });
   const [errors, setErrors] = useState<Errors>({
     new: false,
     ...initial,
@@ -76,7 +91,7 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
   );
 
   const validate = useCallback(() => {
-    const result = createSchema.safeParse({
+    const result = updateSchema.safeParse({
       ...data,
       number: data.number?.trim() || undefined,
     });
@@ -107,8 +122,8 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
         const parts = cityAndState.split(" - ");
         const city = parts[0];
         const state = parts[1];
-        fetch(`${process.env.API_URL}/items`, {
-          method: "POST",
+        fetch(`${process.env.API_URL}/items/${item.id}`, {
+          method: "PUT",
           headers: {
             "Content-type": "application/json",
             Authorization: token,
@@ -121,12 +136,12 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
             complement: data.complement?.trim() || undefined,
             state,
             city,
-            owner: user.id,
+            owner: item.user.id,
           }),
         })
           .then(async (response) => {
             if (!response.ok) throw await response.json();
-            onCreateItem(user.id).finally(() => setLoading(false));
+            onUpdateItem(item.id).finally(() => setLoading(false));
           })
           .catch((error) => {
             setLoading(false);
@@ -137,7 +152,7 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
           });
       }
     },
-    [data, token, user, validate, setErrors, setLoading]
+    [data, token, item, validate, setErrors, setLoading]
   );
 
   useEffect(() => {
@@ -159,10 +174,10 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
     <form className="form" onSubmit={submit}>
       <header>
         <h1>
-          <b>ENCONTROU</b>, <b>PERDEU</b> OU QUER <b>DOAR</b> ALGO?
+          ALTERE OS DADOS DO <b>ITEM</b>.
         </h1>
         <p>
-          Cadastre um novo <b>ITEM</b>
+          E ajude a comunidade do <b>FINT.IT</b> com transparência
         </p>
         <hr />
       </header>
@@ -242,9 +257,9 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
       </main>
       <footer>
         <Button disabled={loading} type="submit" theme="default-fill">
-          Criar
+          Salvar
         </Button>
-        {loading && <p>Criando novo item . . .</p>}
+        {loading && <p>Atualizando item . . .</p>}
       </footer>
     </form>
   );

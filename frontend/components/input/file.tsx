@@ -15,16 +15,38 @@ export interface InputProps
   canClear?: boolean;
   onFileLoaded: (base64: string, blob: Blob) => void;
   onFileClear: () => void;
+  inputOnly?: boolean;
 }
 
 export default function File({
   icon: Icon = Pencil,
   canClear,
+  inputOnly = false,
   onFileClear = () => {},
   onFileLoaded = () => {},
   ...props
 }: InputProps) {
   const loading = useIsLoading();
+
+  if (inputOnly)
+    return (
+      <input
+        type="file"
+        disabled={loading}
+        onChange={async (e) => {
+          if (e.currentTarget.files !== null) {
+            const reader = new FileReader();
+            const file = (e.currentTarget.files as FileList)[0];
+            reader.onload = () =>
+              onFileLoaded(reader.result?.toString() ?? "", file);
+            reader.readAsDataURL(e.currentTarget.files[0]);
+          } else {
+            onFileLoaded("", new Blob());
+          }
+        }}
+        {...props}
+      />
+    );
 
   return (
     <div className="file-inputs">
@@ -34,10 +56,11 @@ export default function File({
         </button>
       )}
       <label className="input">
-        <div tabIndex={0}>
+        <div>
           <Icon />
           <input
             type="file"
+            tabIndex={0}
             disabled={loading}
             onChange={async (e) => {
               if (e.currentTarget.files !== null) {

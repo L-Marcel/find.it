@@ -14,14 +14,14 @@ export const itemSchema = z.object({
   description: z.optional(
     z
       .string()
-      .min(8, "Descição muito pequena!")
-      .max(300, "Descrição muito grande!")
+      .min(12, "Descição muito pequena!")
+      .max(360, "Descrição muito grande!")
   ),
   cityAndState: z.string(),
-  district: z.string().optional(),
-  street: z.string().optional(),
-  number: z.string().regex(/^\d+$/gm, "Utilize apenas números!").optional(),
-  complement: z.string().optional(),
+  district: z.optional(z.string()),
+  street: z.optional(z.string()),
+  number: z.optional(z.string().regex(/^\d+$/gm, "Utilize apenas números!")),
+  complement: z.optional(z.string()),
 });
 //#endregion
 
@@ -68,6 +68,10 @@ export async function getItem(id: string) {
     method: "GET",
     headers: {
       "Content-type": "application/json",
+    },
+    cache: "default",
+    next: {
+      tags: [`item-${id}`],
     },
   }).then(async (res) => {
     if (res.ok) {

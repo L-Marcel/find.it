@@ -20,9 +20,9 @@ import {
 import Switch from "../../switch";
 import File from "../../input/file";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import useLoading from "@/context/loading";
 import Unauthorized from "@/errors/Unauthorized";
+import { onUpdateUser } from "@/app/actions";
 
 const initial: UpdateUserData = {
   name: "",
@@ -48,7 +48,6 @@ interface EditUserFormProps {
 
 export default function EditUserForm({ user, token }: EditUserFormProps) {
   //#region States
-  const { push } = useRouter();
   const [updatePassword, setUpdatePassword] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<string>(
     user.picture ? `${process.env.API_DOMAIN}/users/${user.picture}` : ""
@@ -199,13 +198,12 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
               ...error.fields,
             });
           } else {
-            setLoading(false);
-            push("/login");
+            onUpdateUser(user.id).finally(() => setLoading(false));
           }
         });
       }
     },
-    [push, data, token, user, updatePassword, validate, setErrors, setLoading]
+    [data, token, user, updatePassword, validate, setErrors, setLoading]
   );
 
   useEffect(() => {
@@ -369,7 +367,6 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
         <Button disabled={loading} type="submit" theme="default-fill">
           Salvar
         </Button>
-
         {loading && <p>Atualizando dados do usuário . . .</p>}
       </footer>
     </form>

@@ -22,7 +22,7 @@ export const userCreateSchema = z
       .regex(/^\d+$/gm, "Utilize apenas números!")
       .regex(/^(\d{2}[9]?\d{8}|\d{10})$/g, "Telefone inválido!"),
     contact: z.enum(["NONE", "BOTH", "EMAIL", "PHONE"]),
-    picture: z.string().optional(),
+    picture: z.optional(z.string()),
     whatsapp: z.boolean(),
     password: z
       .string()
@@ -109,6 +109,7 @@ export async function getUser(id: string | null, token: string | null) {
       "Content-type": "application/json",
       Authorization: token,
     },
+    cache: "default",
     next: {
       tags: [id],
     },
@@ -132,6 +133,7 @@ export async function getPublicUser(id: string | null) {
     headers: {
       "Content-type": "application/json",
     },
+    cache: "default",
     next: {
       tags: [id],
     },

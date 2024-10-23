@@ -64,7 +64,7 @@ public class ItemService {
       }
 
       if (newItem.number() >= 0) {
-        errors.put("district", "Já que não tem contato, informe o bairro!");
+        errors.put("number", "Já que não tem contato, informe o número!");
       }
     }
 

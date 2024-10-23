@@ -13,12 +13,16 @@ import { useDebounce, useThrottle } from "@uidotdev/usehooks";
 export default function Query() {
   const { donateds, finds, losts } = useFilters();
   const { query } = useSearchQuery();
-  const { city } = useSearchCities();
+  const { city: _city } = useSearchCities();
+
+  const parts = _city.split(" - ");
+  const city = parts[0];
+  const state = parts[1];
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
     queryFn: async ({ pageParam }) => {
       return fetch(
-        `${process.env.API_URL}/items/${city.state}/${city.name}?query=${query}&page=${pageParam}&finds=${finds}&losts=${losts}&donateds=${donateds}`,
+        `${process.env.API_URL}/items/${state}/${city}?query=${query}&page=${pageParam}&finds=${finds}&losts=${losts}&donateds=${donateds}`,
         {
           method: "GET",
           headers: {
@@ -27,7 +31,7 @@ export default function Query() {
         }
       ).then((res) => res.json() as Promise<Item[]>);
     },
-    queryKey: [cityToString(city), query, donateds, finds, losts],
+    queryKey: [_city, query, donateds, finds, losts],
     initialPageParam: 0,
     getNextPageParam: (lastPage, _, lastPageParam) =>
       lastPage.length >= 10 ? lastPageParam + 1 : undefined,

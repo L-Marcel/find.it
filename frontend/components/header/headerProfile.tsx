@@ -11,8 +11,10 @@ interface HeaderProfileProps {
 export default async function HeaderProfile({
   justIcon = false,
 }: HeaderProfileProps) {
-  const userId = headers().get("x-auth-id");
-  const token = headers().get("x-auth-token");
+  const _headers = await headers();
+  const userId = _headers.get("x-auth-id");
+  const token = _headers.get("x-auth-token");
+
   try {
     const user = await getUser(userId, token);
     return (

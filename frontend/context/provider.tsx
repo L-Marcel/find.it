@@ -99,7 +99,8 @@ export default function Provider({ children, cities }: ProviderProps) {
           Cookies.set("x-auth-token", token, {
             expires: 1,
           });
-          onLogin(id).then(() => {
+          onLogin(id).finally(() => {
+            console.log("abc");
             setLoading(false);
           });
         });
@@ -112,7 +113,7 @@ export default function Provider({ children, cities }: ProviderProps) {
     const id = Cookies.get("x-auth-id");
     Cookies.remove("x-auth-id");
     Cookies.remove("x-auth-token");
-    onLogout(id).then(() => {
+    onLogout(id).finally(() => {
       setLoading(false);
     });
   }, [setLoading]);

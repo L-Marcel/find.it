@@ -3,7 +3,6 @@
 import useFilters from "@/context/filters";
 import Switch from ".";
 import { useCallback, useRef } from "react";
-import "./index.scss";
 import { useDraggable } from "react-use-draggable-scroll";
 
 export default function Filter() {

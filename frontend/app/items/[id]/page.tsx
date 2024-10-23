@@ -2,10 +2,11 @@ import BackButton from "@/components/button/backButton";
 import { getItem } from "@/context/items";
 
 export default async function ItemPage({
-  params: { id },
+  params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const id = (await params).id;
   const item = await getItem(id);
 
   //MARK: Implement the edit item page
