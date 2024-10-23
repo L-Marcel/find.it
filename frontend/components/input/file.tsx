@@ -19,8 +19,6 @@ export interface InputProps
 
 export default function File({
   icon: Icon = Pencil,
-  accept = "image/png, image/jpeg",
-  placeholder = "Avatar",
   canClear,
   onFileClear = () => {},
   onFileLoaded = () => {},

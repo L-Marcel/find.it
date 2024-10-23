@@ -1,21 +1,21 @@
 "use client";
 
 import "../index.scss";
-import Link from "next/link";
 import {
   At,
   Lock,
   Phone,
-  User as UserIcon,
   UserCircle,
+  User as UserIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import Button from "../../button";
 import Input from "../../input";
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import {
-  userSchema as schema,
-  userUpdateSchema as updateSchema,
+  UpdateUserData,
   type User,
+  userCreateSchema as createSchema,
+  userUpdateSchema as updateSchema,
 } from "@/context/user";
 import Switch from "../../switch";
 import File from "../../input/file";
@@ -24,7 +24,7 @@ import { useRouter } from "next/navigation";
 import useLoading from "@/context/loading";
 import Unauthorized from "@/errors/Unauthorized";
 
-const initial: User = {
+const initial: UpdateUserData = {
   name: "",
   email: "",
   phone: "",
@@ -36,18 +36,17 @@ const initial: User = {
 };
 
 export type Errors = {
-  [key in keyof User]: string;
+  [key in keyof UpdateUserData]: string;
 } & {
   new: boolean;
 };
 
 interface EditUserFormProps {
   user: User;
-  id: string;
   token: string;
 }
 
-export default function EditUserForm({ user, id, token }: EditUserFormProps) {
+export default function EditUserForm({ user, token }: EditUserFormProps) {
   //#region States
   const { push } = useRouter();
   const [updatePassword, setUpdatePassword] = useState<boolean>(false);
@@ -55,11 +54,17 @@ export default function EditUserForm({ user, id, token }: EditUserFormProps) {
     user.picture ? `${process.env.API_DOMAIN}/users/${user.picture}` : ""
   );
   const { loading, setLoading } = useLoading();
-  const [data, setData] = useState<User>({
-    ...user,
+  const [data, setData] = useState<UpdateUserData>({
+    contact: user.contact,
+    email: user.email,
+    name: user.name,
+    phone: user.phone,
+    picture: user.picture,
+    whatsapp: user.whatsapp,
     password: "",
     passwordConfirmation: "",
   });
+
   const [errors, setErrors] = useState<Errors>({
     new: false,
     ...initial,
@@ -119,7 +124,7 @@ export default function EditUserForm({ user, id, token }: EditUserFormProps) {
   );
 
   const update = useCallback(
-    (at: keyof User, value: string | boolean) => {
+    (at: keyof UpdateUserData, value: string | boolean) => {
       setErrors((errors) => {
         return {
           ...errors,
@@ -146,8 +151,8 @@ export default function EditUserForm({ user, id, token }: EditUserFormProps) {
   );
 
   const validate = useCallback(() => {
-    let result = updatePassword
-      ? schema.safeParse(data)
+    const result = updatePassword
+      ? createSchema.safeParse(data)
       : updateSchema.safeParse(data);
     if (result.success) {
       setErrors({
@@ -158,9 +163,9 @@ export default function EditUserForm({ user, id, token }: EditUserFormProps) {
       return true;
     } else {
       setErrors((errors) => {
-        var _errors = { ...errors, new: true };
+        const _errors = { ...errors, new: true };
         result.error.errors.reverse().forEach((error) => {
-          _errors[error.path[0] as keyof User] = error.message;
+          _errors[error.path[0] as keyof UpdateUserData] = error.message;
         });
         return _errors;
       });
@@ -173,7 +178,7 @@ export default function EditUserForm({ user, id, token }: EditUserFormProps) {
       e.preventDefault();
       if (validate()) {
         setLoading(true);
-        fetch(`${process.env.API_URL}/users/${id}`, {
+        fetch(`${process.env.API_URL}/users/${user.id}`, {
           method: "PUT",
           headers: {
             "Content-type": "application/json",
@@ -182,12 +187,8 @@ export default function EditUserForm({ user, id, token }: EditUserFormProps) {
           body: JSON.stringify({
             ...data,
             updatePassword,
-            id: undefined,
-            donated: undefined,
-            recovered: undefined,
-            finds: undefined,
             picture: user.picture === data.picture ? undefined : data.picture,
-          } as User),
+          } as UpdateUserData),
         }).then(async (response) => {
           if (!response.ok && response.status == 401) throw new Unauthorized();
           else if (!response.ok) {
@@ -204,15 +205,15 @@ export default function EditUserForm({ user, id, token }: EditUserFormProps) {
         });
       }
     },
-    [push, validate, setErrors, setLoading]
+    [push, data, token, user, updatePassword, validate, setErrors, setLoading]
   );
 
   useEffect(() => {
     if (errors.new) {
-      for (let field of Object.keys(errors) as [keyof typeof errors]) {
+      for (const field of Object.keys(errors) as [keyof typeof errors]) {
         if (field === "new") continue;
         else if (errors[field] !== "") {
-          let element = document.getElementsByName(field)[0];
+          const element = document.getElementsByName(field)[0];
           element.focus();
           break;
         }

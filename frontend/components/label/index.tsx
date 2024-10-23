@@ -1,5 +1,5 @@
-import "./index.scss"
-import React from "react"
+import "./index.scss";
+import React from "react";
 
 interface LabelProps {
   theme?: "default" | "small";
@@ -8,13 +8,7 @@ interface LabelProps {
   icon?: React.ReactNode;
 }
 
-export default function Label({
-  theme,
-  header,
-  children,
-  icon
-} : LabelProps){
-
+export default function Label({ theme, header, children, icon }: LabelProps) {
   return (
     <section className={`label ${theme ? theme : "default"}`}>
       {icon ? <span className="icon">{icon}</span> : null}

@@ -36,7 +36,7 @@ export default function Textarea({
 
   useEffect(() => {
     if (ref) {
-      let textarea = ref.current?.getElementsByTagName("textarea")[0];
+      const textarea = ref.current?.getElementsByTagName("textarea")[0];
       resize(textarea);
     }
   }, [width, height]);
@@ -56,11 +56,11 @@ export default function Textarea({
           maxLength={maxLength}
           onResize={(e) => {
             resize(e.currentTarget);
-            onResize && onResize(e);
+            onResize(e);
           }}
           onChange={(e) => {
             resize(e.currentTarget);
-            onChange && onChange(e);
+            onChange(e);
           }}
           placeholder={placeholder}
           {...props}

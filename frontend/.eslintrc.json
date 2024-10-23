@@ -1,35 +1,32 @@
 {
   "extends": [
     "next/core-web-vitals",
-    "next/typescript",
-    "plugin:prettier/recommended"
+    "next/typescript"
   ],
   "rules": {
-    "prettier/prettier": [
-      "error"
-    ],
     "camelcase": [
-      "warning"
+      "warn"
     ],
     "prefer-arrow-callback": [
-      "warning"
-    ],
-    "sort-imports": [
-      "error"
+      "warn"
     ],
     "no-empty": [
-      "warning", 
+      "warn", 
       { 
         "allowEmptyCatch": true 
       }
     ],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { 
+        "argsIgnorePattern": "^_" 
+      }
+    ],
     "func-style": [
-      "error",
-      "expression",
-      {
-        "overrides": { 
-          "namedExports": "declaration" 
-        }
+      "warn",
+      "declaration",
+      { 
+        "allowArrowFunctions": true 
       }
     ]
   }

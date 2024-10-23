@@ -2,11 +2,9 @@
 
 import Button from "@/components/button";
 import useNavigation from "@/context/navigation";
-import Unauthorized from "@/errors/Unauthorized";
 
 export default function Error({
   error,
-  reset,
 }: {
   error: Error & { cause?: string; digest?: string };
   reset: () => void;

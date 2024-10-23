@@ -5,7 +5,7 @@ import Link from "next/link";
 
 interface ProfileProps {
   theme?: "default" | "green" | "pink";
-  picture: string;
+  picture?: string;
   name?: string;
   id: string;
 }

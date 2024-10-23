@@ -54,7 +54,7 @@ export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
 
   useEffect(() => {
     virtualizer.measure();
-  }, [columns]);
+  }, [virtualizer, columns]);
 
   useEffect(() => {
     if (!alreadyEnded && ended) {

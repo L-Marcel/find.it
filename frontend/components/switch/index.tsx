@@ -2,7 +2,7 @@
 
 import "./index.scss";
 import { CheckCircle, Circle } from "@phosphor-icons/react/dist/ssr";
-import { DetailedHTMLProps, InputHTMLAttributes, useState } from "react";
+import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 
 export interface SwitchProps
   extends DetailedHTMLProps<

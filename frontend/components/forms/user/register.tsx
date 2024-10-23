@@ -6,20 +6,24 @@ import {
   At,
   Lock,
   Phone,
-  User as UserIcon,
   UserCircle,
+  User as UserIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import Button from "../../button";
 import Input from "../../input";
 import { FormEvent, useCallback, useEffect, useState } from "react";
-import { userSchema as schema, type User } from "@/context/user";
+import {
+  CreateUserData,
+  type User,
+  userCreateSchema as createSchema,
+} from "@/context/user";
 import Switch from "../../switch";
 import File from "../../input/file";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import useLoading from "@/context/loading";
 
-const initial: User = {
+const initial: CreateUserData = {
   name: "",
   email: "",
   phone: "",
@@ -31,7 +35,7 @@ const initial: User = {
 };
 
 export type Errors = {
-  [key in keyof User]: string;
+  [key in keyof CreateUserData]: string;
 } & {
   new: boolean;
 };
@@ -41,7 +45,7 @@ export default function RegisterUserForm() {
   const { push } = useRouter();
   const [avatar, setAvatar] = useState<string>("");
   const { loading, setLoading } = useLoading();
-  const [data, setData] = useState<User>(initial);
+  const [data, setData] = useState<CreateUserData>(initial);
   const [errors, setErrors] = useState<Errors>({
     new: false,
     ...initial,
@@ -101,7 +105,7 @@ export default function RegisterUserForm() {
   );
 
   const update = useCallback(
-    (at: keyof User, value: string | boolean) => {
+    (at: keyof CreateUserData, value: string | boolean) => {
       setErrors((errors) => {
         return {
           ...errors,
@@ -128,7 +132,7 @@ export default function RegisterUserForm() {
   );
 
   const validate = useCallback(() => {
-    let result = schema.safeParse(data);
+    const result = createSchema.safeParse(data);
     if (result.success) {
       setErrors({
         new: false,
@@ -138,9 +142,9 @@ export default function RegisterUserForm() {
       return true;
     } else {
       setErrors((errors) => {
-        var _errors = { ...errors, new: true };
+        const _errors = { ...errors, new: true };
         result.error.errors.reverse().forEach((error) => {
-          _errors[error.path[0] as keyof User] = error.message;
+          _errors[error.path[0] as keyof CreateUserData] = error.message;
         });
         return _errors;
       });
@@ -163,7 +167,7 @@ export default function RegisterUserForm() {
           .then(async (response) => {
             if (!response.ok) throw await response.json();
             setLoading(false);
-            //push("/login");
+            push("/login");
           })
           .catch((error) => {
             setLoading(false);
@@ -174,15 +178,15 @@ export default function RegisterUserForm() {
           });
       }
     },
-    [push, validate, setErrors, setLoading]
+    [push, data, validate, setErrors, setLoading]
   );
 
   useEffect(() => {
     if (errors.new) {
-      for (let field of Object.keys(errors) as [keyof typeof errors]) {
+      for (const field of Object.keys(errors) as [keyof typeof errors]) {
         if (field === "new") continue;
         else if (errors[field] !== "") {
-          let element = document.getElementsByName(field)[0];
+          const element = document.getElementsByName(field)[0];
           element.focus();
           break;
         }

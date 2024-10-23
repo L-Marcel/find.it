@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Roboto, Inter, Tilt_Warp } from "next/font/google";
+import { Inter, Roboto, Tilt_Warp as TiltWarp } from "next/font/google";
 import "./globals.scss";
 import Provider from "@/context/provider";
 import { getCities } from "@/context/cities";
@@ -18,7 +18,7 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const tiltWarp = Tilt_Warp({
+const tiltWarp = TiltWarp({
   style: ["normal"],
   subsets: ["latin"],
   weight: ["400"],

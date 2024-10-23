@@ -15,8 +15,8 @@ export default async function EditUserPage({
   const userId = headers().get("x-auth-id");
   const token = headers().get("x-auth-token");
 
+  if (userId !== id) throw new Unauthorized();
   const user = await getUser(id, token);
-  if (!user || userId !== id) throw new Unauthorized();
 
   return (
     <>
@@ -28,7 +28,7 @@ export default async function EditUserPage({
       <main className="edit">
         <section>
           <Image src={logo} alt="Fint.it" />
-          <EditUserForm token={token ?? ""} id={id} user={user} />
+          <EditUserForm token={token ?? ""} user={user} />
         </section>
       </main>
     </>

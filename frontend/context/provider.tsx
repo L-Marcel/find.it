@@ -4,9 +4,7 @@ import {
   Dispatch,
   ReactNode,
   SetStateAction,
-  startTransition,
   useCallback,
-  useDeferredValue,
   useEffect,
   useState,
 } from "react";
@@ -73,7 +71,7 @@ export default function Provider({ children, cities }: ProviderProps) {
         router.push(alternative);
       }
     },
-    [router.back, router.push, setHistory, history]
+    [router, setHistory, history]
   );
   //#endregion
   //#region Authentication

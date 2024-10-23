@@ -13,9 +13,8 @@ export default async function HeaderProfile({
 }: HeaderProfileProps) {
   const userId = headers().get("x-auth-id");
   const token = headers().get("x-auth-token");
-  const user = await getUser(userId, token, false);
-
-  if (user) {
+  try {
+    const user = await getUser(userId, token);
     return (
       <>
         <Profile
@@ -26,6 +25,8 @@ export default async function HeaderProfile({
         <LogoutButton />
       </>
     );
+  } catch (error) {
+    console.log(error);
   }
 
   return (

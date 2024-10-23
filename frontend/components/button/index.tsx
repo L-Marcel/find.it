@@ -1,9 +1,9 @@
 import type { Icon } from "@phosphor-icons/react";
 import "./index.scss";
 import {
-  DetailedHTMLProps,
-  ButtonHTMLAttributes,
   AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
 } from "react";
 import Link from "next/link";
 
