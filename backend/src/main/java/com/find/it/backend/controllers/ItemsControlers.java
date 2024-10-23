@@ -45,6 +45,7 @@ public class ItemsControlers {
       @RequestParam(required = false, defaultValue = "true") Boolean finds,
       @RequestParam(required = false, defaultValue = "true") Boolean losts,
       @RequestParam(required = false, defaultValue = "true") Boolean donateds) {
+    // MARK: Order by updated at
     List<ItemData> items = service.searchByTextAndLocation(
         query,
         city,
