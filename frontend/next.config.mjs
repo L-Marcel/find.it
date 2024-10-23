@@ -5,7 +5,7 @@ const nextConfig = {
     API_DOMAIN: process.env.API_DOMAIN,
   },
   eslint: {
-    dirs: ['.']
+    dirs: ["app", "components", "errors", "context"],
   },
   images: {
     remotePatterns: [

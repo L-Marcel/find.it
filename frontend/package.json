@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "format": "prettier --write '**/*.{ts,tsx}' && stylelint **/*.scss && next lint",
-    "fix": "prettier --write '**/*.{ts,tsx}' && stylelint **/*.scss --fix && next lint --fix"
+    "fix": "prettier --write '**/*.{ts,tsx}' && stylelint **/*.scss --fix && next lint --fix",
+    "lint": "next lint --fix"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
