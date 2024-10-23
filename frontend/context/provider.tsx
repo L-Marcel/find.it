@@ -20,7 +20,7 @@ export type Context = {
   back: (alternative?: string) => void;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  cities: City[];
+  cities: string[];
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
 };
@@ -43,7 +43,7 @@ export type SafeAuth = {
 
 interface ProviderProps {
   children: ReactNode;
-  cities: City[];
+  cities: string[];
 }
 
 export default function Provider({ children, cities }: ProviderProps) {

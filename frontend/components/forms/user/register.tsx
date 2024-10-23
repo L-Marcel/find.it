@@ -302,26 +302,28 @@ export default function RegisterUserForm() {
             Vinculado ao Whatsapp
           </Switch>
         </div>
-        <Input
-          name="password"
-          value={data.password}
-          onChange={(e) => update("password", e.currentTarget.value)}
-          error={errors["password"]}
-          icon={Lock}
-          type="password"
-          placeholder="Senha"
-        />
-        <Input
-          name="passwordConfirmation"
-          value={data.passwordConfirmation}
-          onChange={(e) =>
-            update("passwordConfirmation", e.currentTarget.value)
-          }
-          error={errors["passwordConfirmation"]}
-          icon={Lock}
-          type="password"
-          placeholder="Confirmação de senha"
-        />
+        <div>
+          <Input
+            name="password"
+            value={data.password}
+            onChange={(e) => update("password", e.currentTarget.value)}
+            error={errors["password"]}
+            icon={Lock}
+            type="password"
+            placeholder="Senha"
+          />
+          <Input
+            name="passwordConfirmation"
+            value={data.passwordConfirmation}
+            onChange={(e) =>
+              update("passwordConfirmation", e.currentTarget.value)
+            }
+            error={errors["passwordConfirmation"]}
+            icon={Lock}
+            type="password"
+            placeholder="Confirmação de senha"
+          />
+        </div>
       </main>
       <footer>
         <Button disabled={loading} type="submit" theme="default-fill">

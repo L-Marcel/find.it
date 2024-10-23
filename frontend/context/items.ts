@@ -1,5 +1,31 @@
 import { notFound } from "next/navigation";
 import { User } from "./user";
+import { z } from "zod";
+
+//#region Schemas
+export const itemSchema = z.object({
+  picture: z.string().optional(),
+  title: z
+    .string()
+    .min(1, "É necessário informar um título!")
+    .min(8, "Título pequeno demais!")
+    .max(90, "Título muito grande!"),
+  type: z.enum(["FIND", "LOST", "DONATION"]),
+  description: z.optional(
+    z
+      .string()
+      .min(8, "Descição muito pequena!")
+      .max(300, "Descrição muito grande!")
+  ),
+  cityAndState: z.string(),
+  district: z.string().optional(),
+  street: z.string().optional(),
+  number: z.string().regex(/^\d+$/gm, "Utilize apenas números!").optional(),
+  complement: z.string().optional(),
+});
+//#endregion
+
+export type CreateItemData = z.infer<typeof itemSchema>;
 
 export type Item = {
   id: number;

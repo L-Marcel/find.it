@@ -1,23 +1,24 @@
 import "./index.scss";
-import BackButton from "@/components/button/backButton";
-import { getUser } from "@/context/user";
-import Unauthorized from "@/errors/Unauthorized";
-import { headers } from "next/headers";
-import logo from "@/images/logo.webp";
 import Image from "next/image";
-import EditUserForm from "@/components/forms/user/edit";
+import logo from "@/images/logo.webp";
+import BackButton from "@/components/button/backButton";
+import { headers } from "next/headers";
+import { getUser } from "@/context/user";
+import CreateItemForm from "@/components/forms/items/create";
+import Unauthorized from "@/errors/Unauthorized";
+import SearchProvider from "@/context/search";
 
-export default async function EditUser({
+export default async function CreateItem({
   params: { id },
 }: {
   params: { id: string };
 }) {
   const userId = headers().get("x-auth-id");
   const token = headers().get("x-auth-token");
-
   if (userId !== id) throw new Unauthorized();
   const user = await getUser(id, token);
 
+  //MARK: Implement the edit item page
   return (
     <>
       <header className="header">
@@ -25,10 +26,12 @@ export default async function EditUser({
           <BackButton />
         </section>
       </header>
-      <main className="edit">
+      <main className="create">
         <section>
           <Image src={logo} alt="Fint.it" />
-          <EditUserForm token={token ?? ""} user={user} />
+          <SearchProvider>
+            <CreateItemForm />
+          </SearchProvider>
         </section>
       </main>
     </>
