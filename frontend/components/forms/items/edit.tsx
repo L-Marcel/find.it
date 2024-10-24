@@ -23,6 +23,7 @@ import CitySelector from "@/components/header/citySelector";
 import TypeSwitch from "@/components/switch/typeSwitch";
 import InputBanner from "@/components/input/banner";
 import { onUpdateItem } from "@/app/actions";
+import useNavigation from "@/context/navigation";
 
 const initial: CreateItemData = {
   cityAndState: "Natal - RN",
@@ -49,6 +50,7 @@ interface UpdateItemFormProps {
 
 export default function EditItemForm({ item, token }: UpdateItemFormProps) {
   //#region States
+  const navigation = useNavigation();
   const [banner, setBanner] = useState<string>(
     item.picture ? `${process.env.API_DOMAIN}/items/${item.picture}` : ""
   );
@@ -141,7 +143,8 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
         })
           .then(async (response) => {
             if (!response.ok) throw await response.json();
-            onUpdateItem(item.id).finally(() => setLoading(false));
+            setLoading(false);
+            navigation.replace("/items/" + item.id);
           })
           .catch((error) => {
             setLoading(false);
@@ -152,7 +155,7 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
           });
       }
     },
-    [data, token, item, validate, setErrors, setLoading]
+    [data, navigation, token, item, validate, setErrors, setLoading]
   );
 
   useEffect(() => {

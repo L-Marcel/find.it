@@ -20,8 +20,8 @@ import {
 import Switch from "../../switch";
 import File from "../../input/file";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import useLoading from "@/context/loading";
+import useNavigation from "@/context/navigation";
 
 const initial: CreateUserData = {
   name: "",
@@ -42,7 +42,7 @@ export type Errors = {
 
 export default function RegisterUserForm() {
   //#region States
-  const { push } = useRouter();
+  const navigation = useNavigation();
   const [avatar, setAvatar] = useState<string>("");
   const { loading, setLoading } = useLoading();
   const [data, setData] = useState<CreateUserData>(initial);
@@ -167,7 +167,7 @@ export default function RegisterUserForm() {
           .then(async (response) => {
             if (!response.ok) throw await response.json();
             setLoading(false);
-            push("/login");
+            navigation.replace("/login");
           })
           .catch((error) => {
             setLoading(false);
@@ -178,7 +178,7 @@ export default function RegisterUserForm() {
           });
       }
     },
-    [push, data, validate, setErrors, setLoading]
+    [navigation, data, validate, setErrors, setLoading]
   );
 
   useEffect(() => {

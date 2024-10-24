@@ -11,13 +11,14 @@ import {
 import { User } from "./user";
 import { createContext } from "use-context-selector";
 import Cookies from "js-cookie";
-import { City } from "./cities";
 import { onLogin, onLogout } from "@/app/actions";
 import { usePathname, useRouter } from "next/navigation";
 import { useDebounce } from "@uidotdev/usehooks";
 
 export type Context = {
   back: (alternative?: string) => void;
+  replace: (to: string) => void;
+  push: (to: string) => void;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   cities: string[];
@@ -73,7 +74,32 @@ export default function Provider({ children, cities }: ProviderProps) {
     },
     [router, setHistory, history]
   );
+
+  const replace = useCallback(
+    (to: string) => {
+      if (history.length > 1) {
+        setHistory((prev) => {
+          if (prev.length > 2 && prev[prev.length - 2] === to)
+            return prev.slice(0, -1);
+          else
+            return prev.map((value, i) => (i === prev.length - 1 ? to : value));
+        });
+      } else if (history.length === 1) {
+        setHistory(() => []);
+      }
+      router.replace(to);
+    },
+    [router, setHistory, history]
+  );
+
+  const push = useCallback(
+    (to: string) => {
+      router.push(to);
+    },
+    [router]
+  );
   //#endregion
+
   //#region Authentication
   const login = useCallback(
     async (email: string, password: string) => {
@@ -100,12 +126,12 @@ export default function Provider({ children, cities }: ProviderProps) {
             expires: 1,
           });
           onLogin(id).finally(() => {
-            console.log("abc");
             setLoading(false);
+            replace("/");
           });
         });
     },
-    [setLoading]
+    [replace, setLoading]
   );
 
   const logout = useCallback(() => {
@@ -115,14 +141,17 @@ export default function Provider({ children, cities }: ProviderProps) {
     Cookies.remove("x-auth-token");
     onLogout(id).finally(() => {
       setLoading(false);
+      replace("/login");
     });
-  }, [setLoading]);
+  }, [replace, setLoading]);
   //#endregion
 
   return (
     <context.Provider
       value={{
         back,
+        replace,
+        push,
         login,
         logout,
         cities,

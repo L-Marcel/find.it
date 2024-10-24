@@ -23,6 +23,7 @@ import Image from "next/image";
 import useLoading from "@/context/loading";
 import Unauthorized from "@/errors/Unauthorized";
 import { onUpdateUser } from "@/app/actions";
+import useNavigation from "@/context/navigation";
 
 const initial: UpdateUserData = {
   name: "",
@@ -48,6 +49,7 @@ interface EditUserFormProps {
 
 export default function EditUserForm({ user, token }: EditUserFormProps) {
   //#region States
+  const navigation = useNavigation();
   const [updatePassword, setUpdatePassword] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<string>(
     user.picture ? `${process.env.API_DOMAIN}/users/${user.picture}` : ""
@@ -198,12 +200,24 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
               ...error.fields,
             });
           } else {
-            onUpdateUser(user.id).finally(() => setLoading(false));
+            onUpdateUser(user.id).finally(() => {
+              setLoading(false);
+              navigation.replace("/users/" + user.id);
+            });
           }
         });
       }
     },
-    [data, token, user, updatePassword, validate, setErrors, setLoading]
+    [
+      data,
+      token,
+      user,
+      navigation,
+      updatePassword,
+      validate,
+      setErrors,
+      setLoading,
+    ]
   );
 
   useEffect(() => {

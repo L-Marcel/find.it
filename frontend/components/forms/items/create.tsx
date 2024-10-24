@@ -19,7 +19,7 @@ import CitySelector from "@/components/header/citySelector";
 import { User } from "@/context/user";
 import TypeSwitch from "@/components/switch/typeSwitch";
 import InputBanner from "@/components/input/banner";
-import { onCreateItem } from "@/app/actions";
+import useNavigation from "@/context/navigation";
 
 const initial: CreateItemData = {
   cityAndState: "Natal - RN",
@@ -46,6 +46,7 @@ interface CreateItemFormProps {
 
 export default function CreateItemForm({ user, token }: CreateItemFormProps) {
   //#region States
+  const navigation = useNavigation();
   const [banner, setBanner] = useState<string>("");
   const { loading, setLoading } = useLoading();
   const [data, setData] = useState<CreateItemData>(initial);
@@ -126,7 +127,8 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
         })
           .then(async (response) => {
             if (!response.ok) throw await response.json();
-            onCreateItem(user.id).finally(() => setLoading(false));
+            setLoading(false);
+            navigation.replace("/users/" + user.id);
           })
           .catch((error) => {
             setLoading(false);
@@ -137,7 +139,7 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
           });
       }
     },
-    [data, token, user, validate, setErrors, setLoading]
+    [data, navigation, token, user, validate, setErrors, setLoading]
   );
 
   useEffect(() => {
