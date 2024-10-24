@@ -27,9 +27,8 @@ export default async function HeaderProfile({
         <LogoutButton />
       </>
     );
-  } catch (error) {
-    console.log(error);
-  }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (_) {}
 
   return (
     <>

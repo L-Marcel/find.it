@@ -1,4 +1,10 @@
+"use client";
+
 export default function Rank() {
-  //MARK: Implement the edit item page
-  return <></>;
+  //MARK: Implement this page
+  return (
+    <>
+      <p>Rank...</p>
+    </>
+  );
 }

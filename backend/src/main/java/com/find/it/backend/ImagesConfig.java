@@ -11,6 +11,6 @@ public class ImagesConfig implements WebMvcConfigurer {
     registry.addResourceHandler("/users/**")
         .addResourceLocations("file:data/users/");
     registry.addResourceHandler("/items/**")
-        .addResourceLocations("file:data/users/");
+        .addResourceLocations("file:data/items/");
   }
 }

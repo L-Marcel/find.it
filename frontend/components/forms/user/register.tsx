@@ -22,6 +22,7 @@ import File from "../../input/file";
 import Image from "next/image";
 import useLoading from "@/context/loading";
 import useNavigation from "@/context/navigation";
+import { callRegisterToast } from "@/components/ui/toasts";
 
 const initial: CreateUserData = {
   name: "",
@@ -167,6 +168,7 @@ export default function RegisterUserForm() {
           .then(async (response) => {
             if (!response.ok) throw await response.json();
             setLoading(false);
+            callRegisterToast();
             navigation.replace("/login");
           })
           .catch((error) => {

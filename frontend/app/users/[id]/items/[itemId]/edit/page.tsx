@@ -7,6 +7,8 @@ import { headers } from "next/headers";
 import Image from "next/image";
 import logo from "@/images/logo.webp";
 import "./index.scss";
+import RemoveItemDialog from "@/components/dialogues/removeItemDialog";
+import SearchProvider from "@/context/search";
 
 export default async function EditItem({
   params,
@@ -34,7 +36,11 @@ export default async function EditItem({
       <main className="edit">
         <section>
           <Image src={logo} alt="Fint.it" />
-          <EditItemForm token={token} item={item} />
+          <SearchProvider>
+            <RemoveItemDialog token={token} item={item}>
+              <EditItemForm token={token} item={item} />
+            </RemoveItemDialog>
+          </SearchProvider>
         </section>
       </main>
     </>

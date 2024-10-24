@@ -20,6 +20,7 @@ import { User } from "@/context/user";
 import TypeSwitch from "@/components/switch/typeSwitch";
 import InputBanner from "@/components/input/banner";
 import useNavigation from "@/context/navigation";
+import { callCreateItemToast } from "@/components/ui/toasts";
 
 const initial: CreateItemData = {
   cityAndState: "Natal - RN",
@@ -128,6 +129,7 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
           .then(async (response) => {
             if (!response.ok) throw await response.json();
             setLoading(false);
+            callCreateItemToast();
             navigation.replace("/users/" + user.id);
           })
           .catch((error) => {
@@ -148,7 +150,6 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
         if (field === "new") continue;
         else if (errors[field] !== "") {
           const element = document.getElementsByName(field)[0];
-          console.log(field, errors[field]);
           element?.focus();
           break;
         }

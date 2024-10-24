@@ -12,6 +12,8 @@ export default async function UserPage({
   const userId = _headers.get("x-auth-id");
   const token = _headers.get("x-auth-token");
 
+  //MARK: Implement this page
+
   if (userId && token && id && id === userId) {
     const user = await getUser(id, token);
     return (

@@ -119,6 +119,17 @@
       }
     }
 
+    div {
+      @apply flex
+        flex-col
+        md:flex-row
+        gap-4;
+
+      button:last-of-type {
+        @apply w-full md:w-2/3;
+      }
+    }
+
     button {
       @apply w-full 
         !text-xl

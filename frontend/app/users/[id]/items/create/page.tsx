@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 import { getUser } from "@/context/user";
 import CreateItemForm from "@/components/forms/items/create";
 import Unauthorized from "@/errors/Unauthorized";
+import SearchProvider from "@/context/search";
 
 export default async function CreateItem({
   params,
@@ -29,7 +30,9 @@ export default async function CreateItem({
       <main className="create">
         <section>
           <Image src={logo} alt="Fint.it" />
-          <CreateItemForm token={token} user={user} />
+          <SearchProvider>
+            <CreateItemForm token={token} user={user} />
+          </SearchProvider>
         </section>
       </main>
     </>

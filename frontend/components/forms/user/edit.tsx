@@ -24,6 +24,7 @@ import useLoading from "@/context/loading";
 import Unauthorized from "@/errors/Unauthorized";
 import { onUpdateUser } from "@/app/actions";
 import useNavigation from "@/context/navigation";
+import { callUpdateUserToast } from "@/components/ui/toasts";
 
 const initial: UpdateUserData = {
   name: "",
@@ -202,6 +203,7 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
           } else {
             onUpdateUser(user.id).finally(() => {
               setLoading(false);
+              callUpdateUserToast();
               navigation.replace("/users/" + user.id);
             });
           }

@@ -22,8 +22,9 @@ import Textarea from "@/components/input/area";
 import CitySelector from "@/components/header/citySelector";
 import TypeSwitch from "@/components/switch/typeSwitch";
 import InputBanner from "@/components/input/banner";
-import { onUpdateItem } from "@/app/actions";
 import useNavigation from "@/context/navigation";
+import { callUpdateItemToast } from "@/components/ui/toasts";
+import { DialogTrigger } from "@/components/ui/dialog";
 
 const initial: CreateItemData = {
   cityAndState: "Natal - RN",
@@ -144,6 +145,7 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
           .then(async (response) => {
             if (!response.ok) throw await response.json();
             setLoading(false);
+            callUpdateItemToast();
             navigation.replace("/items/" + item.id);
           })
           .catch((error) => {
@@ -164,7 +166,6 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
         if (field === "new") continue;
         else if (errors[field] !== "") {
           const element = document.getElementsByName(field)[0];
-          console.log(field, errors[field]);
           element?.focus();
           break;
         }
@@ -259,9 +260,16 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
         />
       </main>
       <footer>
-        <Button disabled={loading} type="submit" theme="default-fill">
-          Salvar
-        </Button>
+        <div>
+          <Button disabled={loading} type="submit" theme="default-fill">
+            Salvar
+          </Button>
+          <DialogTrigger asChild disabled={loading}>
+            <Button disabled={loading} type="button">
+              Apagar
+            </Button>
+          </DialogTrigger>
+        </div>
         {loading && <p>Atualizando item . . .</p>}
       </footer>
     </form>

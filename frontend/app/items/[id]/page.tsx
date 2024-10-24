@@ -9,7 +9,8 @@ export default async function ItemPage({
   const id = (await params).id;
   const item = await getItem(id);
 
-  //MARK: Implement the edit item page
+  //MARK: Implement this page
+  //MARK: Put close item dialog here
   return (
     <>
       <header className="header">

@@ -109,6 +109,7 @@ public class UsersController {
       @Validated @RequestBody UserUpdateData user,
       @PathVariable UUID id,
       @RequestHeader(value = "Authorization", required = false) String token) {
+    // MARK: Block contact type update when user has items without location
     service.update(user, id, token);
     return ResponseEntity.status(HttpStatus.ACCEPTED).body("User updated!");
   }

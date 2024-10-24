@@ -14,6 +14,7 @@ import Cookies from "js-cookie";
 import { onLogin, onLogout } from "@/app/actions";
 import { usePathname, useRouter } from "next/navigation";
 import { useDebounce } from "@uidotdev/usehooks";
+import { callLoginToast, callLogoutToast } from "@/components/ui/toasts";
 
 export type Context = {
   back: (alternative?: string) => void;
@@ -127,6 +128,7 @@ export default function Provider({ children, cities }: ProviderProps) {
           });
           onLogin(id).finally(() => {
             setLoading(false);
+            callLoginToast();
             replace("/");
           });
         });
@@ -141,6 +143,7 @@ export default function Provider({ children, cities }: ProviderProps) {
     Cookies.remove("x-auth-token");
     onLogout(id).finally(() => {
       setLoading(false);
+      callLogoutToast();
       replace("/login");
     });
   }, [replace, setLoading]);

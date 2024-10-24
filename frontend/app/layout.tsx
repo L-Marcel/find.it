@@ -3,6 +3,7 @@ import { Inter, Roboto, Tilt_Warp as TiltWarp } from "next/font/google";
 import "./globals.scss";
 import Provider from "@/context/provider";
 import { cityToString, getCities } from "@/context/cities";
+import { Toaster } from "@/components/ui/sonner";
 
 const roboto = Roboto({
   style: ["normal", "italic"],
@@ -45,6 +46,7 @@ export default async function RootLayout({
       >
         <Provider cities={cities.map((city) => cityToString(city))}>
           {children}
+          <Toaster />
         </Provider>
       </body>
     </html>
