@@ -9,7 +9,6 @@ import com.find.it.backend.security.Auth;
 public class Application {
 
 	public static void main(String[] args) {
-		// MARK: Remove bug that delete images from the server (at the moment user only)
 		Auth.prepare();
 		SpringApplication.run(Application.class, args);
 	};

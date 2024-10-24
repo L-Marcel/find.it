@@ -1,7 +1,11 @@
 package com.find.it.backend.models;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import com.find.it.backend.dtos.records.ItemFormData;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -46,11 +50,14 @@ public class Item {
 
   private String complement = "";
 
+  private Timestamp updateAt;
+
   @ManyToOne
   @JoinColumn(name = "owner")
   private User user;
 
   public Item(ItemFormData item, User user) {
+    this.updateAt = new Timestamp(System.currentTimeMillis());
     if (item.type() != null) {
       this.type = item.type();
     }
@@ -66,6 +73,7 @@ public class Item {
   };
 
   public void update(ItemFormData item) {
+    this.updateAt = new Timestamp(System.currentTimeMillis());
     if (item.type() != null) {
       this.type = item.type();
     }

@@ -10,6 +10,7 @@ export function middleware(request: NextRequest) {
       request.nextUrl.pathname.startsWith("/login") ||
       request.nextUrl.pathname.startsWith("/register")
     ) {
+      //MARK: Clear headers on auth failure
       const response = NextResponse.redirect(new URL("/", request.url));
       response.headers.set("x-auth-id", id);
       response.headers.set("x-auth-token", token);

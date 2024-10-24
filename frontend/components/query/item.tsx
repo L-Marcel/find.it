@@ -79,9 +79,9 @@ export default function MasonryItem({
             />
           )}
           <Profile
-            id={item.user.id}
-            name={item.user.name}
-            picture={item.user.picture}
+            id={item.user?.id}
+            name={item.user?.name}
+            picture={item.user?.picture}
           />
         </header>
         <main>
@@ -102,11 +102,10 @@ export default function MasonryItem({
           <Button to={`/items/${item.id}`} theme={buttonTheme}>
             Verificar
           </Button>
-          {(item.user.contact === "PHONE" || item.user.contact === "BOTH") &&
-            (item.user.whatsapp ? <WhatsappLogo /> : <Phone />)}
-          {(item.user.contact === "EMAIL" || item.user.contact === "BOTH") && (
-            <At />
-          )}
+          {(item.user?.contact === "PHONE" || item.user?.contact === "BOTH") &&
+            (item.user?.whatsapp ? <WhatsappLogo /> : <Phone />)}
+          {(item.user?.contact === "EMAIL" ||
+            item.user?.contact === "BOTH") && <At />}
           {item.street && <MapPinArea />}
         </footer>
       </>

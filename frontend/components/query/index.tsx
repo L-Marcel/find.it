@@ -1,6 +1,6 @@
 "use client";
 
-import useSearchCities, { cityToString } from "@/context/cities";
+import useSearchCities from "@/context/cities";
 import { Item } from "@/context/items";
 import useSearchQuery from "@/context/query";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -31,6 +31,7 @@ export default function Query() {
         }
       ).then((res) => res.json() as Promise<Item[]>);
     },
+    retry: false,
     queryKey: [_city, query, donateds, finds, losts],
     initialPageParam: 0,
     getNextPageParam: (lastPage, _, lastPageParam) =>

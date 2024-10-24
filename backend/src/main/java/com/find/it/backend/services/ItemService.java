@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -86,7 +87,8 @@ public class ItemService {
       boolean losts,
       boolean donateds,
       int pageNumber) {
-    Pageable page = PageRequest.of(pageNumber, 10);
+    Sort sort = Sort.by(Sort.Direction.DESC, "updated_at");
+    Pageable page = PageRequest.of(pageNumber, 10, sort);
     Page<Item> allItems = repository.search(
         query,
         city,
@@ -108,7 +110,8 @@ public class ItemService {
       String token) {
     User user = users.findById(userId);
     Auth.validate(user.getId(), token);
-    Pageable page = PageRequest.of(pageNumber, 10);
+    Sort sort = Sort.by(Sort.Direction.DESC, "updated_at");
+    Pageable page = PageRequest.of(pageNumber, 10, sort);
     Page<Item> allItems = repository.search(
         query,
         finds,
@@ -130,7 +133,8 @@ public class ItemService {
       UUID userId,
       int pageNumber) {
     User user = users.findById(userId);
-    Pageable page = PageRequest.of(pageNumber, 10);
+    Sort sort = Sort.by(Sort.Direction.DESC, "updated_at");
+    Pageable page = PageRequest.of(pageNumber, 10, sort);
     Page<Item> allItems = repository.search(
         query,
         state,

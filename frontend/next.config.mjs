@@ -7,6 +7,9 @@ const nextConfig = {
   eslint: {
     dirs: ["app", "components", "errors", "context"],
   },
+  sassOptions: {
+    silenceDeprecations: ["legacy-js-api"],
+  },
   images: {
     remotePatterns: [
       {

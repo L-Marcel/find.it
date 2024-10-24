@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "format": "prettier --write '**/*.{ts,tsx}' && stylelint **/*.scss && next lint",
@@ -37,7 +37,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "postcss": "^8",
     "prettier": "^3.3.3",
-    "sass": "^1.79.4",
+    "sass": "^1.80.4",
     "stylelint": "^16.9.0",
     "stylelint-config-recommended-scss": "^14.1.0",
     "stylelint-config-standard": "^36.0.1",

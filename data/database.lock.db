@@ -1,0 +1,6 @@
+#FileLock
+#Thu Oct 24 10:14:54 BRT 2024
+hostName=desktop
+id=192beaa70855308dbb8bf39443deb7172f64a3d81b9
+method=file
+server=127.0.1.1\:41535
