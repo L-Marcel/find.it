@@ -135,6 +135,21 @@
       outline-none
       hover:bg-zinc-800;
   }
+
+  label.input {
+    @apply max-w-[calc(100vw_-_8rem)];
+
+    > div {
+      @apply w-full;
+    }
+
+    p {
+      @apply text-nowrap
+        overflow-hidden
+        text-ellipsis
+        w-full;
+    }
+  }
 }
 
 .banner {
