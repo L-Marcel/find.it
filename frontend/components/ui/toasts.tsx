@@ -6,15 +6,29 @@ import {
   FolderDashed,
   FolderUser,
   PersonSimpleRun,
+  SecurityCamera,
   UserCheck,
   UserPlus,
 } from "@phosphor-icons/react/dist/ssr";
 import { toast } from "sonner";
 import { v4 as uuid } from "uuid";
 
-const duration = 6000;
+const duration = 6500;
 
-export function callUpdateUserToast(id = "update-user" + uuid()) {
+function notification() {
+  new Audio("/notification.mp3").play();
+}
+
+function success() {
+  notification();
+}
+
+function error() {
+  new Audio("/error.mp3").play();
+}
+
+export function callUpdateUserToast(id = "update-user-" + uuid()) {
+  success();
   toast.success("Dados atualizados!", {
     id,
     cancel: (
@@ -28,7 +42,8 @@ export function callUpdateUserToast(id = "update-user" + uuid()) {
   });
 }
 
-export function callRegisterToast(id = "register" + uuid()) {
+export function callRegisterToast(id = "register-" + uuid()) {
+  success();
   toast.success("Cadastro realizado!", {
     id,
     cancel: (
@@ -42,7 +57,8 @@ export function callRegisterToast(id = "register" + uuid()) {
   });
 }
 
-export function callLoginToast(id = "login" + uuid()) {
+export function callLoginToast(id = "login-" + uuid()) {
+  notification();
   toast("Login realizado!", {
     id,
     cancel: (
@@ -56,7 +72,8 @@ export function callLoginToast(id = "login" + uuid()) {
   });
 }
 
-export function callLogoutToast(id = "logout" + uuid()) {
+export function callLogoutToast(id = "logout-" + uuid()) {
+  notification();
   toast("Logout realizado!", {
     id,
     cancel: (
@@ -70,7 +87,8 @@ export function callLogoutToast(id = "logout" + uuid()) {
   });
 }
 
-export function callCreateItemToast(id = "create-item" + uuid()) {
+export function callCreateItemToast(id = "create-item-" + uuid()) {
+  success();
   toast.success("Item criado!", {
     id,
     cancel: (
@@ -84,7 +102,8 @@ export function callCreateItemToast(id = "create-item" + uuid()) {
   });
 }
 
-export function callUpdateItemToast(id = "update-item" + uuid()) {
+export function callUpdateItemToast(id = "update-item-" + uuid()) {
+  success();
   toast.success("Item atualizado!", {
     id,
     cancel: (
@@ -98,7 +117,8 @@ export function callUpdateItemToast(id = "update-item" + uuid()) {
   });
 }
 
-export function callRemoveItemToast(id = "remove-item" + uuid()) {
+export function callRemoveItemToast(id = "remove-item-" + uuid()) {
+  notification();
   toast.warning("Item removido!", {
     id,
     cancel: (
@@ -112,7 +132,8 @@ export function callRemoveItemToast(id = "remove-item" + uuid()) {
   });
 }
 
-export function callCloseItemToast(id = "close-item" + uuid()) {
+export function callCloseItemToast(id = "close-item-" + uuid()) {
+  success();
   toast.success("Item fechado!", {
     id,
     cancel: (
@@ -122,6 +143,21 @@ export function callCloseItemToast(id = "close-item" + uuid()) {
     ),
     icon: <Cheers />,
     description: "Você conseguiu! (ง •_•)ง",
+    duration,
+  });
+}
+
+export function callUnauthorizedToast(id = "unauthorized-" + uuid()) {
+  error();
+  toast.warning("Credenciais, por favor?", {
+    id,
+    cancel: (
+      <Button theme="pink-fill" onClick={() => toast.dismiss(id)}>
+        OK
+      </Button>
+    ),
+    icon: <SecurityCamera />,
+    description: "Que é você? (¬_¬)",
     duration,
   });
 }

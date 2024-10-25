@@ -70,6 +70,7 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
   const [errors, setErrors] = useState<Errors>({
     new: false,
     ...initial,
+    contact: "",
     whatsapp: "",
   });
   //#endregion
@@ -77,6 +78,10 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
   //#region Form
   const updateContact = useCallback(
     (at: "email" | "phone") => {
+      setErrors((errors) => ({
+        ...errors,
+        contact: "",
+      }));
       setData((data) => {
         let contact: User["contact"] = "NONE";
 
@@ -122,7 +127,7 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
         };
       });
     },
-    [setData]
+    [setData, setErrors]
   );
 
   const update = useCallback(
@@ -160,6 +165,7 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
       setErrors({
         new: false,
         ...initial,
+        contact: "",
         whatsapp: "",
       });
       return true;
@@ -228,7 +234,7 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
         if (field === "new") continue;
         else if (errors[field] !== "") {
           const element = document.getElementsByName(field)[0];
-          element.focus();
+          element?.focus();
           break;
         }
       }
@@ -306,7 +312,7 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
             name="email"
             value={data.email}
             onChange={(e) => update("email", e.currentTarget.value)}
-            error={errors["email"]}
+            error={errors["contact"] ?? errors["email"]}
             icon={At}
             placeholder="E-mail"
           />
@@ -322,7 +328,7 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
             name="phone"
             value={data.phone}
             onChange={(e) => update("phone", e.currentTarget.value)}
-            error={errors["phone"]}
+            error={errors["contact"] ?? errors["phone"]}
             icon={Phone}
             type="phone"
             placeholder="DDD + Telefone"

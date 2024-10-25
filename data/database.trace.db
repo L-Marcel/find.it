@@ -2680,3 +2680,290 @@ Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection wa
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	... 90 more
+2024-10-25 14:24:54.104175-03:00 jdbc[222]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT EXISTS (SELECT * FROM ITEMS WHERE owner = [*]:user AND (district IS NULL OR number IS NULL OR street IS NULL)) as exists"; expected "ALL (, ANY (, SOME ("; SQL statement:
+SELECT EXISTS (SELECT * FROM ITEMS WHERE owner = :user AND (district IS NULL OR number IS NULL OR street IS NULL)) as exists [42001-224]
+2024-10-25 14:25:30.306686-03:00 jdbc[222]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT EXISTS (SELECT * FROM ITEMS WHERE owner = be528213-4286-4244-b9f6-2[*]cecf6fcd16d AND (district IS NULL OR number IS NULL OR street IS NULL)) as exists"; expected "[, ., ::, AT, FORMAT, *, /, %, +, -, ||, NOT, IS, ILIKE, REGEXP, AND, _LOCAL_AND_GLOBAL_, OR, GROUP BY, HAVING, WINDOW, QUALIFY, INTERSECT, UNION, EXCEPT, ORDER BY, OFFSET, FETCH, FOR, )"; SQL statement:
+SELECT EXISTS (SELECT * FROM ITEMS WHERE owner = be528213-4286-4244-b9f6-2cecf6fcd16d AND (district IS NULL OR number IS NULL OR street IS NULL)) as exists [42001-224]
+2024-10-25 14:26:38.531611-03:00 jdbc[222]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT EXISTS (SELECT * FROM ITEMS WHERE owner = ""be528213-4286-4244-b9f6-2cecf6fcd16d"" AND (district IS NULL OR number IS NULL OR street IS NULL)) as [*]exists"; expected "identifier"; SQL statement:
+SELECT EXISTS (SELECT * FROM ITEMS WHERE owner = "be528213-4286-4244-b9f6-2cecf6fcd16d" AND (district IS NULL OR number IS NULL OR street IS NULL)) as exists [42001-224]
+2024-10-25 14:27:03.139346-03:00 jdbc[222]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "be528213-4286-4244-b9f6-2cecf6fcd16d" not found; SQL statement:
+SELECT CASE WHEN EXISTS (SELECT * FROM ITEMS WHERE owner = "be528213-4286-4244-b9f6-2cecf6fcd16d" AND (district IS NULL OR number IS NULL OR street IS NULL)) THEN TRUE ELSE FALSE END AS existe [42122-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:244)
+	at org.h2.expression.ExpressionColumn.optimizeOther(ExpressionColumn.java:226)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:213)
+	at org.h2.expression.condition.Comparison.optimize(Comparison.java:148)
+	at org.h2.expression.condition.ConditionAndOr.optimize(ConditionAndOr.java:136)
+	at org.h2.expression.Expression.optimizeCondition(Expression.java:148)
+	at org.h2.command.query.Select.prepareExpressions(Select.java:1177)
+	at org.h2.command.query.Query.prepare(Query.java:218)
+	at org.h2.expression.condition.PredicateWithSubquery.optimize(PredicateWithSubquery.java:37)
+	at org.h2.expression.condition.ExistsPredicate.optimize(ExistsPredicate.java:16)
+	at org.h2.expression.SearchedCase.optimize(SearchedCase.java:46)
+	at org.h2.expression.Alias.optimize(Alias.java:52)
+	at org.h2.command.query.Select.prepareExpressions(Select.java:1170)
+	at org.h2.command.query.Query.prepare(Query.java:218)
+	at org.h2.command.Parser.prepareCommand(Parser.java:489)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:639)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:559)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1166)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1345)
+	at org.h2.server.web.WebApp.query(WebApp.java:1143)
+	at org.h2.server.web.WebApp.query(WebApp.java:1119)
+	at org.h2.server.web.WebApp.process(WebApp.java:245)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:177)
+	at org.h2.server.web.JakartaWebServlet.doGet(JakartaWebServlet.java:129)
+	at org.h2.server.web.JakartaWebServlet.doPost(JakartaWebServlet.java:166)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:113)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2024-10-25 14:27:53.532170-03:00 jdbc[222]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "be528213-4286-4244-b9f6-2cecf6fcd16d" not found; SQL statement:
+SELECT CASE WHEN EXISTS (SELECT 1 FROM ITEMS WHERE owner = "be528213-4286-4244-b9f6-2cecf6fcd16d" AND (district IS NULL OR number IS NULL OR street IS NULL)) THEN TRUE ELSE FALSE END AS existe [42122-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:244)
+	at org.h2.expression.ExpressionColumn.optimizeOther(ExpressionColumn.java:226)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:213)
+	at org.h2.expression.condition.Comparison.optimize(Comparison.java:148)
+	at org.h2.expression.condition.ConditionAndOr.optimize(ConditionAndOr.java:136)
+	at org.h2.expression.Expression.optimizeCondition(Expression.java:148)
+	at org.h2.command.query.Select.prepareExpressions(Select.java:1177)
+	at org.h2.command.query.Query.prepare(Query.java:218)
+	at org.h2.expression.condition.PredicateWithSubquery.optimize(PredicateWithSubquery.java:37)
+	at org.h2.expression.condition.ExistsPredicate.optimize(ExistsPredicate.java:16)
+	at org.h2.expression.SearchedCase.optimize(SearchedCase.java:46)
+	at org.h2.expression.Alias.optimize(Alias.java:52)
+	at org.h2.command.query.Select.prepareExpressions(Select.java:1170)
+	at org.h2.command.query.Query.prepare(Query.java:218)
+	at org.h2.command.Parser.prepareCommand(Parser.java:489)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:639)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:559)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1166)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1345)
+	at org.h2.server.web.WebApp.query(WebApp.java:1143)
+	at org.h2.server.web.WebApp.query(WebApp.java:1119)
+	at org.h2.server.web.WebApp.process(WebApp.java:245)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:177)
+	at org.h2.server.web.JakartaWebServlet.doGet(JakartaWebServlet.java:129)
+	at org.h2.server.web.JakartaWebServlet.doPost(JakartaWebServlet.java:166)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:113)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2024-10-25 14:28:00.483766-03:00 jdbc[222]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]IF EXISTS (SELECT 1 FROM ITEMS WHERE owner = ""be528213-4286-4244-b9f6-2cecf6fcd16d"" AND (district IS NULL OR number IS NULL OR street IS NULL)) THEN TRUE ELSE FALSE END AS existe"; SQL statement:
+IF EXISTS (SELECT 1 FROM ITEMS WHERE owner = "be528213-4286-4244-b9f6-2cecf6fcd16d" AND (district IS NULL OR number IS NULL OR street IS NULL)) THEN TRUE ELSE FALSE END AS existe [42000-224]
+2024-10-25 14:28:24.443359-03:00 jdbc[222]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]IF EXISTS (SELECT 1 FROM ITEMS WHERE owner = ""be528213-4286-4244-b9f6-2cecf6fcd16d"" AND (district IS NULL OR number IS NULL OR street IS NULL))"; SQL statement:
+IF EXISTS (SELECT 1 FROM ITEMS WHERE owner = "be528213-4286-4244-b9f6-2cecf6fcd16d" AND (district IS NULL OR number IS NULL OR street IS NULL)) [42000-224]
+2024-10-25 14:28:26.164549-03:00 jdbc[222]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]EXISTS (SELECT 1 FROM ITEMS WHERE owner = ""be528213-4286-4244-b9f6-2cecf6fcd16d"" AND (district IS NULL OR number IS NULL OR street IS NULL))"; SQL statement:
+EXISTS (SELECT 1 FROM ITEMS WHERE owner = "be528213-4286-4244-b9f6-2cecf6fcd16d" AND (district IS NULL OR number IS NULL OR street IS NULL)) [42000-224]
+2024-10-25 14:29:06.628963-03:00 jdbc[222]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]EXISTS (SELECT 1 FROM ITEMS WHERE owner = ""be528213-4286-4244-b9f6-2cecf6fcd16d"")"; SQL statement:
+EXISTS (SELECT 1 FROM ITEMS WHERE owner = "be528213-4286-4244-b9f6-2cecf6fcd16d") [42000-224]
+2024-10-25 14:29:15.869092-03:00 jdbc[222]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]EXISTS (SELECT 1 FROM ITEMS WHERE owner = 'be528213-4286-4244-b9f6-2cecf6fcd16d')"; SQL statement:
+EXISTS (SELECT 1 FROM ITEMS WHERE owner = 'be528213-4286-4244-b9f6-2cecf6fcd16d') [42000-224]
+2024-10-25 14:29:32.588345-03:00 jdbc[222]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]EXISTS (SELECT 1 FROM ITEMS WHERE owner = 'be528213-4286-4244-b9f6-2cecf6fcd16d')"; SQL statement:
+EXISTS (SELECT 1 FROM ITEMS WHERE owner = 'be528213-4286-4244-b9f6-2cecf6fcd16d') [42000-224]
+2024-10-25 14:31:04.157308-03:00 jdbc[222]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "be528213-4286-4244-b9f6-2cecf6fcd16d" not found; SQL statement:
+SELECT
+    CASE WHEN EXISTS 
+    (
+        SELECT 1 FROM ITEMS WHERE owner = "be528213-4286-4244-b9f6-2cecf6fcd16d" AND (district IS NULL OR number IS NULL OR street IS NULL)
+    )
+    THEN 'TRUE'
+    ELSE 'FALSE'
+END [42122-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:244)
+	at org.h2.expression.ExpressionColumn.optimizeOther(ExpressionColumn.java:226)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:213)
+	at org.h2.expression.condition.Comparison.optimize(Comparison.java:148)
+	at org.h2.expression.condition.ConditionAndOr.optimize(ConditionAndOr.java:136)
+	at org.h2.expression.Expression.optimizeCondition(Expression.java:148)
+	at org.h2.command.query.Select.prepareExpressions(Select.java:1177)
+	at org.h2.command.query.Query.prepare(Query.java:218)
+	at org.h2.expression.condition.PredicateWithSubquery.optimize(PredicateWithSubquery.java:37)
+	at org.h2.expression.condition.ExistsPredicate.optimize(ExistsPredicate.java:16)
+	at org.h2.expression.SearchedCase.optimize(SearchedCase.java:46)
+	at org.h2.command.query.Select.prepareExpressions(Select.java:1170)
+	at org.h2.command.query.Query.prepare(Query.java:218)
+	at org.h2.command.Parser.prepareCommand(Parser.java:489)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:639)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:559)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1166)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1345)
+	at org.h2.server.web.WebApp.query(WebApp.java:1143)
+	at org.h2.server.web.WebApp.query(WebApp.java:1119)
+	at org.h2.server.web.WebApp.process(WebApp.java:245)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:177)
+	at org.h2.server.web.JakartaWebServlet.doGet(JakartaWebServlet.java:129)
+	at org.h2.server.web.JakartaWebServlet.doPost(JakartaWebServlet.java:166)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:113)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2024-10-25 14:31:23.317326-03:00 jdbc[222]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "be528213-4286-4244-b9f6-2cecf6fcd16de"; SQL statement:
+SELECT
+    CASE WHEN EXISTS 
+    (
+        SELECT 1 FROM ITEMS WHERE owner = 'be528213-4286-4244-b9f6-2cecf6fcd16de' AND (district IS NULL OR number IS NULL OR street IS NULL)
+    )
+    THEN 'TRUE'
+    ELSE 'FALSE'
+END [22018-224]
+2024-10-25 14:31:25.469279-03:00 jdbc[222]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "be528213-4286-4244-b9f6-2cecf6fcd16de"; SQL statement:
+SELECT
+    CASE WHEN EXISTS 
+    (
+        SELECT 1 FROM ITEMS WHERE owner = 'be528213-4286-4244-b9f6-2cecf6fcd16de' AND (district IS NULL OR number IS NULL OR street IS NULL)
+    )
+    THEN 'TRUE'
+    ELSE 'FALSE'
+END [22018-224]
+2024-10-25 14:32:09.373963-03:00 jdbc[222]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT\000d\000a    CASE WHEN EXISTS \000d\000a    (\000d\000a        SELECT 1 FROM ITEMS WHERE owner = 'be528213-4286-4244-b9f6-2cecf6fcd16d' AND (district IS NULL OR number IS NULL OR street IS NULL)\000d\000a    )\000d\000a    THEN 'TRUE'\000d\000a    ELSE 'FALSE'[*]"; expected "[, ., ::, AT, FORMAT, *, /, %, +, -, ||, NOT, IS, ILIKE, REGEXP, AND, OR, END"; SQL statement:
+SELECT
+    CASE WHEN EXISTS 
+    (
+        SELECT 1 FROM ITEMS WHERE owner = 'be528213-4286-4244-b9f6-2cecf6fcd16d' AND (district IS NULL OR number IS NULL OR street IS NULL)
+    )
+    THEN 'TRUE'
+    ELSE 'FALSE' [42001-224]
+2024-10-25 14:37:18.631068-03:00 jdbc[254]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT CASE WHEN EXISTS (SELECT 1 FROM ITEMS WHEREowner [*]= ? AND (district IS NULL OR number IS NULL OR street IS NULL)) THEN 1 ELSE 0 END"; expected "(, USE, RIGHT, LEFT, INNER, JOIN, CROSS, NATURAL, ,, WHERE, GROUP BY, HAVING, WINDOW, QUALIFY, INTERSECT, UNION, EXCEPT, ORDER BY, OFFSET, FETCH, FOR, )"; SQL statement:
+SELECT CASE WHEN EXISTS (SELECT 1 FROM ITEMS WHEREowner = ? AND (district IS NULL OR number IS NULL OR street IS NULL)) THEN 1 ELSE 0 END [42001-224]
+2024-10-25 14:37:28.884124-03:00 jdbc[254]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT CASE WHEN EXISTS (SELECT 1 FROM ITEMS WHEREowner [*]= ? AND (district IS NULL OR number IS NULL OR street IS NULL)) THEN 1 ELSE 0 END"; expected "(, USE, RIGHT, LEFT, INNER, JOIN, CROSS, NATURAL, ,, WHERE, GROUP BY, HAVING, WINDOW, QUALIFY, INTERSECT, UNION, EXCEPT, ORDER BY, OFFSET, FETCH, FOR, )"; SQL statement:
+SELECT CASE WHEN EXISTS (SELECT 1 FROM ITEMS WHEREowner = ? AND (district IS NULL OR number IS NULL OR street IS NULL)) THEN 1 ELSE 0 END [42001-224]

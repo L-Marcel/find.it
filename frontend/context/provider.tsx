@@ -20,7 +20,7 @@ export type Context = {
   back: (alternative?: string) => void;
   replace: (to: string) => void;
   push: (to: string) => void;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string, _redirect?: string) => Promise<void>;
   logout: () => void;
   cities: string[];
   loading: boolean;
@@ -103,7 +103,7 @@ export default function Provider({ children, cities }: ProviderProps) {
 
   //#region Authentication
   const login = useCallback(
-    async (email: string, password: string) => {
+    async (email: string, password: string, _redirect?: string) => {
       setLoading(true);
       return await fetch(`${process.env.API_URL}/users/login`, {
         method: "POST",
@@ -129,7 +129,7 @@ export default function Provider({ children, cities }: ProviderProps) {
           onLogin(id).finally(() => {
             setLoading(false);
             callLoginToast();
-            replace("/");
+            replace(_redirect ?? "/");
           });
         });
     },

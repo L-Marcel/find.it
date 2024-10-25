@@ -189,7 +189,7 @@ export default function RegisterUserForm() {
         if (field === "new") continue;
         else if (errors[field] !== "") {
           const element = document.getElementsByName(field)[0];
-          element.focus();
+          element?.focus();
           break;
         }
       }

@@ -73,7 +73,10 @@
 
   p {
     @apply text-red-500
-      text-base;
+      text-base
+      w-full
+      text-wrap
+      px-2;
   }
 
   div:has(input[type="file"]) {

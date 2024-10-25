@@ -15,6 +15,7 @@ import com.find.it.backend.dtos.UserData;
 import com.find.it.backend.dtos.records.UserCreateData;
 import com.find.it.backend.dtos.records.UserLoginData;
 import com.find.it.backend.dtos.records.UserUpdateData;
+import com.find.it.backend.security.Auth;
 import com.find.it.backend.services.ItemService;
 import com.find.it.backend.services.UserService;
 
@@ -54,6 +55,14 @@ public class UsersController {
       @RequestHeader(value = "Authorization", required = false) String token) {
     UserData data = service.getById(id, token);
     return ResponseEntity.ok(data);
+  }
+
+  @GetMapping("/{id}/auth")
+  public ResponseEntity<String> authVerify(
+      @PathVariable UUID id,
+      @RequestHeader(value = "Authorization") String token) {
+    Auth.validate(id, token);
+    return ResponseEntity.ok("Is valid!");
   }
 
   @GetMapping("/{id}/items")
@@ -109,7 +118,6 @@ public class UsersController {
       @Validated @RequestBody UserUpdateData user,
       @PathVariable UUID id,
       @RequestHeader(value = "Authorization", required = false) String token) {
-    // MARK: Block contact type update when user has items without location
     service.update(user, id, token);
     return ResponseEntity.status(HttpStatus.ACCEPTED).body("User updated!");
   }

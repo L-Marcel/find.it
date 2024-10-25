@@ -64,5 +64,14 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
       @Param("user") String id,
       @NonNull Pageable page);
 
+  @Query(value = "SELECT CASE WHEN EXISTS ("
+      + "SELECT 1 FROM ITEMS WHERE "
+      + "owner = :user AND "
+      + "(district IS NULL OR "
+      + "number IS NULL OR "
+      + "street IS NULL)"
+      + ") THEN 'TRUE' ELSE 'FALSE' END", nativeQuery = true)
+  Boolean existsItemWithoutLocationByUser(@Param("user") String id);
+
   Optional<Item> findByUserAndId(User user, Long id);
 };

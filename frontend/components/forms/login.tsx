@@ -5,16 +5,21 @@ import Link from "next/link";
 import { At, Lock } from "@phosphor-icons/react/dist/ssr";
 import Button from "../button";
 import Input from "../input";
-import { FormEvent, useCallback, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import useAuth from "@/context/auth";
 import useLoading from "@/context/loading";
+import { callUnauthorizedToast } from "../ui/toasts";
 
 type Data = {
   email: string;
   password: string;
 };
 
-export default function LoginForm() {
+interface LoginFormProps {
+  redirect?: string;
+}
+
+export default function LoginForm({ redirect }: LoginFormProps) {
   const { loading, setLoading } = useLoading();
   const { login } = useAuth();
   const [hasError, setHasError] = useState<boolean>(false);
@@ -23,6 +28,14 @@ export default function LoginForm() {
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (redirect) {
+      setTimeout(() => {
+        callUnauthorizedToast();
+      }, 100);
+    }
+  }, [redirect]);
 
   const update = useCallback(
     (at: keyof Data, value: string) => {
@@ -39,7 +52,7 @@ export default function LoginForm() {
 
   function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    login(data.email, data.password).catch(() => {
+    login(data.email, data.password, redirect).catch(() => {
       setHasError(true);
       setLoading(false);
     });

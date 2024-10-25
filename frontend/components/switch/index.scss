@@ -35,6 +35,14 @@
   svg {
     @apply size-6;
   }
+
+  span {
+    @apply w-full
+      text-ellipsis
+      overflow-hidden
+      text-nowrap
+      max-w-[calc(100vw_-_4rem)];
+  }
 }
 
 .switch.default {

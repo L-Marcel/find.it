@@ -1,5 +1,6 @@
 package com.find.it.backend.services;
 
+import com.find.it.backend.models.ContactType;
 import com.find.it.backend.models.ItemType;
 import com.find.it.backend.models.User;
 
@@ -27,6 +28,7 @@ import com.find.it.backend.errors.InvalidField;
 import com.find.it.backend.errors.NotFound;
 import com.find.it.backend.errors.Unauthorized;
 import com.find.it.backend.repositories.UserRepository;
+import com.find.it.backend.repositories.ItemRepository;
 import com.find.it.backend.repositories.PictureRepository;
 import com.find.it.backend.security.Auth;
 
@@ -34,6 +36,9 @@ import com.find.it.backend.security.Auth;
 public class UserService {
   @Autowired
   private UserRepository repository;
+
+  @Autowired
+  private ItemRepository items;
 
   @Autowired
   private PictureRepository pictures;
@@ -122,6 +127,18 @@ public class UserService {
     Auth.validate(user.getId(), token);
 
     Map<String, String> errors = new HashMap<>();
+
+    if (updatedUser.contact() == ContactType.NONE) {
+      Boolean cantUpdate = items.existsItemWithoutLocationByUser(
+          user.getId().toString());
+      if (cantUpdate) {
+        errors.put("contact",
+            "Você não pode remover todas suas informações de contato se possuir itens sem endereço completo!");
+        errors.put("contact",
+            "Você não pode remover todas suas informações de contato se possuir itens sem endereço completo!");
+        throw new InvalidField(errors);
+      }
+    }
 
     if (!user.getName().equals(updatedUser.name()) &&
         repository.existsByName(updatedUser.name())) {
