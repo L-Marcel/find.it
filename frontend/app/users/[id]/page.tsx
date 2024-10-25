@@ -1,52 +1,55 @@
 import BackButton from "@/components/button/backButton";
-import { getUser } from "@/context/user";
+import { getPublicUser, getUser } from "@/context/user";
 import { headers } from "next/headers";
 
 export default async function UserPage({
-  params: { id },
+  params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const userId = headers().get("x-auth-id");
-  const token = headers().get("x-auth-token");
+  const id = (await params).id;
+  const _headers = await headers();
+  const userId = _headers.get("x-auth-id");
+  const token = _headers.get("x-auth-token");
+
+  //MARK: Implement this page
 
   if (userId && token && id && id === userId) {
     const user = await getUser(id, token);
-    if (user) {
-      return (
-        <>
-          <header className="header">
-            <section>
-              <BackButton />
-            </section>
-          </header>
-          <main>
-            <p>Autenticado</p>
-            <p>{user.name}</p>
-            <p>
-              {id} - {userId}
-            </p>
-            <p>{token}</p>
-          </main>
-        </>
-      );
-    }
+    return (
+      <>
+        <header className="header">
+          <section>
+            <BackButton />
+          </section>
+        </header>
+        <main>
+          <p>Autenticado</p>
+          <p>{user.name}</p>
+          <p>
+            {id} - {userId}
+          </p>
+          <p>{token}</p>
+        </main>
+      </>
+    );
+  } else {
+    const user = await getPublicUser(id);
+    return (
+      <>
+        <header className="header">
+          <section>
+            <BackButton />
+          </section>
+        </header>
+        <main>
+          <p>Não autenticado</p>
+          <p>
+            {id} - {user.id}
+          </p>
+          <p>{token}</p>
+        </main>
+      </>
+    );
   }
-
-  return (
-    <>
-      <header className="header">
-        <section>
-          <BackButton />
-        </section>
-      </header>
-      <main>
-        <p>Não autenticado</p>
-        <p>
-          {id} - {userId}
-        </p>
-        <p>{token}</p>
-      </main>
-    </>
-  );
 }

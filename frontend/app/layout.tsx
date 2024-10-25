@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Roboto, Inter, Tilt_Warp } from "next/font/google";
+import { Inter, Roboto, Tilt_Warp as TiltWarp } from "next/font/google";
 import "./globals.scss";
 import Provider from "@/context/provider";
-import { getCities } from "@/context/cities";
+import { cityToString, getCities } from "@/context/cities";
+import { Toaster } from "@/components/ui/sonner";
 
 const roboto = Roboto({
   style: ["normal", "italic"],
@@ -18,7 +19,7 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const tiltWarp = Tilt_Warp({
+const tiltWarp = TiltWarp({
   style: ["normal"],
   subsets: ["latin"],
   weight: ["400"],
@@ -43,7 +44,10 @@ export default async function RootLayout({
         id="page"
         className={`${roboto.variable} ${inter.variable} ${tiltWarp.variable} antialiased`}
       >
-        <Provider cities={cities}>{children}</Provider>
+        <Provider cities={cities.map((city) => cityToString(city))}>
+          {children}
+          <Toaster />
+        </Provider>
       </body>
     </html>
   );

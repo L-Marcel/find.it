@@ -5,7 +5,7 @@ import Link from "next/link";
 
 interface ProfileProps {
   theme?: "default" | "green" | "pink";
-  picture: string;
+  picture?: string;
   name?: string;
   id: string;
 }
@@ -19,7 +19,12 @@ export default function Profile({
   return (
     <Link href={`/users/${id}`} className={`profile ${theme}`}>
       {picture ? (
-        <Image src={picture} alt={name ?? picture} width={48} height={48} />
+        <Image
+          src={`${process.env.API_DOMAIN}/users/${picture}`}
+          alt={name ?? picture}
+          width={48}
+          height={48}
+        />
       ) : (
         <User width={24} height={24} />
       )}

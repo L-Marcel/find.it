@@ -1,0 +1,17 @@
+.edit {
+  @apply flex 
+    flex-col
+    items-center 
+    justify-center;
+
+  section {
+    @apply flex
+      flex-col
+      gap-5
+      max-w-[25rem];
+
+    img {
+      @apply h-32 object-contain;
+    }
+  }
+}

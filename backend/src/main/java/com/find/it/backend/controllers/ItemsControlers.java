@@ -79,10 +79,10 @@ public class ItemsControlers {
 
   @PutMapping("/{id}")
   public ResponseEntity<String> update(
-      @Validated @RequestBody ItemFormData user,
+      @Validated @RequestBody ItemFormData item,
       @PathVariable Long id,
       @RequestHeader(value = "Authorization", required = false) String token) {
-    service.update(user, id, token);
+    service.update(item, id, token);
     return ResponseEntity.status(HttpStatus.ACCEPTED).body("Item updated!");
   }
 }

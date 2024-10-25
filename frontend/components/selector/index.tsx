@@ -52,6 +52,7 @@ export function Selector({ onChange, options, selected }: SelectorProps) {
         onClick={moveToSelected}
         right
         theme="default"
+        type="button"
         icon={CaretDown}
       >
         {options[selected]}
@@ -63,6 +64,7 @@ export function Selector({ onChange, options, selected }: SelectorProps) {
         className="options"
         style={{
           height: 860,
+          maxHeight: "80vh",
         }}
       >
         <div

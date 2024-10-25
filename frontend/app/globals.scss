@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  transition: box-shadow 0.2s !important;
+}
+
 html {
   @apply overflow-y-auto h-screen;
 }
@@ -27,6 +31,7 @@ body {
 
   > main.error {
     @apply w-full
+      h-full
       justify-center
       items-center
       gap-12;

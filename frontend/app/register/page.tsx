@@ -1,10 +1,10 @@
 import "./index.scss";
 import Image from "next/image";
 import logo from "@/images/logo.webp";
-import RegisterForm from "@/components/forms/register";
 import BackButton from "@/components/button/backButton";
+import RegisterUserForm from "@/components/forms/user/register";
 
-export default function Login() {
+export default function Register() {
   return (
     <>
       <header className="header">
@@ -15,7 +15,7 @@ export default function Login() {
       <main className="register">
         <section>
           <Image src={logo} alt="Fint.it" />
-          <RegisterForm />
+          <RegisterUserForm />
         </section>
       </main>
     </>

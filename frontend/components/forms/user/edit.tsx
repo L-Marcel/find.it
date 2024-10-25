@@ -1,24 +1,32 @@
 "use client";
 
-import "./index.scss";
-import Link from "next/link";
+import "../index.scss";
 import {
   At,
   Lock,
   Phone,
-  User as UserIcon,
   UserCircle,
-} from "@phosphor-icons/react";
-import Button from "../button";
-import Input from "../input";
+  User as UserIcon,
+} from "@phosphor-icons/react/dist/ssr";
+import Button from "../../button";
+import Input from "../../input";
 import { FormEvent, useCallback, useEffect, useState } from "react";
-import { userSchema as schema, type User } from "@/context/user";
-import Switch from "../switch";
-import File from "../input/file";
+import {
+  UpdateUserData,
+  type User,
+  userCreateSchema as createSchema,
+  userUpdateSchema as updateSchema,
+} from "@/context/user";
+import Switch from "../../switch";
+import File from "../../input/file";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import useLoading from "@/context/loading";
+import Unauthorized from "@/errors/Unauthorized";
+import { onUpdateUser } from "@/app/actions";
+import useNavigation from "@/context/navigation";
+import { callUpdateUserToast } from "@/components/ui/toasts";
 
-const initial: User = {
+const initial: UpdateUserData = {
   name: "",
   email: "",
   phone: "",
@@ -30,20 +38,39 @@ const initial: User = {
 };
 
 export type Errors = {
-  [key in keyof User]: string;
+  [key in keyof UpdateUserData]: string;
 } & {
   new: boolean;
 };
 
-export default function LoginForm() {
+interface EditUserFormProps {
+  user: User;
+  token: string;
+}
+
+export default function EditUserForm({ user, token }: EditUserFormProps) {
   //#region States
-  const { push } = useRouter();
-  const [avatar, setAvatar] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<User>(initial);
+  const navigation = useNavigation();
+  const [updatePassword, setUpdatePassword] = useState<boolean>(false);
+  const [avatar, setAvatar] = useState<string>(
+    user.picture ? `${process.env.API_DOMAIN}/users/${user.picture}` : ""
+  );
+  const { loading, setLoading } = useLoading();
+  const [data, setData] = useState<UpdateUserData>({
+    contact: user.contact,
+    email: user.email,
+    name: user.name,
+    phone: user.phone,
+    picture: user.picture,
+    whatsapp: user.whatsapp,
+    password: "",
+    passwordConfirmation: "",
+  });
+
   const [errors, setErrors] = useState<Errors>({
     new: false,
     ...initial,
+    contact: "",
     whatsapp: "",
   });
   //#endregion
@@ -51,6 +78,10 @@ export default function LoginForm() {
   //#region Form
   const updateContact = useCallback(
     (at: "email" | "phone") => {
+      setErrors((errors) => ({
+        ...errors,
+        contact: "",
+      }));
       setData((data) => {
         let contact: User["contact"] = "NONE";
 
@@ -100,7 +131,7 @@ export default function LoginForm() {
   );
 
   const update = useCallback(
-    (at: keyof User, value: string | boolean) => {
+    (at: keyof UpdateUserData, value: string | boolean) => {
       setErrors((errors) => {
         return {
           ...errors,
@@ -109,7 +140,7 @@ export default function LoginForm() {
         };
       });
       setData((data) => {
-        let whatsapp: boolean = false;
+        let whatsapp: boolean = data.whatsapp;
         if (at === "whatsapp") {
           whatsapp =
             (value as boolean) &&
@@ -127,62 +158,83 @@ export default function LoginForm() {
   );
 
   const validate = useCallback(() => {
-    let result = schema.safeParse(data);
+    const result = updatePassword
+      ? createSchema.safeParse(data)
+      : updateSchema.safeParse(data);
     if (result.success) {
       setErrors({
         new: false,
         ...initial,
+        contact: "",
         whatsapp: "",
       });
       return true;
     } else {
       setErrors((errors) => {
-        var _errors = { ...errors, new: true };
+        const _errors = { ...errors, new: true };
         result.error.errors.reverse().forEach((error) => {
-          _errors[error.path[0] as keyof User] = error.message;
+          _errors[error.path[0] as keyof UpdateUserData] = error.message;
         });
         return _errors;
       });
       return false;
     }
-  }, [data, setErrors, setLoading]);
+  }, [data, updatePassword, setErrors]);
 
   const submit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (validate()) {
         setLoading(true);
-        fetch(`${process.env.API_URL}/users`, {
-          method: "POST",
+        fetch(`${process.env.API_URL}/users/${user.id}`, {
+          method: "PUT",
           headers: {
             "Content-type": "application/json",
+            Authorization: token,
           },
-          body: JSON.stringify(data),
-        })
-          .then(async (response) => {
-            if (!response.ok) throw await response.json();
-            setLoading(false);
-            push("/login");
-          })
-          .catch((error) => {
+          body: JSON.stringify({
+            ...data,
+            updatePassword,
+            picture: user.picture === data.picture ? undefined : data.picture,
+          } as UpdateUserData),
+        }).then(async (response) => {
+          if (!response.ok && response.status == 401) throw new Unauthorized();
+          else if (!response.ok) {
+            const error = await response.json();
             setLoading(false);
             setErrors({
               new: true,
               ...error.fields,
             });
-          });
+          } else {
+            onUpdateUser(user.id).finally(() => {
+              setLoading(false);
+              callUpdateUserToast();
+              navigation.replace("/users/" + user.id);
+            });
+          }
+        });
       }
     },
-    [push, validate, setErrors, setLoading]
+    [
+      data,
+      token,
+      user,
+      navigation,
+      updatePassword,
+      validate,
+      setErrors,
+      setLoading,
+    ]
   );
 
   useEffect(() => {
     if (errors.new) {
-      for (let field of Object.keys(errors) as [keyof typeof errors]) {
+      for (const field of Object.keys(errors) as [keyof typeof errors]) {
         if (field === "new") continue;
         else if (errors[field] !== "") {
-          let element = document.getElementsByName(field)[0];
-          element.focus();
+          const element = document.getElementsByName(field)[0];
+          element?.focus();
           break;
         }
       }
@@ -201,7 +253,6 @@ export default function LoginForm() {
   const InputFile = () => (
     <File
       name="picture"
-      disabled={loading}
       canClear={!!avatar}
       onFileClear={() => {
         update("picture", "");
@@ -220,10 +271,10 @@ export default function LoginForm() {
     <form className="form" onSubmit={submit}>
       <header>
         <h1>
-          JUNTE-SE À COMUNIDADE QUE <b>REENCONTRA</b>.
+          ALTERE SEU <b>PERFIL</b>.
         </h1>
         <p>
-          Encontre o que procura na <b>FIND.IT</b>
+          E reforce sua presença na <b>FIND.IT</b>
         </p>
         <hr />
       </header>
@@ -233,7 +284,6 @@ export default function LoginForm() {
           <div>
             <Input
               name="name"
-              disabled={loading}
               value={data.name}
               onChange={(e) => update("name", e.currentTarget.value)}
               error={errors["name"]}
@@ -248,7 +298,6 @@ export default function LoginForm() {
             <Avatar />
             <Input
               name="name"
-              disabled={loading}
               value={data.name}
               onChange={(e) => update("name", e.currentTarget.value)}
               error={errors["name"]}
@@ -261,15 +310,13 @@ export default function LoginForm() {
         <div>
           <Input
             name="email"
-            disabled={loading}
             value={data.email}
             onChange={(e) => update("email", e.currentTarget.value)}
-            error={errors["email"]}
+            error={errors["contact"] ?? errors["email"]}
             icon={At}
             placeholder="E-mail"
           />
           <Switch
-            disabled={loading}
             checked={data.contact === "BOTH" || data.contact === "EMAIL"}
             onClick={() => updateContact("email")}
           >
@@ -279,16 +326,14 @@ export default function LoginForm() {
         <div>
           <Input
             name="phone"
-            disabled={loading}
             value={data.phone}
             onChange={(e) => update("phone", e.currentTarget.value)}
-            error={errors["phone"]}
+            error={errors["contact"] ?? errors["phone"]}
             icon={Phone}
             type="phone"
             placeholder="DDD + Telefone"
           />
           <Switch
-            disabled={loading}
             checked={data.contact === "BOTH" || data.contact === "PHONE"}
             onClick={() => updateContact("phone")}
           >
@@ -304,41 +349,47 @@ export default function LoginForm() {
             Vinculado ao Whatsapp
           </Switch>
         </div>
-        <Input
-          name="password"
-          disabled={loading}
-          value={data.password}
-          onChange={(e) => update("password", e.currentTarget.value)}
-          error={errors["password"]}
-          icon={Lock}
-          type="password"
-          placeholder="Senha"
-        />
-        <Input
-          name="passwordConfirmation"
-          disabled={loading}
-          value={data.passwordConfirmation}
-          onChange={(e) =>
-            update("passwordConfirmation", e.currentTarget.value)
-          }
-          error={errors["passwordConfirmation"]}
-          icon={Lock}
-          type="password"
-          placeholder="Confirmação de senha"
-        />
+        <div>
+          <Input
+            name="password"
+            disabled={!updatePassword}
+            value={data.password}
+            onChange={(e) => update("password", e.currentTarget.value)}
+            error={errors["password"]}
+            icon={Lock}
+            type="password"
+            placeholder="Senha"
+          />
+          <Input
+            name="passwordConfirmation"
+            disabled={!updatePassword}
+            value={data.passwordConfirmation}
+            onChange={(e) =>
+              update("passwordConfirmation", e.currentTarget.value)
+            }
+            error={errors["passwordConfirmation"]}
+            icon={Lock}
+            type="password"
+            placeholder="Confirmação de senha"
+          />
+          <Switch
+            disabled={loading}
+            checked={updatePassword}
+            onClick={() => {
+              setUpdatePassword((updatePassword) => !updatePassword);
+              update("password", "");
+              update("passwordConfirmation", "");
+            }}
+          >
+            Alterar senha
+          </Switch>
+        </div>
       </main>
       <footer>
-        <Button disabled={loading} theme="default-fill">
-          Cadastrar
+        <Button disabled={loading} type="submit" theme="default-fill">
+          Salvar
         </Button>
-
-        {loading ? (
-          <p>Cadastrando novo usuário . . .</p>
-        ) : (
-          <p>
-            Já possuí uma conta? <Link href="/register">entrar</Link>
-          </p>
-        )}
+        {loading && <p>Atualizando dados do usuário . . .</p>}
       </footer>
     </form>
   );

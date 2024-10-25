@@ -11,11 +11,12 @@ interface HeaderProfileProps {
 export default async function HeaderProfile({
   justIcon = false,
 }: HeaderProfileProps) {
-  const userId = headers().get("x-auth-id");
-  const token = headers().get("x-auth-token");
-  const user = await getUser(userId, token, false);
+  const _headers = await headers();
+  const userId = _headers.get("x-auth-id");
+  const token = _headers.get("x-auth-token");
 
-  if (user) {
+  try {
+    const user = await getUser(userId, token);
     return (
       <>
         <Profile
@@ -26,7 +27,8 @@ export default async function HeaderProfile({
         <LogoutButton />
       </>
     );
-  }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (_) {}
 
   return (
     <>

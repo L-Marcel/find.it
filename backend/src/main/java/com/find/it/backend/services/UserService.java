@@ -1,5 +1,6 @@
 package com.find.it.backend.services;
 
+import com.find.it.backend.models.ContactType;
 import com.find.it.backend.models.ItemType;
 import com.find.it.backend.models.User;
 
@@ -27,6 +28,7 @@ import com.find.it.backend.errors.InvalidField;
 import com.find.it.backend.errors.NotFound;
 import com.find.it.backend.errors.Unauthorized;
 import com.find.it.backend.repositories.UserRepository;
+import com.find.it.backend.repositories.ItemRepository;
 import com.find.it.backend.repositories.PictureRepository;
 import com.find.it.backend.security.Auth;
 
@@ -34,6 +36,9 @@ import com.find.it.backend.security.Auth;
 public class UserService {
   @Autowired
   private UserRepository repository;
+
+  @Autowired
+  private ItemRepository items;
 
   @Autowired
   private PictureRepository pictures;
@@ -123,6 +128,18 @@ public class UserService {
 
     Map<String, String> errors = new HashMap<>();
 
+    if (updatedUser.contact() == ContactType.NONE) {
+      Boolean cantUpdate = items.existsItemWithoutLocationByUser(
+          user.getId().toString());
+      if (cantUpdate) {
+        errors.put("contact",
+            "Você não pode remover todas suas informações de contato se possuir itens sem endereço completo!");
+        errors.put("contact",
+            "Você não pode remover todas suas informações de contato se possuir itens sem endereço completo!");
+        throw new InvalidField(errors);
+      }
+    }
+
     if (!user.getName().equals(updatedUser.name()) &&
         repository.existsByName(updatedUser.name())) {
       errors.put("name", "Esse nome já está em uso!");
@@ -135,7 +152,10 @@ public class UserService {
         repository.existsByPhone(updatedUser.phone())) {
       errors.put("phone", "Esse telefone já está em uso!");
     }
-    if (updatedUser.updatePassword() && !updatedUser.password().equals(updatedUser.passwordConfirmation())) {
+
+    if (updatedUser.updatePassword() && (updatedUser.password() == null || updatedUser.password().trim().isEmpty())) {
+      errors.put("password", "A senha é obrigatória!");
+    } else if (updatedUser.updatePassword() && !updatedUser.password().equals(updatedUser.passwordConfirmation())) {
       errors.put("password", "Senhas não coincidem!");
     }
 
@@ -143,9 +163,16 @@ public class UserService {
       throw new InvalidField(errors);
     }
 
-    pictures.deleteToUser(user.getPicture());
+    if (updatedUser.picture() != null) {
+      pictures.deleteToUser(user.getPicture());
+    }
+
     user.update(updatedUser);
-    user.setPicture(pictures.createToUser(user.getId(), updatedUser.picture()));
+
+    if (updatedUser.picture() != null) {
+      user.setPicture(pictures.createToUser(user.getId(), updatedUser.picture()));
+    }
+
     repository.save(user);
   };
 

@@ -1,14 +1,19 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
+
+export async function onUpdateItem(id: number) {
+  if (id) revalidateTag(`item-${id}`);
+}
+
+export async function onUpdateUser(id: string) {
+  if (id) revalidateTag(id);
+}
 
 export async function onLogin(id: string) {
-  revalidateTag(id);
-  redirect("/");
+  if (id) revalidateTag(id);
 }
 
 export async function onLogout(id?: string) {
   if (id) revalidateTag(id);
-  redirect("/login");
 }

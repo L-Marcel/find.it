@@ -5,24 +5,37 @@ import Link from "next/link";
 import { At, Lock } from "@phosphor-icons/react/dist/ssr";
 import Button from "../button";
 import Input from "../input";
-import { FormEvent, useCallback, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import useAuth from "@/context/auth";
-import { onLogin } from "@/app/actions";
+import useLoading from "@/context/loading";
+import { callUnauthorizedToast } from "../ui/toasts";
 
 type Data = {
   email: string;
   password: string;
 };
 
-export default function LoginForm() {
+interface LoginFormProps {
+  redirect?: string;
+}
+
+export default function LoginForm({ redirect }: LoginFormProps) {
+  const { loading, setLoading } = useLoading();
   const { login } = useAuth();
   const [hasError, setHasError] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
 
   const [data, setData] = useState<Data>({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (redirect) {
+      setTimeout(() => {
+        callUnauthorizedToast();
+      }, 100);
+    }
+  }, [redirect]);
 
   const update = useCallback(
     (at: keyof Data, value: string) => {
@@ -39,8 +52,7 @@ export default function LoginForm() {
 
   function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setHasError(false);
-    login(data.email, data.password).catch(() => {
+    login(data.email, data.password, redirect).catch(() => {
       setHasError(true);
       setLoading(false);
     });
@@ -60,7 +72,6 @@ export default function LoginForm() {
       <main>
         <Input
           name="email"
-          disabled={loading}
           value={data.email}
           onChange={(e) => update("email", e.currentTarget.value)}
           error={hasError ? "E-mail ou senha incorretos!" : ""}
@@ -69,7 +80,6 @@ export default function LoginForm() {
         />
         <Input
           name="password"
-          disabled={loading}
           value={data.password}
           onChange={(e) => update("password", e.currentTarget.value)}
           icon={Lock}
@@ -82,7 +92,10 @@ export default function LoginForm() {
           Entrar
         </Button>
         <p>
-          Ainda não possui uma conta? <Link href="/register">cadastre-se</Link>
+          Ainda não possui uma conta?{" "}
+          <Link aria-disabled={loading} href="/register">
+            cadastre-se
+          </Link>
         </p>
       </footer>
     </form>

@@ -1,3 +1,10 @@
+"use client";
+
 export default function Rank() {
-  return <></>;
+  //MARK: Implement this page
+  return (
+    <>
+      <p>Rank...</p>
+    </>
+  );
 }

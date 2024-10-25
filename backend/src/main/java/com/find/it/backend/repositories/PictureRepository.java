@@ -6,26 +6,22 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.imageio.ImageIO;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 import java.awt.image.BufferedImage;
 
 @Repository
 public class PictureRepository {
-  @Autowired
-  private ResourceLoader resourceLoader;
-
   private Path getUsersPath() throws Exception {
-    return resourceLoader.getResource("classpath:static/users").getFile().toPath().toAbsolutePath();
+    return Paths.get("data/users").toAbsolutePath();
   };
 
   private Path getItemsPath() throws Exception {
-    return resourceLoader.getResource("classpath:static/items").getFile().toPath().toAbsolutePath();
+    return Paths.get("data/items").toAbsolutePath();
   };
 
   private String create(String data, String filename, String path) {
@@ -52,6 +48,7 @@ public class PictureRepository {
   public String createToUser(UUID id, String data) {
     try {
       String path = this.getUsersPath().toString();
+      System.out.println("PATH: " + path);
       return this.create(data, id.toString(), path);
     } catch (Exception e) {
       return "";

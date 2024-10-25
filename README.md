@@ -17,3 +17,5 @@ Para iniciar o servidor `frontend`, acesse a pasta do `frontend` no terminal usa
 Tenha o [`Java (JDK 23)`](https://www.oracle.com/br/java/technologies/downloads/) instalado na sua máquina, como também o [`Spring Boot`](https://spring.io/projects/spring-boot) e o [`Maeven`](https://maven.apache.org/install.html).
 
 Para executar, basta clicar com o botão direito mo arquivo [`backend/src/main/java/com/find/it/backend/Application.java`](./backend/src/main/java/com/find/it/backend/Application.java) e selecionar `Run Java`. Isso requer que as extensões recomendadas estejam instaladas.
+
+_Atenção_: É muito importante que a aplicação Java esteja sendo executada no diretório raíz do projeto, que é onde se encontra pasta [`data`](./data). Caso contrário, ele criará uma nova pasta e um novo banco de dados e você precisará adicionar nela as pasta [`data/users`](./data/users) e [`data/items](./data/items).

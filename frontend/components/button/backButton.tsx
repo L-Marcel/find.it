@@ -1,15 +1,24 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import Button from ".";
+import useNavigation from "@/context/navigation";
+import { useIsLoading } from "@/context/loading";
 
-export default function BackButton() {
-  //MARK: Prevent back to wrong pages (as the previous site)
-  const router = useRouter();
+interface BackButtonProps {
+  alternative?: string;
+}
+
+export default function BackButton({ alternative }: BackButtonProps) {
+  const loading = useIsLoading();
+  const navigation = useNavigation();
 
   return (
-    <Button onClick={router.back} icon={ArrowLeft}>
+    <Button
+      disabled={loading}
+      onClick={() => navigation.back(alternative)}
+      icon={ArrowLeft}
+    >
       Voltar
     </Button>
   );

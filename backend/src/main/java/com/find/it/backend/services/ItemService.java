@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -64,7 +65,7 @@ public class ItemService {
       }
 
       if (newItem.number() >= 0) {
-        errors.put("district", "Já que não tem contato, informe o bairro!");
+        errors.put("number", "Já que não tem contato, informe o número!");
       }
     }
 
@@ -86,7 +87,8 @@ public class ItemService {
       boolean losts,
       boolean donateds,
       int pageNumber) {
-    Pageable page = PageRequest.of(pageNumber, 10);
+    Sort sort = Sort.by(Sort.Direction.DESC, "updated_at");
+    Pageable page = PageRequest.of(pageNumber, 10, sort);
     Page<Item> allItems = repository.search(
         query,
         city,
@@ -108,7 +110,8 @@ public class ItemService {
       String token) {
     User user = users.findById(userId);
     Auth.validate(user.getId(), token);
-    Pageable page = PageRequest.of(pageNumber, 10);
+    Sort sort = Sort.by(Sort.Direction.DESC, "updated_at");
+    Pageable page = PageRequest.of(pageNumber, 10, sort);
     Page<Item> allItems = repository.search(
         query,
         finds,
@@ -130,7 +133,8 @@ public class ItemService {
       UUID userId,
       int pageNumber) {
     User user = users.findById(userId);
-    Pageable page = PageRequest.of(pageNumber, 10);
+    Sort sort = Sort.by(Sort.Direction.DESC, "updated_at");
+    Pageable page = PageRequest.of(pageNumber, 10, sort);
     Page<Item> allItems = repository.search(
         query,
         state,
@@ -250,9 +254,17 @@ public class ItemService {
     User owner = users.findById(ownerId);
     Auth.validate(owner.getId(), token);
     Item item = this.findByUserAndId(owner, id);
-    pictures.deleteToItem(item.getPicture());
+
+    if (updateItem.picture() != null) {
+      pictures.deleteToItem(item.getPicture());
+    }
+
     item.update(updateItem);
-    item.setPicture(pictures.createToItem(item.getId(), updateItem.picture()));
+
+    if (updateItem.picture() != null) {
+      item.setPicture(pictures.createToItem(item.getId(), updateItem.picture()));
+    }
+
     repository.save(item);
   };
 }

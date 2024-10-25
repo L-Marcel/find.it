@@ -22,6 +22,10 @@
   section#desktop {
     @apply hidden
       md:flex;
+
+    > div:first-of-type {
+      @apply md:first:w-[65%];
+    }
   }
 
   section#mobile {

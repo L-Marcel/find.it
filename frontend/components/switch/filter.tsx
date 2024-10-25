@@ -3,7 +3,6 @@
 import useFilters from "@/context/filters";
 import Switch from ".";
 import { useCallback, useRef } from "react";
-import "./index.scss";
 import { useDraggable } from "react-use-draggable-scroll";
 
 export default function Filter() {
@@ -27,21 +26,13 @@ export default function Filter() {
 
   return (
     <div tabIndex={-1} ref={ref} className="filter" {...events}>
-      <Switch
-        theme="default-fill"
-        checked={finds}
-        onClick={() => switchFinds()}
-      >
+      <Switch checked={finds} onClick={() => switchFinds()}>
         Achados
       </Switch>
-      <Switch theme="pink-fill" checked={losts} onClick={() => switchLosts()}>
+      <Switch theme="pink" checked={losts} onClick={() => switchLosts()}>
         Perdidos
       </Switch>
-      <Switch
-        theme="green-fill"
-        checked={donateds}
-        onClick={() => switchDonateds()}
-      >
+      <Switch theme="green" checked={donateds} onClick={() => switchDonateds()}>
         Doações
       </Switch>
     </div>

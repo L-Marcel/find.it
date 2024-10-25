@@ -15,8 +15,8 @@ export type Filters = {
 export type SearchContext = {
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;
-  city: City;
-  setCity: Dispatch<SetStateAction<City>>;
+  city: string;
+  setCity: Dispatch<SetStateAction<string>>;
   filters: Filters;
   setFilters: Dispatch<SetStateAction<Filters>>;
 };
@@ -36,10 +36,7 @@ export default function SearchProvider({ children }: SearchProviderProps) {
   });
 
   const [query, setQuery] = useState<string>("");
-  const [city, setCity] = useState<City>({
-    name: "Natal",
-    state: "RN",
-  });
+  const [city, setCity] = useState<string>("Natal - RN");
 
   return (
     <searchContext.Provider

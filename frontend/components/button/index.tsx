@@ -1,10 +1,9 @@
 import type { Icon } from "@phosphor-icons/react";
-import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import "./index.scss";
 import {
-  DetailedHTMLProps,
-  ButtonHTMLAttributes,
   AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
 } from "react";
 import Link from "next/link";
 
@@ -32,25 +31,27 @@ export default function Button({
 }: ButtonProps) {
   const _className = `${className} button ${theme} ${Icon ? "icon" : ""} ${right ? "right" : ""}`;
 
-  const content = (
-    <>
-      {Icon && !right && <Icon />}
-      {children && <span>{children}</span>}
-      {Icon && right && <Icon />}
-    </>
-  );
-
   if (to) {
     return (
-      <Link tabIndex={0} href={to} className={_className} {...props}>
-        {content}
+      <Link
+        aria-disabled={props.disabled}
+        tabIndex={0}
+        href={to}
+        className={_className}
+        {...props}
+      >
+        {Icon && !right && <Icon />}
+        {children && <span>{children}</span>}
+        {Icon && right && <Icon />}
       </Link>
     );
   }
 
   return (
     <button className={_className} {...props}>
-      {content}
+      {Icon && !right && <Icon />}
+      {children && <span>{children}</span>}
+      {Icon && right && <Icon />}
     </button>
   );
 }
