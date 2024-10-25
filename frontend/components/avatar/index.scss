@@ -1,0 +1,9 @@
+.avatar {
+  @apply max-w-fit
+  rounded-full;
+}
+
+.user-photo {
+  @apply rounded-full
+  object-cover;
+}
