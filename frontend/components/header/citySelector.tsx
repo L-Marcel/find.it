@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { Selector } from "../selector";
 import useSearchCities from "@/context/cities";
 
-export default function CitySelector() {
+interface CitySelectorProps {
+  small?: boolean;
+}
+
+export default function CitySelector({ small = false }: CitySelectorProps) {
   const { cities, setCity } = useSearchCities();
   const [selected, setSelected] = useState<number>(-1);
 
@@ -17,6 +21,7 @@ export default function CitySelector() {
 
   return (
     <Selector
+      small={small}
       options={cities}
       selected={selected}
       onChange={(index) => {

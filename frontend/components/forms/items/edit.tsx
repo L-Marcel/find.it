@@ -221,7 +221,7 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
           placeholder="Descrição"
         />
         <div>
-          <CitySelector />
+          <CitySelector small />
           <Input
             name="district"
             value={data.district}
