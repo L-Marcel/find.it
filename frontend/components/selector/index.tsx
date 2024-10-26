@@ -23,7 +23,7 @@ export function Selector({
   const selector = useRef<HTMLDivElement>(null);
   const container = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLDivElement>(null);
-  const [above, setAbove] = useState(false);
+  const [above, setAbove] = useState(true);
 
   //#region Virtualization
   const virtualizer = useVirtualizer({

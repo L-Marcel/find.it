@@ -286,6 +286,7 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
           <div>
             <Input
               name="name"
+              className="w-full"
               value={data.name}
               onChange={(e) => update("name", e.currentTarget.value)}
               error={errors["name"]}
@@ -300,6 +301,7 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
             <Avatar />
             <Input
               name="name"
+              className="w-full"
               value={data.name}
               onChange={(e) => update("name", e.currentTarget.value)}
               error={errors["name"]}

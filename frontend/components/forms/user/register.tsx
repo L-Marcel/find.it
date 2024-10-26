@@ -242,6 +242,7 @@ export default function RegisterUserForm() {
           <div>
             <Input
               name="name"
+              className="w-full"
               value={data.name}
               onChange={(e) => update("name", e.currentTarget.value)}
               error={errors["name"]}
@@ -256,6 +257,7 @@ export default function RegisterUserForm() {
             <Avatar />
             <Input
               name="name"
+              className="w-full"
               value={data.name}
               onChange={(e) => update("name", e.currentTarget.value)}
               error={errors["name"]}

@@ -67,7 +67,7 @@ export default function File({
           <Eraser />
         </button>
       )}
-      <label className="input">
+      <label className="input file-input">
         <div>
           <Icon />
           <input

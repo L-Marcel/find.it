@@ -205,7 +205,7 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
           placeholder="Descrição"
         />
         <div>
-          <CitySelector />
+          <CitySelector small />
           <Input
             name="district"
             value={data.district}

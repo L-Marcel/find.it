@@ -216,3 +216,15 @@
     bg-zinc-800
     h-min;
 }
+
+.file-input {
+  width: min-content !important;
+
+  div {
+    gap: 0 !important;
+  }
+
+  p {
+    padding-right: 0 !important;
+  }
+}
