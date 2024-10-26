@@ -18,13 +18,14 @@ import {
   userUpdateSchema as updateSchema,
 } from "@/context/user";
 import Switch from "../../switch";
-import File from "../../input/file";
 import Image from "next/image";
 import useLoading from "@/context/loading";
 import Unauthorized from "@/errors/Unauthorized";
 import { onUpdateUser } from "@/app/actions";
 import useNavigation from "@/context/navigation";
 import { callUpdateUserToast } from "@/components/ui/toasts";
+import CropImageDialogue from "@/components/dialogues/crop";
+import { avatarSize } from "@/components/input/sizes";
 
 const initial: UpdateUserData = {
   name: "",
@@ -251,7 +252,8 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
     );
 
   const InputFile = () => (
-    <File
+    <CropImageDialogue
+      imageSize={avatarSize}
       name="picture"
       canClear={!!avatar}
       onFileClear={() => {

@@ -23,6 +23,8 @@ import Image from "next/image";
 import useLoading from "@/context/loading";
 import useNavigation from "@/context/navigation";
 import { callRegisterToast } from "@/components/ui/toasts";
+import CropImageDialogue from "@/components/dialogues/crop";
+import { avatarSize } from "@/components/input/sizes";
 
 const initial: CreateUserData = {
   name: "",
@@ -206,7 +208,8 @@ export default function RegisterUserForm() {
     );
 
   const InputFile = () => (
-    <File
+    <CropImageDialogue
+      imageSize={avatarSize}
       name="picture"
       canClear={!!avatar}
       onFileClear={() => {

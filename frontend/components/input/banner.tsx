@@ -1,6 +1,7 @@
 import Image from "next/image";
-import File from "./file";
 import { Download } from "@phosphor-icons/react/dist/ssr";
+import CropImageDialogue from "../dialogues/crop";
+import { bannerSize } from "./sizes";
 
 interface BannerProps {
   value?: string;
@@ -16,8 +17,14 @@ export default function InputBanner({
   if (value)
     return (
       <div className="banner">
-        <Image src={value} alt="Banner" width={512} height={256} />
-        <File
+        <Image
+          src={value}
+          alt=""
+          width={bannerSize.width}
+          height={bannerSize.height}
+        />
+        <CropImageDialogue
+          imageSize={bannerSize}
           name="picture"
           canClear={!!value}
           onFileClear={onFileClear}
@@ -27,7 +34,8 @@ export default function InputBanner({
     );
   return (
     <label className="banner" tabIndex={0}>
-      <File
+      <CropImageDialogue
+        imageSize={bannerSize}
         name="picture"
         inputOnly
         canClear={!!value}

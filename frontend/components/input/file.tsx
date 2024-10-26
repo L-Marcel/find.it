@@ -28,22 +28,29 @@ export default function File({
 }: InputProps) {
   const loading = useIsLoading();
 
+  async function onChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.currentTarget.files !== null) {
+      const reader = new FileReader();
+      const file = (e.currentTarget.files as FileList)[0];
+      if (file.type.startsWith("image/")) {
+        reader.onload = () =>
+          onFileLoaded(reader.result?.toString() ?? "", file);
+        reader.readAsDataURL(e.currentTarget.files[0]);
+      } else {
+        //MARK: Put dialog here
+      }
+    } else {
+      onFileLoaded("", new Blob());
+    }
+  }
+
   if (inputOnly)
     return (
       <input
         type="file"
         disabled={loading}
-        onChange={async (e) => {
-          if (e.currentTarget.files !== null) {
-            const reader = new FileReader();
-            const file = (e.currentTarget.files as FileList)[0];
-            reader.onload = () =>
-              onFileLoaded(reader.result?.toString() ?? "", file);
-            reader.readAsDataURL(e.currentTarget.files[0]);
-          } else {
-            onFileLoaded("", new Blob());
-          }
-        }}
+        accept="image/*"
+        onChange={onChange}
         {...props}
       />
     );
@@ -51,7 +58,12 @@ export default function File({
   return (
     <div className="file-inputs">
       {canClear && (
-        <button disabled={loading} className="input" onClick={onFileClear}>
+        <button
+          type="button"
+          disabled={loading}
+          className="input"
+          onClick={onFileClear}
+        >
           <Eraser />
         </button>
       )}
@@ -62,17 +74,8 @@ export default function File({
             type="file"
             tabIndex={0}
             disabled={loading}
-            onChange={async (e) => {
-              if (e.currentTarget.files !== null) {
-                const reader = new FileReader();
-                const file = (e.currentTarget.files as FileList)[0];
-                reader.onload = () =>
-                  onFileLoaded(reader.result?.toString() ?? "", file);
-                reader.readAsDataURL(e.currentTarget.files[0]);
-              } else {
-                onFileLoaded("", new Blob());
-              }
-            }}
+            accept="image/*"
+            onChange={onChange}
             {...props}
           />
           <p>Alterar avatar</p>

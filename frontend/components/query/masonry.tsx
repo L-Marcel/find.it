@@ -12,7 +12,6 @@ interface MasonryProps {
 
 export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
   const [alreadyEnded, setAlreadyEnded] = useState<boolean>(false);
-  const ref = useRef<HTMLElement>(document.body);
   const mansory = useRef<HTMLDivElement>(null);
   const { width } = useWindowSize();
 
@@ -30,7 +29,7 @@ export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
     overscan: columns * columns,
     lanes: columns,
     gap: gap,
-    getScrollElement: () => ref.current,
+    getScrollElement: () => document?.body,
     rangeExtractor: (range) => {
       const ranges = defaultRangeExtractor(range);
       if (!ranges.includes(count - 1)) {
