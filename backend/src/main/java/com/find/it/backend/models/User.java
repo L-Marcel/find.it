@@ -1,7 +1,12 @@
 package com.find.it.backend.models;
 
-import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.find.it.backend.dtos.records.UserCreateData;
+import com.find.it.backend.dtos.records.UserUpdateData;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -11,27 +16,17 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-enum ContactType {
-  NONE,
-  PHONE,
-  EMAIL,
-  BOTH
-};
 
 @Entity
 @Table(name = "Users")
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -50,6 +45,8 @@ public class User {
 
   private String password;
 
+  private boolean whatsapp = false;
+
   private int donated = 0;
 
   private int recovered = 0;
@@ -57,9 +54,41 @@ public class User {
   private int finds = 0;
 
   @Enumerated(EnumType.ORDINAL)
-  private ContactType contact;
+  private ContactType contact = ContactType.NONE;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "owner")
-  private Set<It> its;
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  @JsonIgnore
+  private List<Item> items = new ArrayList<>();
+
+  public User(UserCreateData user) {
+    this.name = user.name();
+    this.phone = user.phone();
+    this.email = user.email();
+    this.whatsapp = user.whatsapp();
+    this.password = user.password();
+    this.contact = user.contact();
+  };
+
+  public void update(UserUpdateData user) {
+    this.name = user.name();
+    this.phone = user.phone();
+    this.email = user.email();
+    this.whatsapp = user.whatsapp();
+    if (user.updatePassword()) {
+      this.password = user.password();
+    }
+    this.contact = user.contact();
+  };
+
+  public void donate() {
+    donated++;
+  };
+
+  public void recevery() {
+    recovered++;
+  };
+
+  public void find() {
+    finds++;
+  };
 };

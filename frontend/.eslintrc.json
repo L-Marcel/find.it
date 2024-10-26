@@ -6,30 +6,32 @@
   ],
   "rules": {
     "prettier/prettier": [
-      "error"
+      "warn"
     ],
     "camelcase": [
-      "warning"
+      "warn"
     ],
     "prefer-arrow-callback": [
-      "warning"
-    ],
-    "sort-imports": [
-      "error"
+      "warn"
     ],
     "no-empty": [
-      "warning", 
+      "warn", 
       { 
         "allowEmptyCatch": true 
       }
     ],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { 
+        "argsIgnorePattern": "^_" 
+      }
+    ],
     "func-style": [
-      "error",
-      "expression",
-      {
-        "overrides": { 
-          "namedExports": "declaration" 
-        }
+      "warn",
+      "declaration",
+      { 
+        "allowArrowFunctions": true 
       }
     ]
   }
