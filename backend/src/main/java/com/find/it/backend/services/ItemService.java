@@ -52,7 +52,7 @@ public class ItemService {
     Map<String, String> errors = new HashMap<>();
 
     if (newItem.picture().isEmpty()) {
-      errors.put("picture", "A imagem é obrigatória!");
+      errors.put("picture", "Forneça uma imagem, mesmo que ilustrativa!");
     }
 
     if (owner.getContact() == ContactType.NONE) {

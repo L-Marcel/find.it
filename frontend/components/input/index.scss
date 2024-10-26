@@ -125,7 +125,7 @@
       rounded-2xl
       items-center
       justify-center
-      ring-offset-4
+      ring-offset-0
       ring-indigo-600
       ring-offset-zinc-950
       focus-within:text-indigo-600
@@ -208,13 +208,18 @@
       flex-row-reverse
       right-2
       bottom-2;
+
+    div {
+      @apply ring-offset-0;
+    }
   }
 }
 
 .banner:has(.file-inputs) {
   @apply border-none
     bg-zinc-800
-    h-min;
+    h-min
+    hover:text-inherit;
 }
 
 .file-input {
@@ -227,4 +232,20 @@
   p {
     padding-right: 0 !important;
   }
+}
+
+.banner.error {
+  @apply ring-red-500
+    focus-within:text-red-500
+    hover:text-red-500
+    hover:border-red-500;
+}
+
+p.error {
+  @apply text-red-500
+    text-base
+    w-full
+    text-wrap
+    px-2
+    -mt-1;
 }

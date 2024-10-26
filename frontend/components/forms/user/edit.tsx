@@ -20,10 +20,12 @@ import {
 import Switch from "../../switch";
 import Image from "next/image";
 import useLoading from "@/context/loading";
-import Unauthorized from "@/errors/Unauthorized";
 import { onUpdateUser } from "@/app/actions";
 import useNavigation from "@/context/navigation";
-import { callUpdateUserToast } from "@/components/ui/toasts";
+import {
+  callInvalidFormToast,
+  callUpdateUserToast,
+} from "@/components/ui/toasts";
 import CropImageDialogue from "@/components/dialogues/crop";
 import { avatarSize } from "@/components/input/sizes";
 
@@ -199,14 +201,14 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
             picture: user.picture === data.picture ? undefined : data.picture,
           } as UpdateUserData),
         }).then(async (response) => {
-          if (!response.ok && response.status == 401) throw new Unauthorized();
-          else if (!response.ok) {
+          if (!response.ok) {
             const error = await response.json();
             setLoading(false);
             setErrors({
               new: true,
               ...error.fields,
             });
+            callInvalidFormToast();
           } else {
             onUpdateUser(user.id).finally(() => {
               setLoading(false);
@@ -215,6 +217,8 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
             });
           }
         });
+      } else {
+        callInvalidFormToast();
       }
     },
     [
@@ -231,9 +235,10 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
 
   useEffect(() => {
     if (errors.new) {
-      for (const field of Object.keys(errors) as [keyof typeof errors]) {
+      for (let field of Object.keys(errors) as [keyof typeof errors]) {
         if (field === "new") continue;
         else if (errors[field] !== "") {
+          if (field === "contact") field = "email";
           const element = document.getElementsByName(field)[0];
           element?.focus();
           break;
@@ -316,7 +321,9 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
             name="email"
             value={data.email}
             onChange={(e) => update("email", e.currentTarget.value)}
-            error={errors["contact"] ?? errors["email"]}
+            error={
+              errors["contact"] !== "" ? errors["contact"] : errors["email"]
+            }
             icon={At}
             placeholder="E-mail"
           />
@@ -332,7 +339,9 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
             name="phone"
             value={data.phone}
             onChange={(e) => update("phone", e.currentTarget.value)}
-            error={errors["contact"] ?? errors["phone"]}
+            error={
+              errors["contact"] !== "" ? errors["contact"] : errors["phone"]
+            }
             icon={Phone}
             type="phone"
             placeholder="DDD + Telefone"

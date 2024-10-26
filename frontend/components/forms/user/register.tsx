@@ -18,11 +18,13 @@ import {
   userCreateSchema as createSchema,
 } from "@/context/user";
 import Switch from "../../switch";
-import File from "../../input/file";
 import Image from "next/image";
 import useLoading from "@/context/loading";
 import useNavigation from "@/context/navigation";
-import { callRegisterToast } from "@/components/ui/toasts";
+import {
+  callInvalidFormToast,
+  callRegisterToast,
+} from "@/components/ui/toasts";
 import CropImageDialogue from "@/components/dialogues/crop";
 import { avatarSize } from "@/components/input/sizes";
 
@@ -179,7 +181,10 @@ export default function RegisterUserForm() {
               new: true,
               ...error.fields,
             });
+            callInvalidFormToast();
           });
+      } else {
+        callInvalidFormToast();
       }
     },
     [navigation, data, validate, setErrors, setLoading]

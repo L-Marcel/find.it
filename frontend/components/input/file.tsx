@@ -5,6 +5,7 @@ import { Eraser, Pencil } from "@phosphor-icons/react/dist/ssr";
 import "./index.scss";
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import { useIsLoading } from "@/context/loading";
+import { callInvalidImageToast } from "../ui/toasts";
 
 export interface InputProps
   extends DetailedHTMLProps<
@@ -32,12 +33,15 @@ export default function File({
     if (e.currentTarget.files !== null) {
       const reader = new FileReader();
       const file = (e.currentTarget.files as FileList)[0];
-      if (file.type.startsWith("image/")) {
+      if (
+        file.type.startsWith("image/png") ||
+        file.type.startsWith("image/jpeg")
+      ) {
         reader.onload = () =>
           onFileLoaded(reader.result?.toString() ?? "", file);
         reader.readAsDataURL(e.currentTarget.files[0]);
       } else {
-        //MARK: Put dialog here
+        callInvalidImageToast();
       }
     } else {
       onFileLoaded("", new Blob());
@@ -48,8 +52,9 @@ export default function File({
     return (
       <input
         type="file"
+        tabIndex={-1}
         disabled={loading}
-        accept="image/*"
+        accept="image/jpeg, image/png"
         onChange={onChange}
         {...props}
       />
@@ -74,7 +79,7 @@ export default function File({
             type="file"
             tabIndex={0}
             disabled={loading}
-            accept="image/*"
+            accept="image/jpeg, image/png"
             onChange={onChange}
             {...props}
           />
