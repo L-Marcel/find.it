@@ -1,9 +1,14 @@
 .avatar {
-  @apply max-w-fit
+  @apply flex 
+  items-center
+  justify-center 
   rounded-full;
-}
 
-.user-photo {
-  @apply rounded-full
-  object-cover;
+  .user-photo {
+    @apply w-[6.125rem]
+    h-[6.125rem]
+    min-w-[6.125rem]
+    rounded-full
+    object-fill;
+  }
 }

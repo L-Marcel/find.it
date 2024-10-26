@@ -3,22 +3,21 @@ import { UserCircle } from "@phosphor-icons/react/dist/ssr";
 import "./index.scss"
 
 interface AvatarProps {
-  theme?: "default" | "fill";
   picture: string;
-  name: string;
+  name?: string;
 }
 
 export default function Avatar({
-  theme = "default",
   picture,
-  name,
+  name = "Avatar",
 } : AvatarProps){
   return(
-    <section className={`avatar ${theme}`}>
+    <section className="avatar">
       {picture ? (
         <Image 
           className="user-photo" 
-          src={picture} alt={name} 
+          src={picture} 
+          alt={name} 
           width={98} 
           height={98}
         />

@@ -18,6 +18,7 @@ import {
   userCreateSchema as createSchema,
 } from "@/context/user";
 import Switch from "../../switch";
+import Avatar from "@/components/avatar";
 import File from "../../input/file";
 import Image from "next/image";
 import useLoading from "@/context/loading";
@@ -198,12 +199,6 @@ export default function RegisterUserForm() {
   //#endregion
 
   //#region Local Components
-  const Avatar = () =>
-    avatar ? (
-      <Image width={98} height={98} alt="avatar" src={avatar} />
-    ) : (
-      <UserCircle width={98} height={98} />
-    );
 
   const InputFile = () => (
     <File
@@ -235,7 +230,7 @@ export default function RegisterUserForm() {
       </header>
       <main>
         <div id="profile">
-          <Avatar />
+          <Avatar picture={avatar}/>
           <div>
             <Input
               name="name"
@@ -250,7 +245,7 @@ export default function RegisterUserForm() {
         </div>
         <div id="profile" className="mobile">
           <div>
-            <Avatar />
+          <Avatar picture={avatar}/>
             <Input
               name="name"
               value={data.name}
