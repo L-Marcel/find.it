@@ -4,7 +4,7 @@ import { createContext } from "use-context-selector";
 import { City } from "./cities";
 import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+//import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export type Filters = {
   finds: boolean;
@@ -49,10 +49,7 @@ export default function SearchProvider({ children }: SearchProviderProps) {
         setFilters,
       }}
     >
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        {children}
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </searchContext.Provider>
   );
 }
