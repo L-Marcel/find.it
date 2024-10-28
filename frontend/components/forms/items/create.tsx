@@ -15,9 +15,9 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 import useLoading from "@/context/loading";
 import { CreateItemData, itemSchema as createSchema } from "@/context/items";
 import Textarea from "@/components/input/area";
-import CitySelector from "@/components/header/citySelector";
+import CitySelector from "@/components/header/city/city";
 import { User } from "@/context/user";
-import TypeSwitch from "@/components/switch/typeSwitch";
+import TypeSwitch from "@/components/switch/type";
 import InputBanner from "@/components/input/banner";
 import useNavigation from "@/context/navigation";
 import {

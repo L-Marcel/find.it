@@ -1,35 +1,17 @@
 import Image from "next/image";
 import { UserCircle } from "@phosphor-icons/react/dist/ssr";
-import "./index.scss"
+import "./index.scss";
 
 interface AvatarProps {
-  theme?: "default" | "big";
+  big?: boolean;
   picture: string;
-  name?: string;
 }
 
-export default function Avatar({
-  theme = "default",
-  picture,
-  name = "Avatar",
-} : AvatarProps){
-  return(
-    <section className={`avatar ${theme}`}>
-      {picture ? (
-        <Image 
-          className="user-photo" 
-          src={picture} 
-          alt={name} 
-          width={98} 
-          height={98}
-        />
-      ) : (
-        <UserCircle 
-          weight="thin" 
-          width={98} 
-          height={98}
-        />
-      )}
-    </section>
-  );
+export default function Avatar({ big = false, picture }: AvatarProps) {
+  const size = big ? 156 : 98;
+  if (picture)
+    return (
+      <Image id="avatar" src={picture} alt="" width={size} height={size} />
+    );
+  return <UserCircle id="avatar" weight="thin" width={size} height={size} />;
 }

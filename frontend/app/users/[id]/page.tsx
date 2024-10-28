@@ -1,4 +1,4 @@
-import BackButton from "@/components/button/backButton";
+import BackButton from "@/components/button/back";
 import { getPublicUser, getUser } from "@/context/user";
 import { headers } from "next/headers";
 

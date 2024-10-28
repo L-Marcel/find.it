@@ -1,22 +1,6 @@
-.avatar {
-  @apply flex 
-  items-center
-  justify-center 
-  rounded-full;
-
-  .user-photo {
-    @apply w-[6.125rem]
-    h-[6.125rem]
-    min-w-[6.125rem]
-    rounded-full
-    object-fill;
-  }
-}
-
-.avatar.big {
-  .user-photo {
-    @apply w-[9.750]
-    h-[9.750rem]
-    min-w-[9.750rem];
-  }
+img#avatar,
+svg#avatar {
+  @apply rounded-full
+  object-fill
+  h-fit;
 }

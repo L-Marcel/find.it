@@ -1,5 +1,5 @@
-import CitySelector from "@/components/header/citySelector";
-import HeaderProfile from "@/components/header/headerProfile";
+import CitySelector from "@/components/header/city/city";
+import HeaderProfile from "@/components/header/profile";
 import Search from "@/components/header/search";
 import Loading from "@/components/loading";
 import Query from "@/components/query";

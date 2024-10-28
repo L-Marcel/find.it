@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Selector } from "../selector";
+import { Selector } from "../../selector";
 import useSearchCities from "@/context/cities";
 
 interface CitySelectorProps {

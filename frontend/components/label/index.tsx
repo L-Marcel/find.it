@@ -6,16 +6,23 @@ interface LabelProps {
   header: string;
   children: string;
   icon?: React.ReactNode;
+  id?: string;
 }
 
-export default function Label({ theme, header, children, icon }: LabelProps) {
+export default function Label({
+  theme,
+  header,
+  children,
+  icon,
+  id,
+}: LabelProps) {
   return (
-    <section className={`label ${theme ? theme : "default"}`}>
-      {icon ? <span className="label-icon">{icon}</span> : null}
-      <div className="label-content">
-        <h1 className="header">{header}</h1>
-        <p className="content">{children}</p>
+    <div id={id} className={`label ${theme ? theme : "default"}`}>
+      {icon && <span>{icon}</span>}
+      <div>
+        <h1>{header}</h1>
+        <p>{children}</p>
       </div>
-    </section>
+    </div>
   );
 }
