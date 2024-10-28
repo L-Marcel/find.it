@@ -1,0 +1,166 @@
+header {
+  section#desktop {
+    @apply hidden
+      md:flex;
+
+    > div:first-of-type {
+      @apply md:first:w-[65%];
+    }
+  }
+
+  section#mobile {
+    @apply flex
+      flex-row
+      md:hidden
+      justify-between
+      gap-8;
+
+    .register-button {
+      @apply hidden;
+    }
+  }
+
+  .login {
+    @apply flex
+      gap-3
+      items-center;
+  }
+}
+
+.item-profile {
+  @apply flex
+  flex-col
+  mt-8
+  ml-12
+  mr-12
+  gap-10;
+
+  .item-infos {
+    @apply gap-16
+    flex
+    h-fit;
+  }
+
+  .local-infos {
+    @apply grid
+    px-10
+    mb-10
+    grid-cols-3
+    gap-x-12 
+    gap-y-10;
+
+    a {
+      @apply mt-2.5;
+    }
+  }
+}
+
+section#desktop {
+  @apply justify-between;
+}
+
+section.header {
+  @apply flex-col
+  w-[50rem]
+  min-w-[50rem]
+  gap-5;
+
+  .type {
+    @apply font-roboto
+    text-base
+    text-zinc-50
+    w-fit
+    px-4
+    py-1
+    rounded-full
+    font-medium;
+  }
+
+  h1 {
+    @apply font-roboto
+    font-semibold
+    text-5xl;
+  }
+
+  h2 {
+    @apply text-white
+    font-normal
+    break-all
+    text-2xl;
+  }
+
+  .divider {
+    @apply border
+    border-b-0
+    border-zinc-200;
+  }
+}
+
+section.user-profile {
+  @apply flex
+  px-10
+  gap-16;
+
+  .user-infos {
+    @apply grid
+    grid-cols-2
+    ml-4
+    gap-x-12
+    gap-y-6;
+  }
+}
+
+.divider {
+  @apply border
+  border-b-0
+  border-zinc-800;
+}
+
+.item-photo {
+  @apply rounded-2xl
+  w-[46rem]
+  min-w-[32rem]
+  h-[20.125rem];
+}
+
+.header.lost {
+  .icon {
+    @apply bg-pink-600;
+  }
+
+  h1 {
+    @apply text-pink-600;
+  }
+
+  .type {
+    @apply bg-pink-600;
+  }
+}
+
+.header.find {
+  .icon {
+    @apply bg-indigo-500;
+  }
+
+  h1 {
+    @apply text-indigo-500;
+  }
+
+  .type {
+    @apply bg-indigo-500;
+  }
+}
+
+.header.donation {
+  .icon {
+    @apply bg-green-600;
+  }
+
+  h1 {
+    @apply text-green-600;
+  }
+
+  .type {
+    @apply bg-green-600;
+  }
+}
