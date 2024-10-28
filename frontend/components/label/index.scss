@@ -6,7 +6,7 @@
   w-auto;
 }
 
-.icon {
+.label-icon {
   @apply bg-indigo-700
   rounded-full
   p-3;
@@ -15,14 +15,14 @@
 .label.default {
   .content {
     @apply text-zinc-200
-      text-2xl;
+      text-3xl;
   }
 }
 
 .label.small {
   .content {
     @apply text-zinc-200
-      text-sm;
+      text-lg;
   }
 
   .icon {

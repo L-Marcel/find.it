@@ -45,6 +45,9 @@ export type Item = {
     picture: string;
     contact: User["contact"];
     whatsapp: boolean;
+    finds: number;
+    donated: number;
+    recovered: number;
     email: string;
     phone: string;
   };
@@ -53,7 +56,7 @@ export type Item = {
 export function typeToText(type: "FIND" | "LOST" | "DONATION") {
   switch (type) {
     case "FIND":
-      return "Achado";
+      return "Encontrado";
     case "LOST":
       return "Perdido";
     case "DONATION":

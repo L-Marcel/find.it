@@ -12,3 +12,11 @@
     object-fill;
   }
 }
+
+.avatar.big {
+  .user-photo {
+    @apply w-[9.750]
+    h-[9.750rem]
+    min-w-[9.750rem];
+  }
+}
