@@ -5,6 +5,7 @@ import { Eraser, Pencil } from "@phosphor-icons/react/dist/ssr";
 import "./index.scss";
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import { useIsLoading } from "@/context/loading";
+import { callInvalidImageToast } from "../ui/toasts";
 
 export interface InputProps
   extends DetailedHTMLProps<
@@ -28,22 +29,33 @@ export default function File({
 }: InputProps) {
   const loading = useIsLoading();
 
+  async function onChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.currentTarget.files !== null) {
+      const reader = new FileReader();
+      const file = (e.currentTarget.files as FileList)[0];
+      if (
+        file.type.startsWith("image/png") ||
+        file.type.startsWith("image/jpeg")
+      ) {
+        reader.onload = () =>
+          onFileLoaded(reader.result?.toString() ?? "", file);
+        reader.readAsDataURL(e.currentTarget.files[0]);
+      } else {
+        callInvalidImageToast();
+      }
+    } else {
+      onFileLoaded("", new Blob());
+    }
+  }
+
   if (inputOnly)
     return (
       <input
         type="file"
+        tabIndex={-1}
         disabled={loading}
-        onChange={async (e) => {
-          if (e.currentTarget.files !== null) {
-            const reader = new FileReader();
-            const file = (e.currentTarget.files as FileList)[0];
-            reader.onload = () =>
-              onFileLoaded(reader.result?.toString() ?? "", file);
-            reader.readAsDataURL(e.currentTarget.files[0]);
-          } else {
-            onFileLoaded("", new Blob());
-          }
-        }}
+        accept="image/jpeg, image/png"
+        onChange={onChange}
         {...props}
       />
     );
@@ -51,28 +63,24 @@ export default function File({
   return (
     <div className="file-inputs">
       {canClear && (
-        <button disabled={loading} className="input" onClick={onFileClear}>
+        <button
+          type="button"
+          disabled={loading}
+          className="input"
+          onClick={onFileClear}
+        >
           <Eraser />
         </button>
       )}
-      <label className="input">
+      <label className="input file-input">
         <div>
           <Icon />
           <input
             type="file"
             tabIndex={0}
             disabled={loading}
-            onChange={async (e) => {
-              if (e.currentTarget.files !== null) {
-                const reader = new FileReader();
-                const file = (e.currentTarget.files as FileList)[0];
-                reader.onload = () =>
-                  onFileLoaded(reader.result?.toString() ?? "", file);
-                reader.readAsDataURL(e.currentTarget.files[0]);
-              } else {
-                onFileLoaded("", new Blob());
-              }
-            }}
+            accept="image/jpeg, image/png"
+            onChange={onChange}
             {...props}
           />
           <p>Alterar avatar</p>

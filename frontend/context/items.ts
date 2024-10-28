@@ -4,7 +4,7 @@ import { z } from "zod";
 
 //#region Schemas
 export const itemSchema = z.object({
-  picture: z.string().optional(),
+  picture: z.string().min(1, "Forneça uma imagem, mesmo que ilustrativa!"),
   title: z
     .string()
     .min(1, "É necessário informar um título!")

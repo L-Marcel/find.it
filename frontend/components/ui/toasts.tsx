@@ -1,11 +1,13 @@
 import Button from "@/components/button";
 import {
   Cheers,
+  FileImage,
   FloppyDisk,
   Folder,
   FolderDashed,
   FolderUser,
   PersonSimpleRun,
+  SealWarning,
   SecurityCamera,
   UserCheck,
   UserPlus,
@@ -158,6 +160,36 @@ export function callUnauthorizedToast(id = "unauthorized-" + uuid()) {
     ),
     icon: <SecurityCamera />,
     description: "Que é você? (¬_¬)",
+    duration,
+  });
+}
+
+export function callInvalidImageToast(id = "invalid-image-" + uuid()) {
+  error();
+  toast.warning("Formato inválido", {
+    id,
+    cancel: (
+      <Button theme="pink-fill" onClick={() => toast.dismiss(id)}>
+        OK
+      </Button>
+    ),
+    icon: <FileImage />,
+    description: "Apenas imagens, por favor . . .",
+    duration,
+  });
+}
+
+export function callInvalidFormToast(id = "invalid-form-" + uuid()) {
+  error();
+  toast.warning("Algo não está certo!", {
+    id,
+    cancel: (
+      <Button theme="pink-fill" onClick={() => toast.dismiss(id)}>
+        OK
+      </Button>
+    ),
+    icon: <SealWarning />,
+    description: "Verifique os campos . . .",
     duration,
   });
 }

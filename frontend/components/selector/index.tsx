@@ -4,19 +4,28 @@ import { CaretDown } from "@phosphor-icons/react/dist/ssr";
 import Button from "../button";
 
 import "./index.scss";
-import { useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { defaultRangeExtractor, useVirtualizer } from "@tanstack/react-virtual";
 
 export interface SelectorProps {
   onChange: (index: number) => void;
   options: string[];
   selected: number;
+  small?: boolean;
 }
 
-export function Selector({ onChange, options, selected }: SelectorProps) {
+export function Selector({
+  onChange,
+  options,
+  selected,
+  small,
+}: SelectorProps) {
+  const selector = useRef<HTMLDivElement>(null);
   const container = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLDivElement>(null);
+  const [above, setAbove] = useState(true);
 
+  //#region Virtualization
   const virtualizer = useVirtualizer({
     count: options.length,
     lanes: 1,
@@ -43,9 +52,30 @@ export function Selector({ onChange, options, selected }: SelectorProps) {
       });
     }
   }
+  //#endregion
+  //#region Positioning
+  const onScroll = useCallback(
+    (e: Event) => {
+      if (e.target && small) {
+        const element = e.target as HTMLElement;
+        const bottom = selector.current?.getBoundingClientRect().bottom ?? 0;
+
+        setAbove(bottom + 300 < element.clientHeight);
+      }
+    },
+    [setAbove, small]
+  );
+
+  useEffect(() => {
+    document.body.addEventListener("scroll", onScroll);
+    return () => {
+      document.body.removeEventListener("scroll", onScroll);
+    };
+  }, [onScroll]);
+  //#endregion
 
   return (
-    <div className="selector">
+    <div className="selector" ref={selector}>
       <Button
         id="selector-options"
         onFocus={moveToSelected}
@@ -61,10 +91,10 @@ export function Selector({ onChange, options, selected }: SelectorProps) {
         ref={container}
         tabIndex={-1}
         id="selector-options"
-        className="options"
+        className={`options ${above ? "" : "below"}`}
         style={{
           height: 860,
-          maxHeight: "80vh",
+          maxHeight: small ? "calc(216px + 3rem)" : "80vh",
         }}
       >
         <div

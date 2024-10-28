@@ -20,7 +20,10 @@ import { User } from "@/context/user";
 import TypeSwitch from "@/components/switch/typeSwitch";
 import InputBanner from "@/components/input/banner";
 import useNavigation from "@/context/navigation";
-import { callCreateItemToast } from "@/components/ui/toasts";
+import {
+  callCreateItemToast,
+  callInvalidFormToast,
+} from "@/components/ui/toasts";
 
 const initial: CreateItemData = {
   cityAndState: "Natal - RN",
@@ -138,7 +141,10 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
               new: true,
               ...error.fields,
             });
+            callInvalidFormToast();
           });
+      } else {
+        callInvalidFormToast();
       }
     },
     [data, navigation, token, user, validate, setErrors, setLoading]
@@ -172,6 +178,7 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
       <main>
         <InputBanner
           value={banner}
+          error={errors["picture"]}
           onFileClear={() => {
             update("picture", "");
             setBanner("");
@@ -205,7 +212,7 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
           placeholder="Descrição"
         />
         <div>
-          <CitySelector />
+          <CitySelector small />
           <Input
             name="district"
             value={data.district}

@@ -9,6 +9,7 @@ import {
   Phone,
   WhatsappLogo,
 } from "@phosphor-icons/react/dist/ssr";
+import { bannerSize } from "../input/sizes";
 
 interface MasonryItemProps {
   item?: Item;
@@ -73,7 +74,7 @@ export default function MasonryItem({
           {item.picture && (
             <Image
               width={width}
-              height={140}
+              height={bannerSize.height}
               src={`${process.env.API_DOMAIN}/items/${item.picture}`}
               alt={item.title}
             />

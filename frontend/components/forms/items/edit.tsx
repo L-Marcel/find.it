@@ -23,7 +23,10 @@ import CitySelector from "@/components/header/citySelector";
 import TypeSwitch from "@/components/switch/typeSwitch";
 import InputBanner from "@/components/input/banner";
 import useNavigation from "@/context/navigation";
-import { callUpdateItemToast } from "@/components/ui/toasts";
+import {
+  callInvalidFormToast,
+  callUpdateItemToast,
+} from "@/components/ui/toasts";
 import { DialogTrigger } from "@/components/ui/dialog";
 
 const initial: CreateItemData = {
@@ -154,7 +157,10 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
               new: true,
               ...error.fields,
             });
+            callInvalidFormToast();
           });
+      } else {
+        callInvalidFormToast();
       }
     },
     [data, navigation, token, item, validate, setErrors, setLoading]
@@ -187,6 +193,7 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
       </header>
       <main>
         <InputBanner
+          error={errors["picture"]}
           value={banner}
           onFileClear={() => {
             update("picture", "");
@@ -221,7 +228,7 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
           placeholder="Descrição"
         />
         <div>
-          <CitySelector />
+          <CitySelector small />
           <Input
             name="district"
             value={data.district}

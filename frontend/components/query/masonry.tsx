@@ -14,7 +14,6 @@ export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
   const [alreadyEnded, setAlreadyEnded] = useState<boolean>(false);
   const mansory = useRef<HTMLDivElement>(null);
   const { width } = useWindowSize();
-  const [ref, setRef] = useState<HTMLElement | null>(null);
 
   const gap = 30;
   const minItemWidth = 360;
@@ -30,7 +29,7 @@ export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
     overscan: columns * columns,
     lanes: columns,
     gap: gap,
-    getScrollElement: () => ref,
+    getScrollElement: () => document?.body,
     rangeExtractor: (range) => {
       const ranges = defaultRangeExtractor(range);
       if (!ranges.includes(count - 1)) {
@@ -46,11 +45,6 @@ export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
   const ended = virtuals.some(
     (virtual) => items.length - 2 === virtual.index && !fetching
   );
-
-  useEffect(() => {
-    const element = document.getElementById("page");
-    if (element) setRef(element);
-  }, [setRef]);
 
   useEffect(() => {
     virtualizer.measure();

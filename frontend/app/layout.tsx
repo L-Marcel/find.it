@@ -41,7 +41,6 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        id="page"
         className={`${roboto.variable} ${inter.variable} ${tiltWarp.variable} antialiased`}
       >
         <Provider cities={cities.map((city) => cityToString(city))}>
