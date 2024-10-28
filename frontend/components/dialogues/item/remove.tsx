@@ -11,13 +11,13 @@ import {
   DialogPortal,
   DialogTitle,
 } from "@/components/ui/dialog";
-import Button from "../button";
+import Button from "../../button";
 import useNavigation from "@/context/navigation";
 import useLoading from "@/context/loading";
 import { ReactNode, useCallback } from "react";
 import { Item } from "@/context/items";
-import { callRemoveItemToast } from "../ui/toasts";
-import "./index.scss";
+import { callRemoveItemToast } from "../../ui/toasts";
+import "../index.scss";
 
 interface RemoveItemDialogProps {
   item: Item;

@@ -1,43 +1,44 @@
 .label {
-  @apply max-w-fit
-  items-center
-  flex
-  gap-3
-  w-auto;
-}
+  @apply max-w-full
+    items-center
+    flex
+    gap-3
+    w-auto;
 
-.label-icon {
-  @apply bg-indigo-700
-  rounded-full
-  p-3;
-}
+  span {
+    @apply bg-indigo-700
+      rounded-full
+      p-3;
+  }
 
-.label.default {
-  .content {
-    @apply text-zinc-200
-      text-3xl;
+  div {
+    @apply flex
+        gap-0.5
+        w-full
+        font-roboto
+        flex-col;
+
+    h1 {
+      @apply text-indigo-500
+        font-medium;
+    }
+
+    p {
+      @apply text-zinc-200
+        text-lg
+        lg:text-xl
+        break-all;
+    }
   }
 }
 
 .label.small {
-  .content {
+  p {
     @apply text-zinc-200
       text-lg;
   }
 
-  .icon {
+  span {
     @apply p-2;
   }
-}
-
-.header {
-  @apply text-indigo-500
-    font-medium;
-}
-
-.label-content {
-  @apply flex
-    gap-0.5
-    font-roboto
-    flex-col;
 }

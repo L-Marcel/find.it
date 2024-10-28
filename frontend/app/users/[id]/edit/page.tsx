@@ -1,5 +1,5 @@
 import "./index.scss";
-import BackButton from "@/components/button/backButton";
+import BackButton from "@/components/button/back";
 import { getUser } from "@/context/user";
 import Unauthorized from "@/errors/Unauthorized";
 import { headers } from "next/headers";

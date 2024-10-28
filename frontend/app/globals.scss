@@ -15,13 +15,14 @@ body {
     flex 
     flex-col 
     gap-4
-    p-8
     text-zinc-200 
     font-roboto
     h-full 
     font-normal
     overflow-y-auto
     relative;
+
+  padding: 2rem !important;
 
   > main {
     @apply flex

@@ -2,7 +2,7 @@ import "./index.scss";
 import Image from "next/image";
 import logo from "@/images/logo.webp";
 import LoginForm from "@/components/forms/login";
-import BackButton from "@/components/button/backButton";
+import BackButton from "@/components/button/back";
 
 interface LoginProps {
   searchParams: Promise<{ redirect: string }>;
