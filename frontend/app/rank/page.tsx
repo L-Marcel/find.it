@@ -1,5 +1,4 @@
-"use client";
-
+import "./index.scss";
 import BackButton from "@/components/button/backButton";
 import SearchProvider from "@/context/search";
 import UserList from "@/components/userCard/userList";
@@ -12,8 +11,8 @@ export default function Rank() {
           <BackButton />
         </section>
       </header>
-      <main>
-        <p>Ranqueamento</p>
+      <main className="main-container">
+        <h3>Ranqueamento</h3>
         <section>
           <SearchProvider>
             <UserList />

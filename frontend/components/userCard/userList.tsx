@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import UserCard from "@/components/userCard/index";
 import Filter from "@/components/switch/filter";
+import "./index.scss";
 
 interface User {
   name: string;
@@ -40,8 +43,10 @@ const UserList: React.FC = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div>
-      <Filter />
+    <div className="user-list">
+      <div className="filter-container">
+        <Filter />
+      </div>
       <ul>
         {data.byDonateds.map((user: User) => (
           <UserCard key={user.id} user={user} />
