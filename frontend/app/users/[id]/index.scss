@@ -54,6 +54,31 @@
       }
     }
   }
+}
+
+body:has(.user-page) {
+  @apply gap-8
+    lg:gap-12;
+
+  > footer {
+    @apply mt-0;
+  }
+}
+
+.user-page {
+  @apply flex
+    w-full;
+
+  .search {
+    @apply flex
+      flex-row
+      gap-3
+      w-full;
+  }
+
+  .masonry {
+    margin-bottom: 0 !important;
+  }
 
   .filters {
     @apply flex
@@ -81,5 +106,25 @@
           focus:text-indigo-500;
       }
     }
+  }
+
+  #desktop {
+    @apply hidden
+     md:flex;
+  }
+
+  p#desktop {
+    @apply hidden
+     md:block;
+  }
+
+  #mobile {
+    @apply flex
+      md:hidden;
+  }
+
+  p#mobile {
+    @apply block
+      md:hidden;
   }
 }

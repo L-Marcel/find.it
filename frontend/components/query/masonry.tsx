@@ -21,7 +21,7 @@ export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
   const mansoryWidth = mansory.current?.clientWidth || width || 1366;
   const columns = Math.max(Math.floor(mansoryWidth / (minItemWidth + gap)), 1);
   const columnWidth = (mansoryWidth - (columns - 1) * gap) / columns;
-  const count = items.length + (fetching ? 10 : 0);
+  const count = items.length;
 
   const virtualizer = useVirtualizer({
     count,
@@ -67,21 +67,9 @@ export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
         height: virtualizer.getTotalSize(),
       }}
     >
+      {virtuals.length === 0 && <h4>Nenhum item foi encontrado!</h4>}
       {virtuals.map((virtual) => {
-        if (fetching && virtual.index >= items.length) {
-          return (
-            <MasonryItem
-              key={virtual.index}
-              virtual={virtual}
-              width={columnWidth}
-              height={itemHeight}
-              gap={gap}
-            />
-          );
-        }
-
         const item = items[virtual.index];
-
         return (
           <MasonryItem
             key={`${virtual.index} - ${item.id}`}

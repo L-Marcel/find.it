@@ -72,16 +72,14 @@ public class UsersController {
       @RequestParam(required = false, defaultValue = "true") Boolean finds,
       @RequestParam(required = false, defaultValue = "true") Boolean losts,
       @RequestParam(required = false, defaultValue = "true") Boolean donateds,
-      @PathVariable UUID id,
-      @RequestHeader(value = "Authorization", required = false) String token) {
+      @PathVariable UUID id) {
     List<ItemData> userItems = items.searchByTextAndUser(
         query,
         finds,
         losts,
         donateds,
         id,
-        page,
-        token);
+        page);
     return ResponseEntity.ok(userItems);
   }
 

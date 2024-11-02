@@ -17,7 +17,8 @@
   }
 
   section#mobile {
-    @apply flex
+    @apply hidden 
+      xs:flex
       flex-row
       md:hidden
       justify-between
@@ -27,6 +28,24 @@
     .register-button {
       @apply hidden;
     }
+  }
+
+  section#small-mobile {
+    @apply flex
+      flex-row
+      xs:hidden
+      justify-between
+      gap-3
+      sm:gap-8
+      mb-4;
+
+    .register-button {
+      @apply hidden;
+    }
+  }
+
+  section#small-mobile:last-of-type {
+    @apply mb-0;
   }
 
   .login {
@@ -39,12 +58,6 @@
 .item-page {
   @apply flex
     w-full;
-
-  hr {
-    @apply border
-      border-b-0
-      border-zinc-800;
-  }
 
   section {
     @apply flex
@@ -79,8 +92,7 @@
           md:text-2xl
           lg:text-3xl
           text-wrap
-          break-all
-          uppercase;
+          break-all;
       }
 
       h2 {
@@ -126,51 +138,6 @@
     sm:gap-x-6
     md:gap-x-12
     md:gap-y-10;
-  }
-
-  .user {
-    @apply flex
-      lg:px-10
-      flex-col
-      md:flex-row
-      gap-8
-      lg:gap-16;
-
-    #avatar {
-      @apply max-w-12
-        md:max-w-24
-        lg:max-w-40;
-    }
-
-    > div:first-of-type {
-      @apply flex
-        flex-row
-        gap-4
-        md:gap-8;
-
-      div {
-        @apply flex md:hidden;
-      }
-    }
-
-    > div:last-of-type {
-      @apply grid
-        grid-cols-1
-        md:grid-cols-2
-        gap-x-4
-        lg:gap-x-12
-        gap-y-6
-        overflow-hidden;
-
-      > div:first-of-type {
-        @apply hidden md:flex;
-      }
-
-      .label#stats {
-        @apply hidden
-          lg:flex;
-      }
-    }
   }
 
   article.lost {
@@ -219,7 +186,11 @@
 body:has(.item-page) {
   @apply gap-0;
 
-  header {
+  > header {
     @apply mb-8;
+  }
+
+  > footer {
+    @apply mt-8;
   }
 }

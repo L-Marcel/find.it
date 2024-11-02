@@ -45,6 +45,20 @@ export default async function RootLayout({
       >
         <Provider cities={cities.map((city) => cityToString(city))}>
           {children}
+          <footer>
+            <p>© {new Date().getFullYear()} Find.it</p>
+            <p>
+              Find.it é código aberto, veja no{" "}
+              <a
+                href="http://github.com/l-marcel/find.it"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
+              !
+            </p>
+          </footer>
           <Toaster />
         </Provider>
       </body>

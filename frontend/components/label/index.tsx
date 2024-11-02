@@ -1,10 +1,10 @@
 import "./index.scss";
-import React from "react";
+import React, { ReactNode } from "react";
 
 interface LabelProps {
   theme?: "default" | "small";
   header: string;
-  children: string;
+  children: ReactNode;
   icon?: React.ReactNode;
   id?: string;
 }

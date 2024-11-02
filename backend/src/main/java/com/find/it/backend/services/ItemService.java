@@ -106,10 +106,8 @@ public class ItemService {
       boolean losts,
       boolean donateds,
       UUID userId,
-      int pageNumber,
-      String token) {
+      int pageNumber) {
     User user = users.findById(userId);
-    Auth.validate(user.getId(), token);
     Sort sort = Sort.by(Sort.Direction.DESC, "updated_at");
     Pageable page = PageRequest.of(pageNumber, 10, sort);
     Page<Item> allItems = repository.search(
@@ -168,9 +166,8 @@ public class ItemService {
       boolean losts,
       boolean donateds,
       UUID user,
-      int pageNumber,
-      String token) {
-    return this.findByTextAndUser(query, finds, losts, donateds, user, pageNumber, token)
+      int pageNumber) {
+    return this.findByTextAndUser(query, finds, losts, donateds, user, pageNumber)
         .stream()
         .map(item -> new ItemData(item))
         .collect(Collectors.toList());

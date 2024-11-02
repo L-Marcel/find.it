@@ -34,7 +34,7 @@ export default async function EditItem({
         </section>
       </header>
       <main className="edit">
-        <section>
+        <section className="sm:-mt-8 2xl:mt-4 mb-6">
           <Image src={logo} alt="Fint.it" />
           <SearchProvider>
             <RemoveItemDialog token={token} item={item}>

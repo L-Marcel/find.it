@@ -3,21 +3,14 @@ import HeaderProfile from "@/components/header/profile";
 import { getItem, typeToText } from "@/context/items";
 import Image from "next/image";
 import "./index.scss";
-import Avatar from "@/components/avatar";
 import Label from "@/components/label";
-import {
-  At,
-  MapPinArea,
-  Pencil,
-  Stamp,
-  WhatsappLogo,
-} from "@phosphor-icons/react/dist/ssr";
-import { Phone } from "@phosphor-icons/react/dist/ssr";
+import { MapPinArea, Pencil, Stamp } from "@phosphor-icons/react/dist/ssr";
 import Button from "@/components/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import CloseItemDialog from "@/components/dialogues/item/close";
 import { headers } from "next/headers";
 import { getUser, PublicUser, User } from "@/context/user";
+import ProfileSection from "@/components/profile/section";
 
 export default async function ItemPage({
   params,
@@ -64,11 +57,9 @@ export default async function ItemPage({
               </>
             )}
           </div>
-          {!isAuth && (
-            <div>
-              <HeaderProfile />
-            </div>
-          )}
+          <div>
+            <HeaderProfile />
+          </div>
         </section>
         <section id="mobile">
           <div>
@@ -85,12 +76,36 @@ export default async function ItemPage({
               </>
             )}
           </div>
-          {!isAuth && (
-            <div>
-              <HeaderProfile />
-            </div>
-          )}
+          <div>
+            <HeaderProfile />
+          </div>
         </section>
+        <section id="small-mobile">
+          <div>
+            <BackButton onlyIcon />
+          </div>
+          <div>
+            <HeaderProfile />
+          </div>
+        </section>
+        {isAuthWithOwner && (
+          <section id="small-mobile">
+            <div className="w-full">
+              <Button
+                style={{ width: "100%" }}
+                icon={Pencil}
+                to={`/users/${item.user?.id}/items/${item.id}/edit`}
+              >
+                Editar
+              </Button>
+              <DialogTrigger asChild>
+                <Button style={{ width: "100%" }} icon={Stamp}>
+                  Fechar
+                </Button>
+              </DialogTrigger>
+            </div>
+          </section>
+        )}
       </header>
       <main className={`item-page ${item.type.toLowerCase()}`}>
         <section className="info">
@@ -109,48 +124,8 @@ export default async function ItemPage({
           </article>
         </section>
         <hr className="hidden lg:flex" />
-        <section className="user">
-          <div>
-            <Avatar
-              picture={`${process.env.API_DOMAIN}/users/${item.user?.picture}`}
-              big
-            />
-            <Label header={`${typeToText(item.type).toUpperCase()} POR...`}>
-              {item.user?.name}
-            </Label>
-          </div>
-          <hr />
-          <div>
-            <Label header={`${typeToText(item.type).toUpperCase()} POR...`}>
-              {item.user?.name}
-            </Label>
-            <Label id="stats" header="ENCONTRADOS / PERDIDOS / DOADOS">
-              {`${item.user?.finds} / ${item.user?.recovered} / ${item.user?.donated}`}
-            </Label>
-            {(item.user?.contact === "PHONE" ||
-              item.user?.contact === "BOTH") && (
-              <Label
-                icon={
-                  item.user?.whatsapp ? (
-                    <WhatsappLogo width={24} height={24} />
-                  ) : (
-                    <Phone width={24} height={24} />
-                  )
-                }
-                header="TELEFONE"
-              >
-                {item.user?.phone}
-              </Label>
-            )}
-            {(item.user?.contact === "EMAIL" ||
-              item.user?.contact === "BOTH") && (
-              <Label icon={<At width={24} height={24} />} header="EMAIL">
-                {item.user?.email}
-              </Label>
-            )}
-          </div>
-        </section>
-        <hr />
+        <ProfileSection user={item.user} />
+        <hr className="-my-4 md:my-0" />
         <section className="location">
           <Label header="CIDADE / ESTADO">{`${item.city} / ${item.state}`}</Label>
           <Label header="BAIRRO">{item.district ?? "---"}</Label>
@@ -162,6 +137,7 @@ export default async function ItemPage({
           <Button
             to={`https://www.google.com.br/maps/place/${place}`}
             target="_blank"
+            rel="noopener noreferrer"
             theme="default-fill"
             icon={MapPinArea}
           >

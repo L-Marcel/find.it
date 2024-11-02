@@ -28,7 +28,7 @@ export default async function CreateItem({
         </section>
       </header>
       <main className="create">
-        <section>
+        <section className="sm:-mt-8 2xl:mt-4 mb-6">
           <Image src={logo} alt="Fint.it" />
           <SearchProvider>
             <CreateItemForm token={token} user={user} />

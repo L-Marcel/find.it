@@ -13,7 +13,7 @@ export default function Register() {
         </section>
       </header>
       <main className="register">
-        <section>
+        <section className="sm:-mt-8 2xl:mt-4 mb-2">
           <Image src={logo} alt="Fint.it" />
           <RegisterUserForm />
         </section>
