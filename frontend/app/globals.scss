@@ -21,7 +21,13 @@ body {
     h-full 
     font-normal
     overflow-y-auto
-    relative;
+    relative
+    scrollbar-thin
+    scrollbar-corner-zinc-950
+    scrollbar-track-zinc-950
+    scrollbar-thumb-indigo-600
+    firefox:scrollbar
+    firefox:scrollbar-thumb-indigo-600;
 
   padding: 2rem !important;
 
