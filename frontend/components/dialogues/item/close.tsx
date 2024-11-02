@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
@@ -14,7 +13,7 @@ import {
 import Button from "../../button";
 import useNavigation from "@/context/navigation";
 import useLoading from "@/context/loading";
-import { ReactNode, useCallback } from "react";
+import { useCallback } from "react";
 import { Item } from "@/context/items";
 import { callCloseItemToast } from "../../ui/toasts";
 import "../index.scss";

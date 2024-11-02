@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext } from "use-context-selector";
-import { City } from "./cities";
 import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";

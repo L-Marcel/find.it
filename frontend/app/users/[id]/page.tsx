@@ -2,24 +2,15 @@ import Button from "@/components/button";
 import BackButton from "@/components/button/back";
 import HeaderProfile from "@/components/header/profile";
 import { getPublicUser, getUser, PublicUser } from "@/context/user";
-import {
-  At,
-  Pencil,
-  Phone,
-  Plus,
-  WhatsappLogo,
-} from "@phosphor-icons/react/dist/ssr";
+import { Pencil, Plus } from "@phosphor-icons/react/dist/ssr";
 import { headers } from "next/headers";
 import { Suspense } from "react";
 import "./index.scss";
-import Avatar from "@/components/avatar";
-import Label from "@/components/label";
 import ProfileSection from "@/components/profile/section";
 import UserQuery from "@/components/query/user";
 import SearchProvider from "@/context/search";
 import Filter from "@/components/switch/filter";
 import Link from "next/link";
-import CitySelector from "@/components/header/city/city";
 import Search from "@/components/header/search";
 
 export default async function UserPage({

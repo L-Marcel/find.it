@@ -5,7 +5,6 @@ import {
   At,
   Lock,
   Phone,
-  UserCircle,
   User as UserIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import Button from "../../button";
@@ -18,7 +17,6 @@ import {
   userUpdateSchema as updateSchema,
 } from "@/context/user";
 import Switch from "../../switch";
-import Image from "next/image";
 import useLoading from "@/context/loading";
 import { onUpdateUser } from "@/app/actions";
 import useNavigation from "@/context/navigation";

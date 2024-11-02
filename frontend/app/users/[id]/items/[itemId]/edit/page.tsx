@@ -9,6 +9,7 @@ import logo from "@/images/logo.webp";
 import "./index.scss";
 import RemoveItemDialog from "@/components/dialogues/item/remove";
 import SearchProvider from "@/context/search";
+import HeaderProfile from "@/components/header/profile";
 
 export default async function EditItem({
   params,
@@ -29,12 +30,21 @@ export default async function EditItem({
   return (
     <>
       <header className="header">
-        <section>
+        <section id="desktop">
           <BackButton />
+          <div>
+            <HeaderProfile />
+          </div>
+        </section>
+        <section id="mobile">
+          <BackButton onlyIcon />
+          <div>
+            <HeaderProfile />
+          </div>
         </section>
       </header>
       <main className="edit">
-        <section className="sm:-mt-8 2xl:mt-4 mb-6">
+        <section className="sm:-mt-4 2xl:mt-4 mb-6">
           <Image src={logo} alt="Fint.it" />
           <SearchProvider>
             <RemoveItemDialog token={token} item={item}>

@@ -15,7 +15,7 @@ import {
 import { toast } from "sonner";
 import { v4 as uuid } from "uuid";
 
-const duration = 650000;
+const duration = 6500;
 
 function notification() {
   new Audio("/notification.mp3").play();

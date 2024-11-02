@@ -7,6 +7,7 @@ import { getUser } from "@/context/user";
 import CreateItemForm from "@/components/forms/items/create";
 import Unauthorized from "@/errors/Unauthorized";
 import SearchProvider from "@/context/search";
+import HeaderProfile from "@/components/header/profile";
 
 export default async function CreateItem({
   params,
@@ -23,12 +24,21 @@ export default async function CreateItem({
   return (
     <>
       <header className="header">
-        <section>
+        <section id="desktop">
           <BackButton />
+          <div>
+            <HeaderProfile />
+          </div>
+        </section>
+        <section id="mobile">
+          <BackButton onlyIcon />
+          <div>
+            <HeaderProfile />
+          </div>
         </section>
       </header>
       <main className="create">
-        <section className="sm:-mt-8 2xl:mt-4 mb-6">
+        <section className="sm:-mt-4 2xl:mt-4 mb-6">
           <Image src={logo} alt="Fint.it" />
           <SearchProvider>
             <CreateItemForm token={token} user={user} />
