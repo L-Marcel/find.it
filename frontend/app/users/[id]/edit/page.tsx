@@ -1,18 +1,30 @@
 import "./index.scss";
 import BackButton from "@/components/button/back";
-import { getUser } from "@/context/user";
+import { getPublicUser, getUser } from "@/context/user";
 import Unauthorized from "@/errors/Unauthorized";
 import { headers } from "next/headers";
 import logo from "@/images/logo.webp";
 import Image from "next/image";
 import EditUserForm from "@/components/forms/user/edit";
 import HeaderProfile from "@/components/header/profile";
+import { Metadata } from "next";
 
-export default async function EditUser({
-  params,
-}: {
+interface EditUserProps {
   params: Promise<{ id: string }>;
-}) {
+}
+
+export async function generateMetadata({
+  params,
+}: EditUserProps): Promise<Metadata> {
+  const id = (await params).id;
+  const user = await getPublicUser(id);
+
+  return {
+    title: user.name,
+  };
+}
+
+export default async function EditUser({ params }: EditUserProps) {
   const id = (await params).id;
   const _headers = await headers();
   const userId = _headers.get("x-auth-id");

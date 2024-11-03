@@ -10,12 +10,25 @@ import "./index.scss";
 import RemoveItemDialog from "@/components/dialogues/item/remove";
 import SearchProvider from "@/context/search";
 import HeaderProfile from "@/components/header/profile";
+import { Metadata } from "next";
 
-export default async function EditItem({
-  params,
-}: {
+interface EditItemProps {
   params: Promise<{ id: string; itemId: string }>;
-}) {
+}
+
+export async function generateMetadata({
+  params,
+}: EditItemProps): Promise<Metadata> {
+  const id = (await params).id;
+  const item = await getItem(id);
+
+  return {
+    title: item.title,
+    description: item.description,
+  };
+}
+
+export default async function EditItem({ params }: EditItemProps) {
   const _params = await params;
   const id = _params.id;
   const itemId = _params.itemId;

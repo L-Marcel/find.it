@@ -11,12 +11,25 @@ import CloseItemDialog from "@/components/dialogues/item/close";
 import { headers } from "next/headers";
 import { getUser, PublicUser, User } from "@/context/user";
 import ProfileSection from "@/components/profile/section";
+import { Metadata } from "next";
 
-export default async function ItemPage({
-  params,
-}: {
+interface ItemPageProps {
   params: Promise<{ id: string }>;
-}) {
+}
+
+export async function generateMetadata({
+  params,
+}: ItemPageProps): Promise<Metadata> {
+  const id = (await params).id;
+  const item = await getItem(id);
+
+  return {
+    title: item.title,
+    description: item.description,
+  };
+}
+
+export default async function ItemPage({ params }: ItemPageProps) {
   const id = (await params).id;
   const item = await getItem(id);
 

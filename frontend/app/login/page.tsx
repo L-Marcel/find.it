@@ -3,6 +3,12 @@ import Image from "next/image";
 import logo from "@/images/logo.webp";
 import LoginForm from "@/components/forms/login";
 import BackButton from "@/components/button/back";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Find.it - Login",
+  description: "Entre com sua conta agora mesmo!",
+};
 
 interface LoginProps {
   searchParams: Promise<{ redirect: string }>;

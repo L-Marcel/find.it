@@ -3,6 +3,12 @@ import Image from "next/image";
 import logo from "@/images/logo.webp";
 import BackButton from "@/components/button/back";
 import RegisterUserForm from "@/components/forms/user/register";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Find.it - Cadastro",
+  description: "Crie sua conta agora mesmo!",
+};
 
 export default function Register() {
   return (

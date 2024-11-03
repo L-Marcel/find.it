@@ -8,6 +8,12 @@ import CreateItemForm from "@/components/forms/items/create";
 import Unauthorized from "@/errors/Unauthorized";
 import SearchProvider from "@/context/search";
 import HeaderProfile from "@/components/header/profile";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Find.it - Registrar um item",
+  description: "Perdeu alguma coisa? Por que está esperando para registrar?",
+};
 
 export default async function CreateItem({
   params,

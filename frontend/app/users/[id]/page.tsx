@@ -12,12 +12,24 @@ import SearchProvider from "@/context/search";
 import Filter from "@/components/switch/filter";
 import Link from "next/link";
 import Search from "@/components/header/search";
+import { Metadata } from "next";
 
-export default async function UserPage({
-  params,
-}: {
+interface UserPageProps {
   params: Promise<{ id: string }>;
-}) {
+}
+
+export async function generateMetadata({
+  params,
+}: UserPageProps): Promise<Metadata> {
+  const id = (await params).id;
+  const user = await getPublicUser(id);
+
+  return {
+    title: user.name,
+  };
+}
+
+export default async function UserPage({ params }: UserPageProps) {
   const id = (await params).id;
   const _headers = await headers();
   const userId = _headers.get("x-auth-id");
