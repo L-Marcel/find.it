@@ -83,28 +83,6 @@ public class UsersController {
     return ResponseEntity.ok(userItems);
   }
 
-  @GetMapping("/{id}/items/{state}/{city}")
-  public ResponseEntity<List<ItemData>> searchByTextAndUserAndLocation(
-      @PathVariable UUID id,
-      @PathVariable String state,
-      @PathVariable String city,
-      @RequestParam(required = false, defaultValue = "") String query,
-      @RequestParam(required = false, defaultValue = "0") Integer page,
-      @RequestParam(required = false, defaultValue = "true") Boolean finds,
-      @RequestParam(required = false, defaultValue = "true") Boolean losts,
-      @RequestParam(required = false, defaultValue = "true") Boolean donateds) {
-    List<ItemData> userItems = items.searchByTextAndUserAndLocation(
-        query,
-        state,
-        city,
-        finds,
-        losts,
-        donateds,
-        id,
-        page);
-    return ResponseEntity.ok(userItems);
-  }
-
   @PostMapping
   public ResponseEntity<String> create(@Validated @RequestBody UserCreateData user) {
     service.create(user);
