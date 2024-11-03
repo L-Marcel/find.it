@@ -42,6 +42,8 @@ export default async function ItemPage({
     place = `${item.number} - ${place}`;
     if (item.street) place = `${item.street}, ${place}`;
   } else if (item.street) place = `${item.street} - ${place}`;
+  
+  const googleURL = new URL(`https://www.google.com.br/maps/search/${place}`);
 
   return (
     <Dialog>
@@ -160,7 +162,7 @@ export default async function ItemPage({
             {item.number > 0 ? item.number.toString() : "---"}
           </Label>
           <Button
-            to={`https://www.google.com.br/maps/place/${place}`}
+            to={googleURL.toString()}
             target="_blank"
             theme="default-fill"
             icon={MapPinArea}
