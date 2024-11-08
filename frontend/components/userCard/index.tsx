@@ -81,7 +81,6 @@ const UserCard: React.FC<UserCardProps> = ({ user, index }) => {
           </div>
         </div>
       </div>
-      {/*<p>Contact: {user.contact}</p>*/}
     </li>
   );
 };

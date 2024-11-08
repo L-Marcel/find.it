@@ -1,5 +1,3 @@
-// Medal.tsx
-
 import React from "react";
 
 type MedalProps = {
@@ -7,17 +5,14 @@ type MedalProps = {
 };
 
 const Medal: React.FC<MedalProps> = ({ rank }) => {
-  // Determine medal color and icon based on rank
   const getMedalStyles = () => {
     switch (rank) {
       case 0:
         return "bg-yellow-400 text-zinc-900";
       case 1:
-        return "bg-zinc-500 text-zinc-900"; // Silver
+        return "bg-zinc-500 text-zinc-900";
       case 2:
-        return "bg-yellow-700 text-zinc-900"; // Bronze
-      default:
-        return "bg-zinc-900 text-zinc-200"; // Black for other ranks
+        return "bg-yellow-700 text-zinc-900";
     }
   };
 
