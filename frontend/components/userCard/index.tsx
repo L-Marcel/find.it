@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { User } from "@phosphor-icons/react/dist/ssr";
 import { At, Phone, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
+import Medal from "./medal";
 
 interface User {
   id: string;
@@ -19,22 +20,27 @@ interface User {
 
 interface UserCardProps {
   user: User;
+  index: number;
 }
 
-const UserCard: React.FC<UserCardProps> = ({ user }) => {
+const UserCard: React.FC<UserCardProps> = ({ user, index }) => {
   return (
     <li key={user.id} className="user-card">
-      {user.picture ? (
-        <Image
-          src={`${process.env.API_DOMAIN}/users/${user.picture}`}
-          alt={user.name ?? user.picture}
-          width={156}
-          height={156}
-          style={{ borderRadius: "100px" }}
-        />
-      ) : (
-        <User width={24} height={24} />
-      )}
+      <div className="relative">
+        {user.picture ? (
+          <Image
+            src={`${process.env.API_DOMAIN}/users/${user.picture}`}
+            alt={user.name ?? user.picture}
+            width={156}
+            height={156}
+            style={{ borderRadius: "100px" }}
+          />
+        ) : (
+          <User width={24} height={24} />
+        )}
+        <Medal rank={index} />
+      </div>
+
       <div className="user-column">
         <div className="user-column">
           <h1>SEU NOME É...</h1>

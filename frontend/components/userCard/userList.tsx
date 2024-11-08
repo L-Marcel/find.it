@@ -48,8 +48,8 @@ const UserList: React.FC = () => {
         <Filter />
       </div>
       <ul>
-        {data.byDonateds.map((user: User) => (
-          <UserCard key={user.id} user={user} />
+        {data.byDonateds.map((user: User, index: number) => (
+          <UserCard key={user.id} user={user} index={index} />
         ))}
       </ul>
     </div>
