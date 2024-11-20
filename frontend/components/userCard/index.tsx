@@ -75,7 +75,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, index }) => {
         <div className="user-column">
           <h1>ENCONTRADOS / RECUPERADOS / DOADOS</h1>
           <p>
-            {user.donated} / {user.recovered} / {user.finds}
+            {user.finds} / {user.recovered} / {user.donated}
           </p>
         </div>
         <div className="user-row">

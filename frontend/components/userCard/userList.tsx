@@ -4,6 +4,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import UserCard from "@/components/userCard/index";
 import Filter from "@/components/switch/filter";
+import useFilters from "@/context/filters";
 import "./index.scss";
 
 interface User {
@@ -39,8 +40,30 @@ const UserList: React.FC = () => {
     queryFn: fetchUserRankings,
   });
 
+  const { finds, losts, donateds } = useFilters();
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
+
+  const filteredUsers = data.byDonateds
+    .filter((user: User) => {
+      const matchesFinds = finds ? user.finds > 0 : true;
+      const matchesLosts = losts ? user.recovered > 0 : true;
+      const matchesDonateds = donateds ? user.donated > 0 : true;
+      return matchesFinds && matchesLosts && matchesDonateds;
+    })
+    .sort((a: User, b: User) => {
+      if (losts) {
+        return b.recovered - a.recovered;
+      }
+      if (finds) {
+        return b.finds - a.finds;
+      }
+      if (donateds) {
+        return b.donated - a.donated;
+      }
+      return 0;
+    });
 
   return (
     <div className="user-list">
@@ -48,7 +71,7 @@ const UserList: React.FC = () => {
         <Filter />
       </div>
       <ul>
-        {data.byDonateds.map((user: User, index: number) => (
+        {filteredUsers.map((user: User, index: number) => (
           <UserCard key={user.id} user={user} index={index} />
         ))}
       </ul>
