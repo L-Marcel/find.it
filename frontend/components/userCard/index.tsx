@@ -24,6 +24,13 @@ interface UserCardProps {
 }
 
 const UserCard: React.FC<UserCardProps> = ({ user, index }) => {
+  const formatPhoneNumber = (phone: string): string => {
+    const cleaned = phone.replace(/\D/g, "");
+    if (cleaned.length === 11) {
+      return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 7)}-${cleaned.slice(7)}`;
+    }
+    return phone;
+  };
   return (
     <li key={user.id} className="user-card">
       <div className="relative">
@@ -60,7 +67,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, index }) => {
 
           <div className="user-column">
             <h1>TELEFONE</h1>
-            <p>{user.phone || "N/A"}</p>
+            <p>{user.phone ? formatPhoneNumber(user.phone) : "N/A"}</p>
           </div>
         </div>
       </div>
