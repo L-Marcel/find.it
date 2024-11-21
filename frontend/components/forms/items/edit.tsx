@@ -28,6 +28,7 @@ import {
   callUpdateItemToast,
 } from "@/components/ui/toasts";
 import { DialogTrigger } from "@/components/ui/dialog";
+import { onUpdateItem } from "@/app/actions";
 
 const initial: CreateItemData = {
   cityAndState: "Natal - RN",
@@ -147,9 +148,13 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
         })
           .then(async (response) => {
             if (!response.ok) throw await response.json();
-            setLoading(false);
-            callUpdateItemToast();
-            navigation.replace("/items/" + item.id);
+            else {
+              onUpdateItem(item.id).finally(() => {
+                setLoading(false);
+                callUpdateItemToast();
+                navigation.replace("/items/" + item.id);
+              });
+            };
           })
           .catch((error) => {
             setLoading(false);

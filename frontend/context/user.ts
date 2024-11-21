@@ -98,6 +98,12 @@ export type PublicUser = {
   recovered: number;
   finds: number;
 };
+
+export type UsersRank = {
+  byFinds: PublicUser[];
+  byRecovereds: PublicUser[];
+  byDonateds: PublicUser[];
+};
 //#endregion
 
 export async function getUser(id: string | null, token: string | null) {
@@ -147,3 +153,22 @@ export async function getPublicUser(id: string | null) {
     }
   });
 }
+
+export async function getUsersRank() {
+  return await fetch(`${process.env.API_URL}/users/rank`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    cache: "default",
+    next: {
+      tags: ["rank"],
+    },
+  }).then(async(res) => {
+    if (res.ok) {
+      return res.json() as Promise<UsersRank>;
+    } else {
+      throw new Unexpected(res.status.toString());
+    }
+  });
+};

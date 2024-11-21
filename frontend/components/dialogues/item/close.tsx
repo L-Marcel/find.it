@@ -17,6 +17,7 @@ import { useCallback } from "react";
 import { Item } from "@/context/items";
 import { callCloseItemToast } from "../../ui/toasts";
 import "../index.scss";
+import { onUpdateItem } from "@/app/actions";
 
 interface CloseItemDialogProps {
   item: Item;
@@ -38,9 +39,13 @@ export default function CloseItemDialog({ item, token }: CloseItemDialogProps) {
     })
       .then(async (response) => {
         if (!response.ok) throw await response.json();
-        setLoading(false);
-        callCloseItemToast();
-        navigation.replace("/users/" + item.user.id);
+        else {
+          onUpdateItem(item.id).finally(() => {
+            setLoading(false);
+            callCloseItemToast();
+            navigation.replace("/users/" + item.user.id);
+          });
+        }; 
       })
       .catch(() => {
         setLoading(false);

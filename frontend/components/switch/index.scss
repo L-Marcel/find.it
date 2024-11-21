@@ -87,3 +87,8 @@
     sm:cursor-default
     scrollbar-none;
 }
+
+.alternative-filter {
+  @apply md:justify-center
+    max-w-[424px];
+}

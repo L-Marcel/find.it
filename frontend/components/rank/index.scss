@@ -1,13 +1,13 @@
-.user-card {
+.rank-card {
   @apply flex space-x-32 
-  flex-row
-  justify-around
-  my-16;
+  flex-row;
+
   .user-column {
     @apply flex
     flex-col
     justify-between;
   }
+
   .user-row {
     @apply flex
     flex-row
@@ -22,33 +22,38 @@
       rounded-full;
     }
   }
+
   h1 {
     @apply text-indigo-500
     text-lg
     font-medium;
   }
+
   p {
     @apply text-3xl;
   }
 }
 
-.user-list {
+.rank-list {
   @apply flex
-  flex-col
-  items-center;
+    flex-col
+    items-start
+    w-full
+    mt-6
+    gap-6;
 }
 
-.medal {
+.rank-medal {
   @apply w-16 h-16 
-  text-xl
-  rounded-full 
-  flex 
-  items-center 
-  justify-center 
-  font-bold
-  absolute
-  bottom-[-30px]
-  left-1/2
-  transform
-  -translate-x-1/2;
+    text-xl
+    rounded-full 
+    flex 
+    items-center 
+    justify-center 
+    font-bold
+    absolute
+    bottom-[-30px]
+    left-1/2
+    transform
+    -translate-x-1/2;
 }
