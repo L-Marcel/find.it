@@ -72,33 +72,9 @@ public class UsersController {
       @RequestParam(required = false, defaultValue = "true") Boolean finds,
       @RequestParam(required = false, defaultValue = "true") Boolean losts,
       @RequestParam(required = false, defaultValue = "true") Boolean donateds,
-      @PathVariable UUID id,
-      @RequestHeader(value = "Authorization", required = false) String token) {
+      @PathVariable UUID id) {
     List<ItemData> userItems = items.searchByTextAndUser(
         query,
-        finds,
-        losts,
-        donateds,
-        id,
-        page,
-        token);
-    return ResponseEntity.ok(userItems);
-  }
-
-  @GetMapping("/{id}/items/{state}/{city}")
-  public ResponseEntity<List<ItemData>> searchByTextAndUserAndLocation(
-      @PathVariable UUID id,
-      @PathVariable String state,
-      @PathVariable String city,
-      @RequestParam(required = false, defaultValue = "") String query,
-      @RequestParam(required = false, defaultValue = "0") Integer page,
-      @RequestParam(required = false, defaultValue = "true") Boolean finds,
-      @RequestParam(required = false, defaultValue = "true") Boolean losts,
-      @RequestParam(required = false, defaultValue = "true") Boolean donateds) {
-    List<ItemData> userItems = items.searchByTextAndUserAndLocation(
-        query,
-        state,
-        city,
         finds,
         losts,
         donateds,

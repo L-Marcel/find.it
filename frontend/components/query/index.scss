@@ -4,9 +4,18 @@
     relative
     flex
     flex-col
-    mb-8
     mt-4
+    mb-6
     overflow-visible;
+
+  > h4 {
+    @apply font-roboto
+      font-normal
+      text-xl
+      text-zinc-200
+      justify-self-center
+      mb-4;
+  }
 
   .item {
     @apply flex
@@ -52,7 +61,6 @@
         @apply font-roboto
           font-semibold
           text-2xl
-          uppercase
           text-indigo-600;
       }
 
@@ -61,7 +69,7 @@
           font-light
           italic
           text-base
-          uppercase
+          capitalize
           text-gray-200;
       }
     }
@@ -97,7 +105,6 @@
             font-roboto
             font-medium
             text-base
-            uppercase
             text-zinc-50
             rounded-r-2xl;
       }

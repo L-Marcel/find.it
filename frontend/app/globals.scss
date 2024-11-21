@@ -13,15 +13,23 @@ html {
 body {
   @apply bg-zinc-950 
     flex 
-    flex-col 
+    flex-col
+    min-h-screen
     gap-4
-    p-8
     text-zinc-200 
     font-roboto
     h-full 
     font-normal
     overflow-y-auto
-    relative;
+    relative
+    scrollbar-thin
+    scrollbar-corner-zinc-950
+    scrollbar-track-zinc-950
+    scrollbar-thumb-indigo-600
+    firefox:scrollbar
+    firefox:scrollbar-thumb-indigo-600;
+
+  padding: 2rem !important;
 
   > main {
     @apply flex
@@ -55,8 +63,45 @@ body {
       }
     }
   }
+
+  > footer {
+    @apply flex
+      -mx-8
+      -mb-12
+      mt-auto
+      px-8
+      py-6
+      pb-8
+      bg-zinc-950
+      font-roboto
+      gap-2
+      md:gap-4
+      flex-wrap
+      justify-between;
+
+    a {
+      @apply underline
+        underline-offset-2
+        outline-none
+        hover:underline-offset-4
+        focus:underline-offset-4
+        focus:text-indigo-500;
+
+      outline-style: none !important;
+    }
+  }
 }
 
 .tsqd-parent-container {
   @apply absolute;
+}
+
+hr {
+  @apply border
+    border-b-0
+    border-zinc-800;
+}
+
+section:has(.toaster) {
+  @apply fixed;
 }

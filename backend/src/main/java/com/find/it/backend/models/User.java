@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.find.it.backend.dtos.records.UserCreateData;
 import com.find.it.backend.dtos.records.UserUpdateData;

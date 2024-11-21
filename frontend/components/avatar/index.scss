@@ -1,0 +1,6 @@
+img#avatar,
+svg#avatar {
+  @apply rounded-full
+  object-fill
+  h-fit;
+}

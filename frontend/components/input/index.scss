@@ -56,7 +56,6 @@
       leading-4
       bg-transparent
       outline-none
-      placeholder:uppercase
       placeholder:text-zinc-500
       group-focus:text-inherit;
   }
@@ -93,7 +92,6 @@
 
     p {
       @apply text-inherit
-        uppercase
         font-medium;
     }
   }
@@ -183,8 +181,7 @@
       text-center
       gap-3
       font-roboto
-      text-base
-      uppercase;
+      text-base;
 
     svg {
       @apply size-8;

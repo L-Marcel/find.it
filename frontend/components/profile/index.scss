@@ -9,7 +9,6 @@
     text-zinc-50
     hover:text-indigo-600
     gap-2
-    uppercase
     font-roboto
     font-medium
     text-base
@@ -66,5 +65,50 @@
 
   svg {
     @apply ml-0;
+  }
+}
+
+.user-profile-section {
+  @apply flex
+    lg:px-10
+    flex-col
+    md:flex-row
+    gap-4
+    lg:gap-8;
+
+  #avatar {
+    @apply max-w-12
+      md:max-w-24
+      lg:max-w-40;
+  }
+
+  > div:first-of-type {
+    @apply flex
+      flex-row
+      gap-4
+      md:gap-8;
+
+    div {
+      @apply flex md:hidden;
+    }
+  }
+
+  > div:last-of-type {
+    @apply grid
+      grid-cols-1
+      md:grid-cols-2
+      gap-x-4
+      lg:gap-x-12
+      gap-y-6
+      overflow-hidden;
+
+    > div:first-of-type {
+      @apply hidden md:flex;
+    }
+
+    .label#stats {
+      @apply hidden
+        md:flex;
+    }
   }
 }

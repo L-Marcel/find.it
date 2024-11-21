@@ -1,11 +1,15 @@
 package com.find.it.backend.models;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
+import org.hibernate.search.engine.backend.types.Searchable;
+import org.hibernate.search.engine.backend.types.Sortable;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
 import com.find.it.backend.dtos.records.ItemFormData;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -19,6 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Indexed
 @Entity
 @Table(name = "Items")
 @Data
@@ -30,16 +35,20 @@ public class Item {
   private long id;
 
   @Enumerated(EnumType.ORDINAL)
+  @GenericField(searchable = Searchable.YES)
   private ItemType type = ItemType.FIND;
 
+  @FullTextField
   private String title;
 
   private String picture = "";
 
   private String description = "";
 
+  @FullTextField
   private String city;
 
+  @FullTextField
   private String state;
 
   private String street = "";
@@ -50,10 +59,12 @@ public class Item {
 
   private String complement = "";
 
+  @GenericField(name = "updated_at", sortable = Sortable.YES)
   private Timestamp updateAt;
 
   @ManyToOne
   @JoinColumn(name = "owner")
+  @IndexedEmbedded(includeEmbeddedObjectId = true)
   private User user;
 
   public Item(ItemFormData item, User user) {

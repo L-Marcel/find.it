@@ -19,8 +19,8 @@ import {
   Item,
 } from "@/context/items";
 import Textarea from "@/components/input/area";
-import CitySelector from "@/components/header/citySelector";
-import TypeSwitch from "@/components/switch/typeSwitch";
+import CitySelector from "@/components/header/city/city";
+import TypeSwitch from "@/components/switch/type";
 import InputBanner from "@/components/input/banner";
 import useNavigation from "@/context/navigation";
 import {

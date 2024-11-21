@@ -1,1 +1,2 @@
 database.* binary merge=ours
+index/Item/* binary merge=ours

@@ -6,7 +6,6 @@ import {
   At,
   Lock,
   Phone,
-  UserCircle,
   User as UserIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import Button from "../../button";
@@ -18,7 +17,7 @@ import {
   userCreateSchema as createSchema,
 } from "@/context/user";
 import Switch from "../../switch";
-import Image from "next/image";
+import Avatar from "@/components/avatar";
 import useLoading from "@/context/loading";
 import useNavigation from "@/context/navigation";
 import {
@@ -205,13 +204,6 @@ export default function RegisterUserForm() {
   //#endregion
 
   //#region Local Components
-  const Avatar = () =>
-    avatar ? (
-      <Image width={98} height={98} alt="avatar" src={avatar} />
-    ) : (
-      <UserCircle width={98} height={98} />
-    );
-
   const InputFile = () => (
     <CropImageDialogue
       imageSize={avatarSize}
@@ -243,7 +235,7 @@ export default function RegisterUserForm() {
       </header>
       <main>
         <div id="profile">
-          <Avatar />
+          <Avatar picture={avatar} />
           <div>
             <Input
               name="name"
@@ -259,7 +251,7 @@ export default function RegisterUserForm() {
         </div>
         <div id="profile" className="mobile">
           <div>
-            <Avatar />
+            <Avatar picture={avatar} />
             <Input
               name="name"
               className="w-full"

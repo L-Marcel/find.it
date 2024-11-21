@@ -5,7 +5,6 @@ import {
   At,
   Lock,
   Phone,
-  UserCircle,
   User as UserIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import Button from "../../button";
@@ -18,7 +17,6 @@ import {
   userUpdateSchema as updateSchema,
 } from "@/context/user";
 import Switch from "../../switch";
-import Image from "next/image";
 import useLoading from "@/context/loading";
 import { onUpdateUser } from "@/app/actions";
 import useNavigation from "@/context/navigation";
@@ -28,6 +26,7 @@ import {
 } from "@/components/ui/toasts";
 import CropImageDialogue from "@/components/dialogues/crop";
 import { avatarSize } from "@/components/input/sizes";
+import Avatar from "@/components/avatar";
 
 const initial: UpdateUserData = {
   name: "",
@@ -249,13 +248,6 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
   //#endregion
 
   //#region Local Components
-  const Avatar = () =>
-    avatar ? (
-      <Image width={98} height={98} alt="avatar" src={avatar} />
-    ) : (
-      <UserCircle width={98} height={98} />
-    );
-
   const InputFile = () => (
     <CropImageDialogue
       imageSize={avatarSize}
@@ -287,7 +279,7 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
       </header>
       <main>
         <div id="profile">
-          <Avatar />
+          <Avatar picture={avatar} />
           <div>
             <Input
               name="name"
@@ -303,7 +295,7 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
         </div>
         <div id="profile" className="mobile">
           <div>
-            <Avatar />
+            <Avatar picture={avatar} />
             <Input
               name="name"
               className="w-full"

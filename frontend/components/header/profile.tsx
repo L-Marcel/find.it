@@ -3,13 +3,16 @@ import { headers } from "next/headers";
 import Button from "../button";
 import Profile from "../profile";
 import LogoutButton from "../button/logout";
+import { Pencil } from "@phosphor-icons/react/dist/ssr";
 
 interface HeaderProfileProps {
   justIcon?: boolean;
+  edit?: boolean;
 }
 
 export default async function HeaderProfile({
   justIcon = false,
+  edit = false,
 }: HeaderProfileProps) {
   const _headers = await headers();
   const userId = _headers.get("x-auth-id");
@@ -19,11 +22,17 @@ export default async function HeaderProfile({
     const user = await getUser(userId, token);
     return (
       <>
-        <Profile
-          id={user.id}
-          name={!justIcon ? user.name : undefined}
-          picture={user.picture}
-        />
+        {edit ? (
+          <Button icon={Pencil} to={`/users/${user.id}/edit`}>
+            Editar
+          </Button>
+        ) : (
+          <Profile
+            id={user.id}
+            name={!justIcon ? user.name : undefined}
+            picture={user.picture}
+          />
+        )}
         <LogoutButton />
       </>
     );

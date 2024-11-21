@@ -1,17 +1,30 @@
 import "./index.scss";
-import BackButton from "@/components/button/backButton";
-import { getUser } from "@/context/user";
+import BackButton from "@/components/button/back";
+import { getPublicUser, getUser } from "@/context/user";
 import Unauthorized from "@/errors/Unauthorized";
 import { headers } from "next/headers";
 import logo from "@/images/logo.webp";
 import Image from "next/image";
 import EditUserForm from "@/components/forms/user/edit";
+import HeaderProfile from "@/components/header/profile";
+import { Metadata } from "next";
 
-export default async function EditUser({
-  params,
-}: {
+interface EditUserProps {
   params: Promise<{ id: string }>;
-}) {
+}
+
+export async function generateMetadata({
+  params,
+}: EditUserProps): Promise<Metadata> {
+  const id = (await params).id;
+  const user = await getPublicUser(id);
+
+  return {
+    title: user.name,
+  };
+}
+
+export default async function EditUser({ params }: EditUserProps) {
   const id = (await params).id;
   const _headers = await headers();
   const userId = _headers.get("x-auth-id");
@@ -23,12 +36,21 @@ export default async function EditUser({
   return (
     <>
       <header className="header">
-        <section>
+        <section id="desktop">
           <BackButton />
+          <div>
+            <HeaderProfile />
+          </div>
+        </section>
+        <section id="mobile">
+          <BackButton onlyIcon />
+          <div>
+            <HeaderProfile />
+          </div>
         </section>
       </header>
       <main className="edit">
-        <section>
+        <section className="sm:-mt-4 2xl:mt-4 mb-6">
           <Image src={logo} alt="Fint.it" />
           <EditUserForm token={token ?? ""} user={user} />
         </section>

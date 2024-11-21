@@ -1,3 +1,41 @@
+.header {
+  section {
+    @apply flex
+      flex-row
+      w-full
+      gap-3
+      justify-between;
+
+    > div {
+      @apply flex
+        flex-row
+        gap-3;
+    }
+  }
+
+  section#desktop {
+    @apply hidden
+      md:flex;
+
+    > div {
+      @apply flex
+          flex-row
+          gap-3;
+    }
+  }
+
+  section#mobile {
+    @apply flex
+      md:hidden;
+
+    > div {
+      @apply flex
+          flex-row
+          gap-3;
+    }
+  }
+}
+
 .edit {
   @apply flex 
     flex-col
@@ -9,5 +47,9 @@
       flex-col
       gap-5
       max-w-[25rem];
+
+    img {
+      @apply h-32 object-contain;
+    }
   }
 }

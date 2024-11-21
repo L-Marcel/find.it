@@ -24,6 +24,7 @@ import com.find.it.backend.models.User;
 import com.find.it.backend.models.ItemType;
 import com.find.it.backend.repositories.ItemRepository;
 import com.find.it.backend.repositories.PictureRepository;
+import com.find.it.backend.repositories.SearchItemRepository;
 import com.find.it.backend.security.Auth;
 
 @Service
@@ -36,6 +37,9 @@ public class ItemService {
 
   @Autowired
   private PictureRepository pictures;
+
+  @Autowired
+  private SearchItemRepository searchRepository;
 
   public void create(ItemFormData newItem, String token) {
     UUID ownerId;
@@ -87,9 +91,8 @@ public class ItemService {
       boolean losts,
       boolean donateds,
       int pageNumber) {
-    Sort sort = Sort.by(Sort.Direction.DESC, "updated_at");
-    Pageable page = PageRequest.of(pageNumber, 10, sort);
-    Page<Item> allItems = repository.search(
+    Pageable page = PageRequest.of(pageNumber, 10);
+    Page<Item> allItems = searchRepository.search(
         query,
         city,
         state,
@@ -106,43 +109,15 @@ public class ItemService {
       boolean losts,
       boolean donateds,
       UUID userId,
-      int pageNumber,
-      String token) {
-    User user = users.findById(userId);
-    Auth.validate(user.getId(), token);
-    Sort sort = Sort.by(Sort.Direction.DESC, "updated_at");
-    Pageable page = PageRequest.of(pageNumber, 10, sort);
-    Page<Item> allItems = repository.search(
-        query,
-        finds,
-        losts,
-        donateds,
-        user.getId().toString(),
-        page);
-
-    return allItems.toList();
-  }
-
-  protected List<Item> findByTextAndUserAndLocation(
-      String query,
-      String state,
-      String city,
-      boolean finds,
-      boolean losts,
-      boolean donateds,
-      UUID userId,
       int pageNumber) {
     User user = users.findById(userId);
-    Sort sort = Sort.by(Sort.Direction.DESC, "updated_at");
-    Pageable page = PageRequest.of(pageNumber, 10, sort);
-    Page<Item> allItems = repository.search(
+    Pageable page = PageRequest.of(pageNumber, 10);
+    Page<Item> allItems = searchRepository.search(
         query,
-        state,
-        city,
         finds,
         losts,
         donateds,
-        user.getId().toString(),
+        user.getId(),
         page);
 
     return allItems.toList();
@@ -168,24 +143,8 @@ public class ItemService {
       boolean losts,
       boolean donateds,
       UUID user,
-      int pageNumber,
-      String token) {
-    return this.findByTextAndUser(query, finds, losts, donateds, user, pageNumber, token)
-        .stream()
-        .map(item -> new ItemData(item))
-        .collect(Collectors.toList());
-  };
-
-  public List<ItemData> searchByTextAndUserAndLocation(
-      String query,
-      String state,
-      String city,
-      boolean finds,
-      boolean losts,
-      boolean donateds,
-      UUID user,
       int pageNumber) {
-    return this.findByTextAndUserAndLocation(query, state, city, finds, losts, donateds, user, pageNumber)
+    return this.findByTextAndUser(query, finds, losts, donateds, user, pageNumber)
         .stream()
         .map(item -> new ItemData(item))
         .collect(Collectors.toList());

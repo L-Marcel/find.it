@@ -1,5 +1,5 @@
-import CitySelector from "@/components/header/citySelector";
-import HeaderProfile from "@/components/header/headerProfile";
+import CitySelector from "@/components/header/city/city";
+import HeaderProfile from "@/components/header/profile";
 import Search from "@/components/header/search";
 import Loading from "@/components/loading";
 import Query from "@/components/query";
@@ -10,6 +10,12 @@ import { Suspense } from "react";
 import "./index.scss";
 import Button from "@/components/button";
 import { Trophy } from "@phosphor-icons/react/dist/ssr";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Find.it",
+  description: "Encontre o que procura!",
+};
 
 export default function Home() {
   return (

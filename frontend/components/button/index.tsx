@@ -29,7 +29,7 @@ export default function Button({
   className = "",
   ...props
 }: ButtonProps) {
-  const _className = `${className} button ${theme} ${Icon ? "icon" : ""} ${right ? "right" : ""}`;
+  const _className = `button ${theme} ${Icon ? "icon" : ""} ${right ? "right" : ""} ${className}`;
 
   if (to) {
     return (
