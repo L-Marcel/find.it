@@ -1,4 +1,7 @@
-"use client";
+import "./index.scss";
+import BackButton from "@/components/button/backButton";
+import SearchProvider from "@/context/search";
+import UserList from "@/components/userCard/userList";
 
 import { Metadata } from "next";
 
@@ -8,10 +11,21 @@ export const metadata: Metadata = {
 };
 
 export default function Rank() {
-  //MARK: Implement this page
   return (
     <>
-      <p>Rank...</p>
+      <header className="header">
+        <section>
+          <BackButton />
+        </section>
+      </header>
+      <main className="main-container">
+        <h3>Ranqueamento</h3>
+        <section>
+          <SearchProvider>
+            <UserList />
+          </SearchProvider>
+        </section>
+      </main>
     </>
   );
 }
