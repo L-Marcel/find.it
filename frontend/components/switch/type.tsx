@@ -27,7 +27,7 @@ export default function TypeSwitch({
     <div
       tabIndex={-1}
       ref={ref}
-      className={`${styles.filter} ${center ? styles.alternatie : ""}`}
+      className={`${styles.filter} ${center ? styles.alternative : ""}`}
       {...events}
     >
       <Switch checked={type === "FIND"} onClick={() => onChange("FIND")}>

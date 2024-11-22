@@ -59,7 +59,7 @@ Para facilitar lidar com o modo produção, há uma série de `scripts` desenvol
 
 ## Compilar o modo produção
 
-Não é tão trivial a sequência de passos que seguiremos, portanto, é importante atenção. O primeiro comando a executar é o de `build` do `backend`:
+Não é tão trivial a sequência de passos que seguiremos, portanto, é importante atenção. Antes de mais nada, certifique-se de ter aberto o terminal (ou o `VSCode`) como administrador e que a variável de ambiente `JAVA_HOME` está bem definida. O primeiro comando a executar é o de `build` do `backend`:
 
 ```cmd
 pnpm windows:backend:build
