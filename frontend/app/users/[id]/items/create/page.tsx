@@ -1,4 +1,4 @@
-import "./index.scss";
+import styles from "./index.module.scss";
 import Image from "next/image";
 import logo from "@/images/logo.webp";
 import BackButton from "@/components/button/back";
@@ -29,7 +29,7 @@ export default async function CreateItem({
 
   return (
     <>
-      <header className="header">
+      <header className={styles.header}>
         <section id="desktop">
           <BackButton />
           <div>
@@ -43,7 +43,7 @@ export default async function CreateItem({
           </div>
         </section>
       </header>
-      <main className="create">
+      <main className={styles.create}>
         <section className="sm:-mt-4 2xl:mt-4 mb-6">
           <Image src={logo} alt="Fint.it" />
           <SearchProvider>

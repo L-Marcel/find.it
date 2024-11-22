@@ -1,0 +1,55 @@
+.header {
+  section {
+    @apply flex
+      flex-row
+      w-full
+      gap-3
+      justify-between;
+
+    > div {
+      @apply flex
+        flex-row
+        gap-3;
+    }
+  }
+
+  section[id="desktop"] {
+    @apply hidden
+      md:flex;
+
+    > div {
+      @apply flex
+          flex-row
+          gap-3;
+    }
+  }
+
+  section[id="mobile"] {
+    @apply flex
+      md:hidden;
+
+    > div {
+      @apply flex
+          flex-row
+          gap-3;
+    }
+  }
+}
+
+.edit {
+  @apply flex 
+    flex-col
+    items-center 
+    justify-center;
+
+  section {
+    @apply flex
+      flex-col
+      gap-5
+      max-w-[25rem];
+
+    img {
+      @apply h-32 object-contain;
+    }
+  }
+}

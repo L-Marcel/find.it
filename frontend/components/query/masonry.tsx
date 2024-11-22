@@ -3,6 +3,7 @@ import { defaultRangeExtractor, useVirtualizer } from "@tanstack/react-virtual";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { useEffect, useRef, useState } from "react";
 import MasonryItem from "./item";
+import styles from "./index.module.scss";
 
 interface MasonryProps {
   items: Item[];
@@ -12,15 +13,15 @@ interface MasonryProps {
 
 export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
   const [alreadyEnded, setAlreadyEnded] = useState<boolean>(false);
-  const mansory = useRef<HTMLDivElement>(null);
+  const masonry = useRef<HTMLDivElement>(null);
   const { width } = useWindowSize();
 
   const gap = 30;
   const minItemWidth = 360;
   const itemHeight = 320;
-  const mansoryWidth = mansory.current?.clientWidth || width || 1366;
-  const columns = Math.max(Math.floor(mansoryWidth / (minItemWidth + gap)), 1);
-  const columnWidth = (mansoryWidth - (columns - 1) * gap) / columns;
+  const masonryWidth = masonry.current?.clientWidth || width || 1366;
+  const columns = Math.max(Math.floor(masonryWidth / (minItemWidth + gap)), 1);
+  const columnWidth = (masonryWidth - (columns - 1) * gap) / columns;
   const count = items.length;
 
   const virtualizer = useVirtualizer({
@@ -61,8 +62,9 @@ export default function Masonry({ items, fetching, onEnd }: MasonryProps) {
 
   return (
     <div
-      className="masonry"
-      ref={mansory}
+      className={styles.masonry}
+      id="masonry"
+      ref={masonry}
       style={{
         height: virtualizer.getTotalSize(),
       }}

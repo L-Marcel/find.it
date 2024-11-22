@@ -6,7 +6,7 @@ import Unauthorized from "@/errors/Unauthorized";
 import { headers } from "next/headers";
 import Image from "next/image";
 import logo from "@/images/logo.webp";
-import "./index.scss";
+import styles from "./index.module.scss";
 import RemoveItemDialog from "@/components/dialogues/item/remove";
 import SearchProvider from "@/context/search";
 import HeaderProfile from "@/components/header/profile";
@@ -19,7 +19,7 @@ interface EditItemProps {
 export async function generateMetadata({
   params,
 }: EditItemProps): Promise<Metadata> {
-  const id = (await params).id;
+  const id = (await params).itemId;
   const item = await getItem(id);
 
   return {
@@ -42,7 +42,7 @@ export default async function EditItem({ params }: EditItemProps) {
 
   return (
     <>
-      <header className="header">
+      <header className={styles.header}>
         <section id="desktop">
           <BackButton />
           <div>
@@ -56,7 +56,7 @@ export default async function EditItem({ params }: EditItemProps) {
           </div>
         </section>
       </header>
-      <main className="edit">
+      <main className={styles.edit}>
         <section className="sm:-mt-4 2xl:mt-4 mb-6">
           <Image src={logo} alt="Fint.it" />
           <SearchProvider>

@@ -17,7 +17,7 @@ import useLoading from "@/context/loading";
 import { ReactNode, useCallback } from "react";
 import { Item } from "@/context/items";
 import { callRemoveItemToast } from "../../ui/toasts";
-import "../index.scss";
+import styles from "../index.module.scss";
 
 interface RemoveItemDialogProps {
   item: Item;
@@ -58,8 +58,8 @@ export default function RemoveItemDialog({
       {children}
       <DialogPortal>
         <DialogOverlay />
-        <DialogContent className="dialog">
-          <DialogHeader className="dialog-header">
+        <DialogContent className={styles.dialog}>
+          <DialogHeader className={styles.header}>
             <DialogTitle>Confirmação</DialogTitle>
             <DialogDescription>
               Tem certeza que deseja apagar esse item? Essa ação não poderá ser
@@ -71,7 +71,7 @@ export default function RemoveItemDialog({
               invés de apagá-lo. Itens removidos <b>não contam pontos</b>.
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="dialog-footer">
+          <DialogFooter className={styles.footer}>
             <DialogClose asChild disabled={loading}>
               <Button onClick={remove} disabled={loading} type="button">
                 Confirmar

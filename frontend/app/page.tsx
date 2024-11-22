@@ -7,7 +7,7 @@ import Filter from "@/components/switch/filter";
 import SearchProvider from "@/context/search";
 import Link from "next/link";
 import { Suspense } from "react";
-import "./index.scss";
+import styles from "./index.module.scss";
 import Button from "@/components/button";
 import { Trophy } from "@phosphor-icons/react/dist/ssr";
 import { Metadata } from "next";
@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <SearchProvider>
       <Loading />
-      <header className="header">
+      <header className={styles.header}>
         <section id="desktop">
           <div>
             <CitySelector />
@@ -49,10 +49,16 @@ export default function Home() {
           </div>
         </section>
         <section>
-          <div className="filters">
+          <div className={styles.filters}>
             <Filter />
             <p>
-              Quer nos ajudar a manter a plataforma? <Link href="#">DOE</Link>
+              Quer nos ajudar a manter a plataforma?{" "}
+              <Link
+                target="_blank"
+                href="https://www.gerarpix.com.br/pix?code=nWBzxcQA5OdJYTPXQcIiYq4wYN_HaypQkbJ7jba2Q_jfB0Q2684FV0rIZsei1UhuVSEwW1iU9bif0DGIP4YgPTEDUMfon6DM_iHmxvlqI5jcc7LSpnREiXE7sED6xVdcC4PXBERJqHr6p-NfhG4kfQ7m8_wzEYP8GvkZzSCuj3723XG5Ek0L5ByOtxrZ4U0wHxH2_wn8VlSIhyZe09DOfXHL6r3M3ang"
+              >
+                DOE
+              </Link>
             </p>
           </div>
         </section>

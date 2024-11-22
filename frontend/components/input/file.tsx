@@ -2,7 +2,7 @@
 
 import type { Icon } from "@phosphor-icons/react";
 import { Eraser, Pencil } from "@phosphor-icons/react/dist/ssr";
-import "./index.scss";
+import styles from "./index.module.scss";
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import { useIsLoading } from "@/context/loading";
 import { callInvalidImageToast } from "../ui/toasts";
@@ -61,18 +61,18 @@ export default function File({
     );
 
   return (
-    <div className="file-inputs">
+    <div className={styles.fileInputs}>
       {canClear && (
         <button
           type="button"
           disabled={loading}
-          className="input"
+          className={styles.input}
           onClick={onFileClear}
         >
           <Eraser />
         </button>
       )}
-      <label className="input file-input">
+      <label className={`${styles.input} ${styles.fileInput}`}>
         <div>
           <Icon />
           <input

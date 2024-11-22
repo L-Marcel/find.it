@@ -1,4 +1,4 @@
-import "./index.scss";
+import styles from "./index.module.scss";
 import BackButton from "@/components/button/back";
 import SearchProvider from "@/context/search";
 import RankList from "@/components/rank/list";
@@ -13,15 +13,15 @@ export const metadata: Metadata = {
 
 export default async function Rank() {
   const ranks = await getUsersRank();
-  
+
   return (
     <>
-      <header className="header">
+      <header>
         <section>
           <BackButton />
         </section>
       </header>
-      <main className="rank">
+      <main className={styles.rank}>
         <h3>Ranqueamento</h3>
         <section>
           <SearchProvider>

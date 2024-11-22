@@ -4,7 +4,6 @@ import { Item } from "@/context/items";
 import useSearchQuery from "@/context/query";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import "../index.scss";
 import Masonry from "../masonry";
 import useFilters from "@/context/filters";
 import { useDebounce } from "@uidotdev/usehooks";

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { User } from "@phosphor-icons/react/dist/ssr";
-import "./index.scss";
+import styles from "./index.module.scss";
 import Link from "next/link";
 
 interface ProfileProps {
@@ -17,7 +17,7 @@ export default function Profile({
   picture,
 }: ProfileProps) {
   return (
-    <Link href={`/users/${id}`} className={`profile ${theme}`}>
+    <Link href={`/users/${id}`} className={`${styles.profile} ${theme !== "default"? styles[theme]:""}`}>
       {picture ? (
         <Image
           src={`${process.env.API_DOMAIN}/users/${picture}`}

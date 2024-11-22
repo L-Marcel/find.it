@@ -115,10 +115,10 @@ export async function getUser(id: string | null, token: string | null) {
       "Content-type": "application/json",
       Authorization: token,
     },
-    cache: "default",
-    next: {
-      tags: [id],
-    },
+    // cache: "default",
+    // next: {
+    //   tags: [id],
+    // },
   }).then(async (res) => {
     if (res.ok) {
       return res.json() as Promise<User>;
@@ -139,10 +139,10 @@ export async function getPublicUser(id: string | null) {
     headers: {
       "Content-type": "application/json",
     },
-    cache: "default",
-    next: {
-      tags: [id],
-    },
+    // cache: "default",
+    // next: {
+    //   tags: [id],
+    // },
   }).then(async (res) => {
     if (res.ok) {
       return res.json() as Promise<PublicUser>;
@@ -160,15 +160,15 @@ export async function getUsersRank() {
     headers: {
       "Content-Type": "application/json",
     },
-    cache: "default",
-    next: {
-      tags: ["rank"],
-    },
-  }).then(async(res) => {
+    // cache: "default",
+    // next: {
+    //   tags: ["rank"],
+    // },
+  }).then(async (res) => {
     if (res.ok) {
       return res.json() as Promise<UsersRank>;
     } else {
       throw new Unexpected(res.status.toString());
     }
   });
-};
+}

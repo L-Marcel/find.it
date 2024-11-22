@@ -2,7 +2,7 @@
 
 import type { Icon } from "@phosphor-icons/react";
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
-import "./index.scss";
+import styles from "./index.module.scss";
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import { useIsLoading } from "@/context/loading";
 
@@ -25,7 +25,7 @@ export default function Input({
   const loading = useIsLoading();
 
   return (
-    <label className={`input ${error ? "error" : ""}`}>
+    <label className={`${styles.input} ${error ? styles.error : ""}`}>
       <div>
         <Icon />
         <input

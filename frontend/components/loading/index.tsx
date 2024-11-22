@@ -1,7 +1,7 @@
 "use client";
 
 import { useIsLoading } from "@/context/loading";
-import "./index.scss";
+import styles from "./index.module.scss";
 import { useIsFetching } from "@tanstack/react-query";
 import { useThrottle } from "@uidotdev/usehooks";
 
@@ -11,6 +11,6 @@ export default function Loading() {
 
   const loading = isLoading || isFecthing;
 
-  if (loading) return <span className="loading" />;
+  if (loading) return <span className={styles.loading} />;
   else return null;
 }

@@ -16,8 +16,7 @@ import useLoading from "@/context/loading";
 import { useCallback } from "react";
 import { Item } from "@/context/items";
 import { callCloseItemToast } from "../../ui/toasts";
-import "../index.scss";
-import { onUpdateItem } from "@/app/actions";
+import styles from "../index.module.scss";
 
 interface CloseItemDialogProps {
   item: Item;
@@ -40,12 +39,10 @@ export default function CloseItemDialog({ item, token }: CloseItemDialogProps) {
       .then(async (response) => {
         if (!response.ok) throw await response.json();
         else {
-          onUpdateItem(item.id).finally(() => {
-            setLoading(false);
-            callCloseItemToast();
-            navigation.replace("/users/" + item.user.id);
-          });
-        }; 
+          setLoading(false);
+          callCloseItemToast();
+          navigation.replace("/users/" + item.user.id);
+        }
       })
       .catch(() => {
         setLoading(false);
@@ -55,15 +52,15 @@ export default function CloseItemDialog({ item, token }: CloseItemDialogProps) {
   return (
     <DialogPortal>
       <DialogOverlay />
-      <DialogContent className="dialog">
-        <DialogHeader className="dialog-header">
+      <DialogContent className={styles.dialog}>
+        <DialogHeader className={styles.header}>
           <DialogTitle>Confirmação</DialogTitle>
           <DialogDescription>
             Tem certeza que deseja fechar esse item? Essa ação não poderá ser
             desfeita.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="dialog-footer">
+        <DialogFooter className={styles.footer}>
           <DialogClose asChild disabled={loading}>
             <Button onClick={close} disabled={loading} type="button">
               Confirmar

@@ -11,7 +11,6 @@ import {
 import { User } from "./user";
 import { createContext } from "use-context-selector";
 import Cookies from "js-cookie";
-import { onLogin, onLogout } from "@/app/actions";
 import { usePathname, useRouter } from "next/navigation";
 import { useDebounce } from "@uidotdev/usehooks";
 import { callLoginToast, callLogoutToast } from "@/components/ui/toasts";
@@ -56,24 +55,32 @@ export default function Provider({ children, cities }: ProviderProps) {
   const _loading = useDebounce(loading, 100);
 
   //#region Nagivation
+  const reduce = useCallback((current: string[]) => {
+    return current.reduce((acc, value) => {
+      if (acc.length > 0 && acc[acc.length - 1] === value) return acc;
+      else return [...acc, value];
+    }, [] as string[]);
+  }, []);
+
   useEffect(() => {
     setHistory((prev) => {
-      if (prev[prev.length - 1] === pathname) return prev;
-      else return [...prev, pathname];
+      if (prev[prev.length - 1] === pathname) return reduce(prev);
+      else return reduce([...prev, pathname]);
     });
-  }, [pathname, setHistory]);
+  }, [reduce, pathname, setHistory]);
 
   const back = useCallback(
     (alternative: string = "/") => {
       if (history.length > 1) {
-        setHistory((prev) => prev.slice(0, -1));
-        router.back();
+        let current = reduce([...history]).slice(0, -1);
+        router.replace(current[current.length - 1]);
+        setHistory(current);
       } else if (history.length === 1) {
-        setHistory(() => []);
-        router.push(alternative);
+        setHistory(() => [alternative]);
+        router.replace(alternative);
       }
     },
-    [router, setHistory, history]
+    [reduce, reduce, router, setHistory, history]
   );
 
   const replace = useCallback(
@@ -81,23 +88,27 @@ export default function Provider({ children, cities }: ProviderProps) {
       if (history.length > 1) {
         setHistory((prev) => {
           if (prev.length > 2 && prev[prev.length - 2] === to)
-            return prev.slice(0, -1);
+            return reduce(prev).slice(0, -1);
           else
-            return prev.map((value, i) => (i === prev.length - 1 ? to : value));
+            return reduce(prev.map((value, i) => (i === prev.length - 1 ? to : value)));
         });
-      } else if (history.length === 1) {
-        setHistory(() => []);
-      }
+      } else {
+        setHistory(() => [to]);
+      };
       router.replace(to);
     },
-    [router, setHistory, history]
+    [reduce, router, setHistory, history]
   );
 
   const push = useCallback(
     (to: string) => {
-      router.push(to);
+      setHistory((prev) => {
+        if (prev[prev.length - 1] === to) return reduce(prev);
+        else return reduce([...prev, to]);
+      });
+      router.replace(to);
     },
-    [router]
+    [reduce, router]
   );
   //#endregion
 
@@ -126,11 +137,9 @@ export default function Provider({ children, cities }: ProviderProps) {
           Cookies.set("x-auth-token", token, {
             expires: 1,
           });
-          onLogin(id).finally(() => {
-            setLoading(false);
-            callLoginToast();
-            replace(_redirect ?? "/");
-          });
+          setLoading(false);
+          callLoginToast();
+          replace(_redirect ?? "/");
         });
     },
     [replace, setLoading]
@@ -138,14 +147,11 @@ export default function Provider({ children, cities }: ProviderProps) {
 
   const logout = useCallback(() => {
     setLoading(true);
-    const id = Cookies.get("x-auth-id");
     Cookies.remove("x-auth-id");
     Cookies.remove("x-auth-token");
-    onLogout(id).finally(() => {
-      setLoading(false);
-      callLogoutToast();
-      replace("/login");
-    });
+    setLoading(false);
+    callLogoutToast();
+    replace("/login");
   }, [replace, setLoading]);
   //#endregion
 

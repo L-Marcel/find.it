@@ -1,6 +1,6 @@
 "use client";
 
-import "../index.scss";
+import styles from "../index.module.scss";
 import {
   At,
   City,
@@ -24,7 +24,6 @@ import {
   callCreateItemToast,
   callInvalidFormToast,
 } from "@/components/ui/toasts";
-import { onUpdateItem } from "@/app/actions";
 
 const initial: CreateItemData = {
   cityAndState: "Natal - RN",
@@ -133,11 +132,9 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
           .then(async (response) => {
             if (!response.ok) throw await response.json();
             else {
-              onUpdateItem().finally(() => {
-                setLoading(false);
-                callCreateItemToast();
-                navigation.replace("/users/" + user.id);
-              })
+              setLoading(false);
+              callCreateItemToast();
+              navigation.replace("/users/" + user.id);
             }
           })
           .catch((error) => {
@@ -170,7 +167,7 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
   //#endregion
 
   return (
-    <form className="form" onSubmit={submit}>
+    <form className={styles.form} onSubmit={submit}>
       <header>
         <h1>
           <b>ENCONTROU</b>, <b>PERDEU</b> OU QUER <b>DOAR</b> ALGO?

@@ -2967,3 +2967,24 @@ SELECT CASE WHEN EXISTS (SELECT 1 FROM ITEMS WHEREowner = ? AND (district IS NUL
 2024-10-25 14:37:28.884124-03:00 jdbc[254]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT CASE WHEN EXISTS (SELECT 1 FROM ITEMS WHEREowner [*]= ? AND (district IS NULL OR number IS NULL OR street IS NULL)) THEN 1 ELSE 0 END"; expected "(, USE, RIGHT, LEFT, INNER, JOIN, CROSS, NATURAL, ,, WHERE, GROUP BY, HAVING, WINDOW, QUALIFY, INTERSECT, UNION, EXCEPT, ORDER BY, OFFSET, FETCH, FOR, )"; SQL statement:
 SELECT CASE WHEN EXISTS (SELECT 1 FROM ITEMS WHEREowner = ? AND (district IS NULL OR number IS NULL OR street IS NULL)) THEN 1 ELSE 0 END [42001-224]
+2024-11-22 13:19:05.413142-03:00 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "HTE_ITEMS" already exists; SQL statement:
+create global temporary table HTE_items(number integer, rn_ integer not null, type tinyint, id bigint, update_at timestamp(6), owner uuid, city varchar(255), complement varchar(255), description varchar(255), district varchar(255), picture varchar(255), state varchar(255), street varchar(255), title varchar(255), primary key (rn_)) TRANSACTIONAL [42101-232]
+2024-11-22 13:21:05.670275-03:00 jdbc[24]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "HTE_ITEMS" already exists; SQL statement:
+create global temporary table HTE_items(number integer, rn_ integer not null, type tinyint, id bigint, update_at timestamp(6), owner uuid, city varchar(255), complement varchar(255), description varchar(255), district varchar(255), picture varchar(255), state varchar(255), street varchar(255), title varchar(255), primary key (rn_)) TRANSACTIONAL [42101-232]
+2024-11-22 13:32:21.120792-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION CHARACTER VARYING(255)": "U&'Eu estava no IMD quando perdi ele, n\\00e3o tenho certeza se foi roubado ou n\\... (271)"; SQL statement:
+update items set city=?,complement=?,description=?,district=?,number=?,picture=?,state=?,street=?,title=?,type=?,update_at=?,owner=? where id=? [22001-232]
+2024-11-22 13:32:26.321870-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION CHARACTER VARYING(255)": "U&'Eu estava no IMD quando perdi ele, n\\00e3o tenho certeza se foi roubado ou n\\... (271)"; SQL statement:
+update items set city=?,complement=?,description=?,district=?,number=?,picture=?,state=?,street=?,title=?,type=?,update_at=?,owner=? where id=? [22001-232]
+2024-11-22 16:19:16.009811-03:00 jdbc[54]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION CHARACTER VARYING(255)": "U&'Eu estava no IMD quando perdi ele, n\\00e3o tenho certeza se foi roubado ou n\\... (297)"; SQL statement:
+update items set city=?,complement=?,description=?,district=?,number=?,picture=?,state=?,street=?,title=?,type=?,update_at=?,owner=? where id=? [22001-232]
+2024-11-22 16:20:08.306475-03:00 jdbc[54]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION CHARACTER VARYING(255)": "U&'Eu estava no IMD quando perdi ele, n\\00e3o tenho certeza se foi roubado ou n\\... (297)"; SQL statement:
+update items set city=?,complement=?,description=?,district=?,number=?,picture=?,state=?,street=?,title=?,type=?,update_at=?,owner=? where id=? [22001-232]
+2024-11-22 16:20:45.232438-03:00 jdbc[54]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION CHARACTER VARYING(255)": "U&'Eu estava no IMD quando perdi ele, n\\00e3o tenho certeza se foi roubado ou n\\... (297)"; SQL statement:
+update items set city=?,complement=?,description=?,district=?,number=?,picture=?,state=?,street=?,title=?,type=?,update_at=?,owner=? where id=? [22001-232]

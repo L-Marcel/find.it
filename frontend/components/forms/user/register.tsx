@@ -1,6 +1,6 @@
 "use client";
 
-import "../index.scss";
+import styles from "../index.module.scss";
 import Link from "next/link";
 import {
   At,
@@ -223,7 +223,7 @@ export default function RegisterUserForm() {
   //#endregion
 
   return (
-    <form className="form" onSubmit={submit}>
+    <form className={styles.form} onSubmit={submit}>
       <header>
         <h1>
           JUNTE-SE À COMUNIDADE QUE <b>REENCONTRA</b>.
@@ -249,7 +249,7 @@ export default function RegisterUserForm() {
             <InputFile />
           </div>
         </div>
-        <div id="profile" className="mobile">
+        <div id="profile" className={styles.mobile}>
           <div>
             <Avatar picture={avatar} />
             <Input

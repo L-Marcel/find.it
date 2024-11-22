@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.find.it.backend.dtos.ItemData;
 import com.find.it.backend.dtos.records.ItemFormData;
-import com.find.it.backend.models.Item;
 import com.find.it.backend.services.ItemService;
 
 @Validated

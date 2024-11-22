@@ -10,6 +10,7 @@ import {
   WhatsappLogo,
 } from "@phosphor-icons/react/dist/ssr";
 import { bannerSize } from "../input/sizes";
+import styles from "./index.module.scss";
 
 interface MasonryItemProps {
   item?: Item;
@@ -50,7 +51,7 @@ export default function MasonryItem({
     </>
   );
 
-  let theme = "";
+  let theme: "default" | "pink" | "green" = "default";
   let buttonTheme: "default-fill" | "pink-fill" | "green-fill" = "default-fill";
 
   if (item) {
@@ -83,6 +84,7 @@ export default function MasonryItem({
             id={item.user?.id}
             name={item.user?.name}
             picture={item.user?.picture}
+            theme={theme}
           />
         </header>
         <main>
@@ -115,7 +117,7 @@ export default function MasonryItem({
 
   return (
     <article
-      className={`item ${item ? "default" : "loading"} ${theme}`}
+      className={`${styles.item} ${item ? styles.default : styles.loading} ${styles[theme]}`}
       style={{
         position: "absolute",
         top: 0,
