@@ -1,59 +1,88 @@
 .rank-card {
-  @apply flex space-x-32 
-  flex-row;
-
-  .user-column {
-    @apply flex
+  @apply flex
+    relative
+    lg:px-10
     flex-col
-    justify-between;
+    md:flex-row
+    gap-4
+    lg:gap-8
+    w-full
+    md:w-[600px]
+    lg:w-[900px];
+
+  #avatar {
+    @apply max-w-12
+      md:max-w-24
+      lg:max-w-40;
   }
 
-  .user-row {
+  > div:first-of-type {
     @apply flex
-    flex-row
-    items-center;
-    .icon-bg {
-      @apply bg-indigo-700
-      flex
-      justify-center
-      items-center
-      size-12
-      mr-3
-      rounded-full;
+      flex-row
+      gap-4
+      md:gap-8;
+
+    div {
+      @apply flex md:hidden;
     }
   }
 
-  h1 {
-    @apply text-indigo-500
-    text-lg
-    font-medium;
-  }
+  > div:last-of-type {
+    @apply grid
+      grid-cols-1
+      md:grid-cols-2
+      gap-x-4
+      lg:gap-x-12
+      gap-y-6
+      overflow-hidden
+      w-full
+      md:w-[500px]
+      lg:w-[800px];
 
-  p {
-    @apply text-3xl;
+    > div:first-of-type {
+      @apply hidden md:flex;
+    }
+
+    .label#stats {
+      @apply hidden
+        md:flex;
+    }
   }
 }
 
 .rank-list {
   @apply flex
     flex-col
-    items-start
+    md:items-center
     w-full
-    mt-6
-    gap-6;
+    my-14
+    gap-14;
 }
 
 .rank-medal {
-  @apply w-16 h-16 
-    text-xl
-    rounded-full 
-    flex 
-    items-center 
-    justify-center 
-    font-bold
-    absolute
-    bottom-[-30px]
-    left-1/2
-    transform
-    -translate-x-1/2;
+  @apply relative 
+    after:text-zinc-900
+    after:absolute
+    after:flex
+    after:ml-1
+    after:w-6 
+    after:h-6
+    md:after:w-12 
+    md:after:h-12
+    after:text-sm
+    md:after:text-base
+    after:rounded-full
+    after:items-center
+    after:justify-center
+    after:font-bold
+    after:transform
+    after:translate-x-2
+    md:after:-translate-x-1
+    after:-translate-y-2
+    md:after:-translate-y-6
+    lg:after:-translate-y-10;
+}
+
+.rank-medal::after {
+  content: var(--after-content) !important;
 }

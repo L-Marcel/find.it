@@ -25,11 +25,11 @@ export default function RankList({ ranks }: RankListProps) {
           center
         />
       </div>
-      <div className="rank-list">
+      <ul className="rank-list">
         {users.map((user, index) => (
           <RankCard user={user} key={user.id} index={index} />
         ))}
-      </div>
+      </ul>
     </>
   );
 };

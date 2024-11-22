@@ -16,7 +16,8 @@
         gap-0.5
         w-full
         font-roboto
-        flex-col;
+        flex-col
+        overflow-hidden;
 
     h1 {
       @apply text-indigo-500
@@ -27,7 +28,9 @@
       @apply text-zinc-200
         text-lg
         lg:text-xl
-        break-all;
+        text-ellipsis
+        overflow-hidden
+        w-full;
     }
   }
 }

@@ -2,6 +2,8 @@
   @apply relative flex;
 
   button {
+    @apply scroll-auto;
+
     border-radius: 1rem !important;
 
     span {
@@ -40,7 +42,13 @@
       @apply flex
         flex-col
         relative
-        w-full;
+        w-full
+        scrollbar-thin
+      scrollbar-corner-zinc-950
+      scrollbar-track-zinc-950
+      scrollbar-thumb-indigo-600
+        firefox:scrollbar
+      firefox:scrollbar-thumb-indigo-600;
 
       max-width: none !important;
       overflow: hidden auto !important;
@@ -60,7 +68,6 @@
         hover:cursor-pointer
         outline-none
         focus:ring-2
-        focus:font-semibold
         focus:pl-8
         focus:ring-zinc-200
         focus:z-10;

@@ -7,7 +7,7 @@ interface AvatarProps {
   picture: string;
 }
 
-export default function Avatar({ big = false, picture }: AvatarProps) {
+export default function Avatar({ big = false, picture}: AvatarProps) {
   const size = big ? 156 : 98;
   if (picture)
     return (

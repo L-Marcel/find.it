@@ -17,9 +17,8 @@ const Medal: React.FC<MedalProps> = ({ rank }) => {
   };
 
   return (
-    <div className={`medal ${getMedalStyles()}`}>
-      {rank + 1}
-      {"º"}
+    <div className={`rank-medal ${getMedalStyles()}`}>
+      {rank + 1}º
     </div>
   );
 };
