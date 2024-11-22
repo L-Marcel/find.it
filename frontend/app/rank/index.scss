@@ -1,0 +1,10 @@
+.main-container {
+  @apply flex
+  flex-col
+  items-center;
+  h3 {
+    @apply text-indigo-600
+    text-8xl
+    font-black;
+  }
+}
