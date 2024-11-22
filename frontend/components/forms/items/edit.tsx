@@ -1,6 +1,6 @@
 "use client";
 
-import "../index.scss";
+import styles from "../index.module.scss";
 import {
   At,
   City,
@@ -140,6 +140,7 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
             street: data.street?.trim() || undefined,
             district: data.district?.trim() || undefined,
             complement: data.complement?.trim() || undefined,
+            picture: data.picture === item.picture ? undefined : data.picture,
             state,
             city,
             owner: item.user.id,
@@ -147,11 +148,14 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
         })
           .then(async (response) => {
             if (!response.ok) throw await response.json();
-            setLoading(false);
-            callUpdateItemToast();
-            navigation.replace("/items/" + item.id);
+            else {
+              setLoading(false);
+              callUpdateItemToast();
+              navigation.replace("/items/" + item.id);
+            }
           })
           .catch((error) => {
+            console.log(error);
             setLoading(false);
             setErrors({
               new: true,
@@ -181,7 +185,7 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
   //#endregion
 
   return (
-    <form className="form" onSubmit={submit}>
+    <form className={styles.form} onSubmit={submit}>
       <header>
         <h1>
           ALTERE OS DADOS DO <b>ITEM</b>.

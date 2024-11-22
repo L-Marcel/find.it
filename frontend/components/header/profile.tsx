@@ -41,7 +41,7 @@ export default async function HeaderProfile({
 
   return (
     <>
-      <Button className="register-button" to="/register">
+      <Button id="register-button" to="/register">
         Cadastrar-se
       </Button>
       <Button to="/login" theme="default-fill">

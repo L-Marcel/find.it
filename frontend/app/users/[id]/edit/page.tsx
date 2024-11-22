@@ -1,4 +1,4 @@
-import "./index.scss";
+import styles from "./index.module.scss";
 import BackButton from "@/components/button/back";
 import { getPublicUser, getUser } from "@/context/user";
 import Unauthorized from "@/errors/Unauthorized";
@@ -35,7 +35,7 @@ export default async function EditUser({ params }: EditUserProps) {
 
   return (
     <>
-      <header className="header">
+      <header className={styles.header}>
         <section id="desktop">
           <BackButton />
           <div>
@@ -49,7 +49,7 @@ export default async function EditUser({ params }: EditUserProps) {
           </div>
         </section>
       </header>
-      <main className="edit">
+      <main className={styles.edit}>
         <section className="sm:-mt-4 2xl:mt-4 mb-6">
           <Image src={logo} alt="Fint.it" />
           <EditUserForm token={token ?? ""} user={user} />

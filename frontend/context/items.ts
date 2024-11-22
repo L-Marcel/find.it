@@ -18,10 +18,15 @@ export const itemSchema = z.object({
       .max(360, "Descrição muito grande!")
   ),
   cityAndState: z.string(),
-  district: z.optional(z.string()),
-  street: z.optional(z.string()),
-  number: z.optional(z.string().regex(/^\d+$/gm, "Utilize apenas números!")),
-  complement: z.optional(z.string()),
+  district: z.optional(z.string().max(200, "Limite de caracteres excedido!")),
+  street: z.optional(z.string().max(200, "Limite de caracteres excedido!")),
+  number: z.optional(
+    z
+      .string()
+      .regex(/^\d+$/gm, "Utilize apenas números!")
+      .max(200, "Limite de caracteres excedido!")
+  ),
+  complement: z.optional(z.string().max(200, "Limite de caracteres excedido!")),
 });
 //#endregion
 
@@ -72,10 +77,10 @@ export async function getItem(id: string) {
     headers: {
       "Content-type": "application/json",
     },
-    cache: "default",
-    next: {
-      tags: [`item-${id}`],
-    },
+    // cache: "default",
+    // next: {
+    //   tags: [`item-${id}`],
+    // },
   }).then(async (res) => {
     if (res.ok) {
       return res.json() as Promise<Item>;

@@ -1,6 +1,6 @@
 "use client";
 
-import "../index.scss";
+import styles from "../index.module.scss";
 import {
   At,
   City,
@@ -131,9 +131,11 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
         })
           .then(async (response) => {
             if (!response.ok) throw await response.json();
-            setLoading(false);
-            callCreateItemToast();
-            navigation.replace("/users/" + user.id);
+            else {
+              setLoading(false);
+              callCreateItemToast();
+              navigation.replace("/users/" + user.id);
+            }
           })
           .catch((error) => {
             setLoading(false);
@@ -165,7 +167,7 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
   //#endregion
 
   return (
-    <form className="form" onSubmit={submit}>
+    <form className={styles.form} onSubmit={submit}>
       <header>
         <h1>
           <b>ENCONTROU</b>, <b>PERDEU</b> OU QUER <b>DOAR</b> ALGO?

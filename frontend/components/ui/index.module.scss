@@ -1,0 +1,102 @@
+.toaster {
+  .icon {
+    @apply size-8
+      hidden
+      sm:flex;
+    svg {
+      @apply size-8;
+    }
+  }
+
+  .body {
+    @apply bg-zinc-900 
+      text-zinc-200 
+      border-zinc-900 
+      shadow-lg
+      px-5
+      h-auto
+      xs:h-20
+      gap-2
+      ring-offset-4
+    ring-offset-zinc-950
+    ring-indigo-600
+      outline-none
+      focus:ring-2;
+
+    transition:
+      transform 0.4s,
+      opacity 0.4s,
+      height 0.4s,
+      box-shadow 0.2s !important;
+  }
+
+  .description {
+    @apply text-zinc-200
+      text-xs
+      sm:text-sm;
+  }
+
+  .action {
+    @apply text-zinc-200;
+  }
+
+  .cancel {
+    @apply text-zinc-200;
+  }
+
+  .title {
+    @apply text-zinc-50
+      font-roboto
+      font-medium
+      text-base
+      sm:text-lg
+      leading-tight;
+  }
+
+  .content {
+    @apply w-full
+      gap-0;
+  }
+
+  .button {
+    @apply ring-offset-zinc-900
+      bg-zinc-800
+      h-8
+      rounded-xl
+      justify-center
+      items-center
+      flex;
+
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+
+    span {
+      @apply px-0
+        text-sm;
+    }
+  }
+
+  .success {
+    @apply ring-green-600;
+
+    .icon {
+      @apply text-green-600;
+    }
+
+    .title {
+      @apply text-green-600;
+    }
+  }
+
+  .warning {
+    @apply ring-pink-600;
+
+    .icon {
+      @apply text-pink-600;
+    }
+
+    .title {
+      @apply text-pink-600;
+    }
+  }
+}

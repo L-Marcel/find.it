@@ -1,5 +1,8 @@
-com/find/it/backend/Application.class
-com/find/it/backend/JacksonConfig.class
-com/find/it/backend/ImagesConfig.class
-com/find/it/backend/SearchConfig.class
-com/find/it/backend/search/Indexer.class
+com\find\it\backend\ImagesConfig.class
+com\find\it\backend\dtos\UserData$1.class
+com\find\it\backend\SearchConfig.class
+com\find\it\backend\JacksonConfig.class
+com\find\it\backend\Application.class
+com\find\it\backend\search\Indexer.class
+com\find\it\backend\services\ItemService$1.class
+com\find\it\backend\services\UserService$1.class

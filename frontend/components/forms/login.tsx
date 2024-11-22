@@ -1,6 +1,6 @@
 "use client";
 
-import "./index.scss";
+import styles from "./index.module.scss";
 import Link from "next/link";
 import { At, Lock } from "@phosphor-icons/react/dist/ssr";
 import Button from "../button";
@@ -59,7 +59,7 @@ export default function LoginForm({ redirect }: LoginFormProps) {
   }
 
   return (
-    <form className="form" onSubmit={submit}>
+    <form className={styles.form} onSubmit={submit}>
       <header>
         <h1>
           <b>BEM VINDO</b> DE VOLTA!

@@ -182,8 +182,10 @@ public class UserService {
     switch (type) {
       case ItemType.LOST:
         property = "recovered";
+        break;
       case ItemType.DONATION:
         property = "donated";
+        break;
       default:
         break;
     }

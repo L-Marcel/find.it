@@ -1,6 +1,6 @@
 "use client";
 
-import "./index.scss";
+import styles from "./index.module.scss";
 import { CheckCircle, Circle } from "@phosphor-icons/react/dist/ssr";
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 
@@ -26,7 +26,7 @@ export default function Switch({
     <button
       disabled={disabled}
       type="button"
-      className={`switch ${theme} ${checked ? "fill" : ""} ${disabled ? "disabled" : ""}`}
+      className={`${styles.switch} ${styles[theme]} ${checked ? styles.fill : ""}`}
       onClick={onClick}
     >
       <input
@@ -36,11 +36,7 @@ export default function Switch({
         type="checkbox"
         {...props}
       />
-      {checked ? (
-        <CheckCircle className="custom-icon" />
-      ) : (
-        <Circle className="custom-icon" />
-      )}
+      {checked ? <CheckCircle /> : <Circle />}
       <span>{children}</span> {}
     </button>
   );

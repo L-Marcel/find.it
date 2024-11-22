@@ -2,7 +2,7 @@ import BackButton from "@/components/button/back";
 import HeaderProfile from "@/components/header/profile";
 import { getItem, typeToText } from "@/context/items";
 import Image from "next/image";
-import "./index.scss";
+import styles from "./index.module.scss";
 import Label from "@/components/label";
 import { MapPinArea, Pencil, Stamp } from "@phosphor-icons/react/dist/ssr";
 import Button from "@/components/button";
@@ -48,13 +48,14 @@ export default async function ItemPage({ params }: ItemPageProps) {
     place = `${item.number} - ${place}`;
     if (item.street) place = `${item.street}, ${place}`;
   } else if (item.street) place = `${item.street} - ${place}`;
-  
+  if (item.complement) place = `${place} - ${item.complement}`;
+
   const googleURL = new URL(`https://www.google.com.br/maps/search/${place}`);
 
   return (
     <Dialog>
       {isAuthWithOwner && <CloseItemDialog item={item} token={token} />}
-      <header className="item-page-header">
+      <header className={styles.header}>
         <section id="desktop">
           <div>
             <BackButton />
@@ -122,17 +123,19 @@ export default async function ItemPage({ params }: ItemPageProps) {
           </section>
         )}
       </header>
-      <main className={`item-page ${item.type.toLowerCase()}`}>
-        <section className="info">
+      <main
+        id="item-page"
+        className={`${styles.itemPage} ${styles[item.type.toLowerCase()]}`}
+      >
+        <section className={styles.info}>
           <Image
-            className="item-photo"
             src={`${process.env.API_DOMAIN}/items/${item.picture}`}
             alt="Item Photo"
             width={736}
             height={322}
           />
-          <article className={item.type.toLowerCase()}>
-            <span className="type">{typeToText(item.type)}</span>
+          <article className={styles[item.type.toLowerCase()]}>
+            <span className={styles.type}>{typeToText(item.type)}</span>
             <h1>{item.title}</h1>
             <hr />
             <h2>{item.description}</h2>
@@ -141,12 +144,21 @@ export default async function ItemPage({ params }: ItemPageProps) {
         <hr className="hidden lg:flex" />
         <ProfileSection user={item.user} />
         <hr className="-my-4 md:my-0" />
-        <section className="location">
-          <Label header="CIDADE / ESTADO">{`${item.city} / ${item.state}`}</Label>
-          <Label header="BAIRRO">{item.district ?? "---"}</Label>
-          <Label header="COMPLEMENTO">{item.complement ?? "---"}</Label>
-          <Label header="RUA">{item.street ?? "---"}</Label>
-          <Label header="NÚMERO">
+        <section className={styles.location}>
+          <Label
+            canCopy
+            header="CIDADE / ESTADO"
+          >{`${item.city} / ${item.state}`}</Label>
+          <Label canCopy header="BAIRRO">
+            {item.district ?? "---"}
+          </Label>
+          <Label canCopy header="COMPLEMENTO">
+            {item.complement ?? "---"}
+          </Label>
+          <Label canCopy header="RUA">
+            {item.street ?? "---"}
+          </Label>
+          <Label canCopy header="NÚMERO">
             {item.number > 0 ? item.number.toString() : "---"}
           </Label>
           <Button

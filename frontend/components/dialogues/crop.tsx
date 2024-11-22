@@ -15,10 +15,10 @@ import {
 import getCroppedImg from "@/lib/crop";
 import { useCallback, useState } from "react";
 import Cropper, { Area } from "react-easy-crop";
-import "./index.scss";
 import { ImageSize } from "../input/sizes";
 import File, { InputProps } from "../input/file";
 import { Slider } from "../ui/slider";
+import styles from "./index.module.scss";
 
 export interface CropProps extends InputProps {
   imageSize: ImageSize;
@@ -75,8 +75,8 @@ export default function CropImageDialogue({
       />
       <DialogPortal>
         <DialogOverlay />
-        <DialogContent className="dialog image-dialog">
-          <DialogHeader className="dialog-header">
+        <DialogContent className={`${styles.dialog} ${styles.image}`}>
+          <DialogHeader className={styles.header}>
             <DialogTitle>Ajustando imagem</DialogTitle>
           </DialogHeader>
           <DialogDescription>
@@ -88,7 +88,7 @@ export default function CropImageDialogue({
             }}
           >
             <Cropper
-              classes={{ containerClassName: "cropper" }}
+              classes={{ containerClassName: styles.cropper }}
               image={src}
               crop={crop}
               zoom={zoom}
@@ -104,7 +104,7 @@ export default function CropImageDialogue({
           </section>
           <section>
             <Slider
-              className="slider"
+              className={styles.slider}
               min={1}
               max={10}
               value={[zoom]}
@@ -112,7 +112,7 @@ export default function CropImageDialogue({
               step={0.1}
             />
           </section>
-          <DialogFooter className="dialog-footer">
+          <DialogFooter className={styles.footer}>
             <DialogClose autoFocus asChild>
               <Button theme="default-fill" onClick={confirm} type="button">
                 Confirmar

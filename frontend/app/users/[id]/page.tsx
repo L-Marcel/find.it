@@ -5,7 +5,7 @@ import { getPublicUser, getUser, PublicUser } from "@/context/user";
 import { Pencil, Plus } from "@phosphor-icons/react/dist/ssr";
 import { headers } from "next/headers";
 import { Suspense } from "react";
-import "./index.scss";
+import styles from "./index.module.scss";
 import ProfileSection from "@/components/profile/section";
 import UserQuery from "@/components/query/user";
 import SearchProvider from "@/context/search";
@@ -45,7 +45,7 @@ export default async function UserPage({ params }: UserPageProps) {
 
   return (
     <>
-      <header className="header">
+      <header className={styles.header}>
         <section id="desktop">
           <div>
             <BackButton />
@@ -70,11 +70,11 @@ export default async function UserPage({ params }: UserPageProps) {
           </div>
         </section>
       </header>
-      <main className="user-page">
+      <main id="user-page" className={styles.userPage}>
         <ProfileSection user={user} />
         <SearchProvider>
           <section className="flex flex-col gap-4 -mb-4 lg:mt-4">
-            <div className="search">
+            <div className={styles.search}>
               <Search />
               {isAuthWithOwner && (
                 <>
@@ -93,10 +93,16 @@ export default async function UserPage({ params }: UserPageProps) {
                 </>
               )}
             </div>
-            <div className="filters">
+            <div className={styles.filters}>
               <Filter />
               <p id="mobile">
-                Quer nos ajudar a manter a plataforma? <Link href="#">DOE</Link>
+                Quer nos ajudar a manter a plataforma?{" "}
+                <Link
+                  target="_blank"
+                  href="https://www.gerarpix.com.br/pix?code=nWBzxcQA5OdJYTPXQcIiYq4wYN_HaypQkbJ7jba2Q_jfB0Q2684FV0rIZsei1UhuVSEwW1iU9bif0DGIP4YgPTEDUMfon6DM_iHmxvlqI5jcc7LSpnREiXE7sED6xVdcC4PXBERJqHr6p-NfhG4kfQ7m8_wzEYP8GvkZzSCuj3723XG5Ek0L5ByOtxrZ4U0wHxH2_wn8VlSIhyZe09DOfXHL6r3M3ang"
+                >
+                  DOE
+                </Link>
               </p>
             </div>
           </section>

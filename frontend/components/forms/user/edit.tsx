@@ -1,6 +1,6 @@
 "use client";
 
-import "../index.scss";
+import styles from "../index.module.scss";
 import {
   At,
   Lock,
@@ -18,7 +18,6 @@ import {
 } from "@/context/user";
 import Switch from "../../switch";
 import useLoading from "@/context/loading";
-import { onUpdateUser } from "@/app/actions";
 import useNavigation from "@/context/navigation";
 import {
   callInvalidFormToast,
@@ -209,11 +208,9 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
             });
             callInvalidFormToast();
           } else {
-            onUpdateUser(user.id).finally(() => {
-              setLoading(false);
-              callUpdateUserToast();
-              navigation.replace("/users/" + user.id);
-            });
+            setLoading(false);
+            callUpdateUserToast();
+            navigation.replace("/users/" + user.id);
           }
         });
       } else {
@@ -267,7 +264,7 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
   //#endregion
 
   return (
-    <form className="form" onSubmit={submit}>
+    <form className={styles.form} onSubmit={submit}>
       <header>
         <h1>
           ALTERE SEU <b>PERFIL</b>.
@@ -293,7 +290,7 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
             <InputFile />
           </div>
         </div>
-        <div id="profile" className="mobile">
+        <div id="profile" className={styles.mobile}>
           <div>
             <Avatar picture={avatar} />
             <Input

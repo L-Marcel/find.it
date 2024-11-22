@@ -193,3 +193,18 @@ export function callInvalidFormToast(id = "invalid-form-" + uuid()) {
     duration,
   });
 }
+
+export function callTextCopiedToast(id = "text-copied-" + uuid()) {
+  notification();
+  toast("Texto copiado!", {
+    id,
+    cancel: (
+      <Button theme="default-fill" onClick={() => toast.dismiss(id)}>
+        OK
+      </Button>
+    ),
+    icon: <UserCheck />,
+    description: "Agora cole onde quiser . . .",
+    duration,
+  });
+}

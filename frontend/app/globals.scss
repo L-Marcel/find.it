@@ -6,6 +6,11 @@
   transition: box-shadow 0.2s !important;
 }
 
+img,
+svg {
+  @apply select-none;
+}
+
 html {
   @apply overflow-y-auto h-screen;
 }
@@ -56,7 +61,7 @@ body {
 
       h1 {
         @apply text-3xl
-          font-semibold
+          font-medium
           uppercase
           max-w-96
           md:max-w-3xl;
@@ -89,6 +94,24 @@ body {
 
       outline-style: none !important;
     }
+  }
+}
+
+body:has(#user-page) {
+  > footer {
+    @apply mt-0;
+  }
+}
+
+body:has(#item-page) {
+  @apply gap-0;
+
+  > header {
+    @apply mb-8;
+  }
+
+  > footer {
+    @apply mt-8;
   }
 }
 

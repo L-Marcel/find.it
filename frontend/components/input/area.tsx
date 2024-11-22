@@ -2,7 +2,7 @@
 
 import type { Icon } from "@phosphor-icons/react";
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
-import "./index.scss";
+import styles from "./index.module.scss";
 import {
   DetailedHTMLProps,
   TextareaHTMLAttributes,
@@ -48,7 +48,7 @@ export default function Textarea({
   }
 
   return (
-    <label ref={ref} className={`input ${error ? "error" : ""}`}>
+    <label ref={ref} className={`${styles.input} ${error ? styles.error : ""}`}>
       <div>
         <Icon />
         <textarea

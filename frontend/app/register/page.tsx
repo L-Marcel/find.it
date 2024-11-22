@@ -1,4 +1,4 @@
-import "./index.scss";
+import styles from "./index.module.scss";
 import Image from "next/image";
 import logo from "@/images/logo.webp";
 import BackButton from "@/components/button/back";
@@ -13,12 +13,12 @@ export const metadata: Metadata = {
 export default function Register() {
   return (
     <>
-      <header className="header">
+      <header>
         <section>
           <BackButton />
         </section>
       </header>
-      <main className="register">
+      <main className={styles.register}>
         <section className="sm:-mt-8 2xl:mt-4 mb-2">
           <Image src={logo} alt="Fint.it" />
           <RegisterUserForm />

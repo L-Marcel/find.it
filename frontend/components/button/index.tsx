@@ -1,5 +1,5 @@
 import type { Icon } from "@phosphor-icons/react";
-import "./index.scss";
+import styles from "./index.module.scss";
 import {
   AnchorHTMLAttributes,
   ButtonHTMLAttributes,
@@ -29,7 +29,7 @@ export default function Button({
   className = "",
   ...props
 }: ButtonProps) {
-  const _className = `button ${theme} ${Icon ? "icon" : ""} ${right ? "right" : ""} ${className}`;
+  const _className = `${styles.button} ${styles[theme]} ${Icon ? styles.icon : ""} ${right ? styles.right : ""} ${className}`;
 
   if (to) {
     return (

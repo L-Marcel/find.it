@@ -1,26 +1,26 @@
 "use client";
 
 import { Toaster as Sonner } from "sonner";
-import "./index.scss";
+import styles from "./index.module.scss";
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
 const Toaster = ({ ...props }: ToasterProps) => {
   return (
     <Sonner
-      className="toaster"
+      className={styles.toaster}
       toastOptions={{
         classNames: {
-          icon: "toast-icon",
-          toast: "toast-body",
-          description: "toast-description",
-          actionButton: "toast-action",
-          cancelButton: "toast-cancel",
-          closeButton: "toast-close",
-          title: "toast-title",
-          content: "toast-content",
-          success: "toast-success",
-          warning: "toast-warning",
+          icon: styles.icon,
+          toast: styles.body,
+          description: styles.description,
+          actionButton: styles.action,
+          cancelButton: styles.cancel,
+          closeButton: styles.close,
+          title: styles.title,
+          content: styles.content,
+          success: styles.success,
+          warning: styles.warning,
         },
       }}
       {...props}

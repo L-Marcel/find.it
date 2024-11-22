@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.find.it.backend.models.Item;
 import com.find.it.backend.models.ItemType;
 
-import org.apache.commons.lang3.StringUtils;
 import jakarta.persistence.EntityManager;
 
 @Transactional

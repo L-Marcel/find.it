@@ -98,6 +98,12 @@ export type PublicUser = {
   recovered: number;
   finds: number;
 };
+
+export type UsersRank = {
+  byFinds: PublicUser[];
+  byRecovereds: PublicUser[];
+  byDonateds: PublicUser[];
+};
 //#endregion
 
 export async function getUser(id: string | null, token: string | null) {
@@ -109,10 +115,10 @@ export async function getUser(id: string | null, token: string | null) {
       "Content-type": "application/json",
       Authorization: token,
     },
-    cache: "default",
-    next: {
-      tags: [id],
-    },
+    // cache: "default",
+    // next: {
+    //   tags: [id],
+    // },
   }).then(async (res) => {
     if (res.ok) {
       return res.json() as Promise<User>;
@@ -133,15 +139,34 @@ export async function getPublicUser(id: string | null) {
     headers: {
       "Content-type": "application/json",
     },
-    cache: "default",
-    next: {
-      tags: [id],
-    },
+    // cache: "default",
+    // next: {
+    //   tags: [id],
+    // },
   }).then(async (res) => {
     if (res.ok) {
       return res.json() as Promise<PublicUser>;
     } else if (res.status === 404) {
       notFound();
+    } else {
+      throw new Unexpected(res.status.toString());
+    }
+  });
+}
+
+export async function getUsersRank() {
+  return await fetch(`${process.env.API_URL}/users/rank`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    // cache: "default",
+    // next: {
+    //   tags: ["rank"],
+    // },
+  }).then(async (res) => {
+    if (res.ok) {
+      return res.json() as Promise<UsersRank>;
     } else {
       throw new Unexpected(res.status.toString());
     }

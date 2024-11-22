@@ -1,28 +1,31 @@
-import "./index.scss";
-import BackButton from "@/components/button/backButton";
+import styles from "./index.module.scss";
+import BackButton from "@/components/button/back";
 import SearchProvider from "@/context/search";
-import UserList from "@/components/userCard/userList";
+import RankList from "@/components/rank/list";
 
 import { Metadata } from "next";
+import { getUsersRank } from "@/context/user";
 
 export const metadata: Metadata = {
   title: "Find.it - Ranqueamento",
   description: "Veja nossos usuários mais pontuados!",
 };
 
-export default function Rank() {
+export default async function Rank() {
+  const ranks = await getUsersRank();
+
   return (
     <>
-      <header className="header">
+      <header>
         <section>
           <BackButton />
         </section>
       </header>
-      <main className="main-container">
+      <main className={styles.rank}>
         <h3>Ranqueamento</h3>
         <section>
           <SearchProvider>
-            <UserList />
+            <RankList ranks={ranks} />
           </SearchProvider>
         </section>
       </main>

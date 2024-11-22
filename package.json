@@ -1,0 +1,21 @@
+{
+  "name": "find.it",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "windows:extensions": "scripts\\install_extensions.bat",
+    "windows:backend:build": "scripts\\build_backend.bat",
+    "windows:frontend:build": "scripts\\build_frontend.bat",
+    "windows:backend": "scripts\\backend.bat",
+    "windows:frontend": "scripts\\frontend.bat",
+    "linux:extensions": "./scripts/install_extensions.sh",
+    "linux:backend:build": "./scripts/build_backend.sh",
+    "linux:frontend:build": "./scripts/build_frontend.sh",
+    "linux:backend": "./scripts/backend.sh",
+    "linux:frontend": "./scripts/frontend.sh"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}

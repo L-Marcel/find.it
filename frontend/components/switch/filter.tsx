@@ -4,6 +4,7 @@ import useFilters from "@/context/filters";
 import Switch from ".";
 import { useCallback, useRef } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
+import styles from "./index.module.scss";
 
 export default function Filter() {
   const ref = useRef<HTMLDivElement>(
@@ -25,7 +26,7 @@ export default function Filter() {
   }, [setFilters]);
 
   return (
-    <div tabIndex={-1} ref={ref} className="filter" {...events}>
+    <div tabIndex={-1} ref={ref} className={styles.filter} {...events}>
       <Switch checked={finds} onClick={() => switchFinds()}>
         Achados
       </Switch>

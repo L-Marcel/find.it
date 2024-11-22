@@ -10,6 +10,7 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmb
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
 import com.find.it.backend.dtos.records.ItemFormData;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -43,6 +44,7 @@ public class Item {
 
   private String picture = "";
 
+  @Column(length = 360)
   private String description = "";
 
   @FullTextField

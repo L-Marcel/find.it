@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 "use client";
 
 import { CaretDown } from "@phosphor-icons/react/dist/ssr";
 import Button from "../button";
 
-import "./index.scss";
+import styles from "./index.module.scss";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { defaultRangeExtractor, useVirtualizer } from "@tanstack/react-virtual";
 
@@ -75,9 +77,8 @@ export function Selector({
   //#endregion
 
   return (
-    <div className="selector" ref={selector}>
+    <div className={styles.selector} ref={selector}>
       <Button
-        id="selector-options"
         onFocus={moveToSelected}
         onClick={moveToSelected}
         right
@@ -90,8 +91,7 @@ export function Selector({
       <div
         ref={container}
         tabIndex={-1}
-        id="selector-options"
-        className={`options ${above ? "" : "below"}`}
+        className={`${styles.options} ${above ? "" : styles.bellow}`}
         style={{
           height: 860,
           maxHeight: small ? "calc(216px + 3rem)" : "80vh",
@@ -108,7 +108,7 @@ export function Selector({
             <span
               key={virtual.index}
               id={"selector-option-" + virtual.index}
-              className={virtual.index === selected ? "selected" : ""}
+              className={virtual.index === selected ? styles.selected : ""}
               tabIndex={virtual.index === selected ? 0 : -1}
               style={{
                 position: "absolute",
@@ -122,7 +122,10 @@ export function Selector({
               onClick={(e) => {
                 e.preventDefault();
                 onChange(virtual.index);
-                if (container.current) container.current.focus();
+                try {
+                  if (document.activeElement)
+                    (document.activeElement as HTMLElement).blur();
+                } catch (_) {}
               }}
               onKeyDown={(e) => {
                 if (e.code === "ArrowUp" || e.code === "ArrowLeft") {
@@ -137,7 +140,10 @@ export function Selector({
                     ?.focus();
                 } else if (e.code === "Enter") {
                   onChange(virtual.index);
-                  if (container.current) container.current.focus();
+                  try {
+                    if (document.activeElement)
+                      (document.activeElement as HTMLElement).blur();
+                  } catch (_) {}
                 }
               }}
               onFocus={() => {
