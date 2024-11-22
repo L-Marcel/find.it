@@ -22,7 +22,10 @@ export default function Label({
   canCopy = false,
 }: LabelProps) {
   return (
-    <div id={id} className={`${styles.label} ${theme === "small"? styles.small : ""}`}>
+    <div
+      id={id}
+      className={`${styles.label} ${theme === "small" ? styles.small : ""}`}
+    >
       {icon && <span>{icon}</span>}
       <div>
         <h1>{header}</h1>

@@ -15,10 +15,10 @@ import {
 import getCroppedImg from "@/lib/crop";
 import { useCallback, useState } from "react";
 import Cropper, { Area } from "react-easy-crop";
-import styles from "./index.module.scss";
 import { ImageSize } from "../input/sizes";
 import File, { InputProps } from "../input/file";
 import { Slider } from "../ui/slider";
+import styles from "./index.module.scss";
 
 export interface CropProps extends InputProps {
   imageSize: ImageSize;

@@ -37,7 +37,10 @@ export default function InputBanner({
     );
   return (
     <div>
-      <label className={`${styles.banner} ${error ? styles.error : ""}`} tabIndex={0}>
+      <label
+        className={`${styles.banner} ${error ? styles.error : ""}`}
+        tabIndex={0}
+      >
         <CropImageDialogue
           imageSize={bannerSize}
           name="picture"

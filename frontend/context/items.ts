@@ -20,7 +20,12 @@ export const itemSchema = z.object({
   cityAndState: z.string(),
   district: z.optional(z.string().max(200, "Limite de caracteres excedido!")),
   street: z.optional(z.string().max(200, "Limite de caracteres excedido!")),
-  number: z.optional(z.string().regex(/^\d+$/gm, "Utilize apenas números!").max(200, "Limite de caracteres excedido!")),
+  number: z.optional(
+    z
+      .string()
+      .regex(/^\d+$/gm, "Utilize apenas números!")
+      .max(200, "Limite de caracteres excedido!")
+  ),
   complement: z.optional(z.string().max(200, "Limite de caracteres excedido!")),
 });
 //#endregion

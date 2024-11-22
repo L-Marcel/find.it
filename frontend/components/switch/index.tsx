@@ -36,11 +36,7 @@ export default function Switch({
         type="checkbox"
         {...props}
       />
-      {checked ? (
-        <CheckCircle />
-      ) : (
-        <Circle />
-      )}
+      {checked ? <CheckCircle /> : <Circle />}
       <span>{children}</span> {}
     </button>
   );

@@ -48,6 +48,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
     place = `${item.number} - ${place}`;
     if (item.street) place = `${item.street}, ${place}`;
   } else if (item.street) place = `${item.street} - ${place}`;
+  if (item.complement) place = `${place} - ${item.complement}`;
 
   const googleURL = new URL(`https://www.google.com.br/maps/search/${place}`);
 
@@ -122,7 +123,10 @@ export default async function ItemPage({ params }: ItemPageProps) {
           </section>
         )}
       </header>
-      <main id="item-page" className={`${styles.itemPage} ${styles[item.type.toLowerCase()]}`}>
+      <main
+        id="item-page"
+        className={`${styles.itemPage} ${styles[item.type.toLowerCase()]}`}
+      >
         <section className={styles.info}>
           <Image
             src={`${process.env.API_DOMAIN}/items/${item.picture}`}

@@ -17,7 +17,10 @@ export default function Profile({
   picture,
 }: ProfileProps) {
   return (
-    <Link href={`/users/${id}`} className={`${styles.profile} ${theme !== "default"? styles[theme]:""}`}>
+    <Link
+      href={`/users/${id}`}
+      className={`${styles.profile} ${theme !== "default" ? styles[theme] : ""}`}
+    >
       {picture ? (
         <Image
           src={`${process.env.API_DOMAIN}/users/${picture}`}

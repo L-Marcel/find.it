@@ -72,7 +72,7 @@ export default function Provider({ children, cities }: ProviderProps) {
   const back = useCallback(
     (alternative: string = "/") => {
       if (history.length > 1) {
-        let current = reduce([...history]).slice(0, -1);
+        const current = reduce([...history]).slice(0, -1);
         router.replace(current[current.length - 1]);
         setHistory(current);
       } else if (history.length === 1) {
@@ -80,7 +80,7 @@ export default function Provider({ children, cities }: ProviderProps) {
         router.replace(alternative);
       }
     },
-    [reduce, reduce, router, setHistory, history]
+    [reduce, router, setHistory, history]
   );
 
   const replace = useCallback(
@@ -90,11 +90,13 @@ export default function Provider({ children, cities }: ProviderProps) {
           if (prev.length > 2 && prev[prev.length - 2] === to)
             return reduce(prev).slice(0, -1);
           else
-            return reduce(prev.map((value, i) => (i === prev.length - 1 ? to : value)));
+            return reduce(
+              prev.map((value, i) => (i === prev.length - 1 ? to : value))
+            );
         });
       } else {
         setHistory(() => [to]);
-      };
+      }
       router.replace(to);
     },
     [reduce, router, setHistory, history]

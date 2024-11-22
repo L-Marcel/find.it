@@ -140,7 +140,7 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
             street: data.street?.trim() || undefined,
             district: data.district?.trim() || undefined,
             complement: data.complement?.trim() || undefined,
-            picture: data.picture === item.picture? undefined : data.picture,
+            picture: data.picture === item.picture ? undefined : data.picture,
             state,
             city,
             owner: item.user.id,

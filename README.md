@@ -1,6 +1,27 @@
 # Find.it
 
-Nesse primeiro momento, esse `README` está destinado apenas aos colaboradores.
+Aplicação desenvolvida com fins didáticos durante a disciplina de `Web I`, ofertada no `IMD` (Metrópole Digital) na `UFRN`. Nela é possível registrar usuários e, a partir deles, itens perdidos, encontrados ou doados. É uma aplicação de utilização relativamente simples, mas repleta de recursos, com responsividade e focada na experiência do usuário.
+
+# Sumário
+
+- [Autores](#autores)
+- [Tomada de decisões](#tomada-de-decisões)
+- [Instruções (Gerais)](#instruções-gerais)
+- [Instruções (Front-end)](#instruções-front-end)
+- [Instruções (Back-end)](#instruções-back-end)
+- [Instruções (Produção)](#instruções-produção)
+  - [Compilar o modo produção](#compilar-o-modo-produção)
+  - [Por que usar o modo produção?](#por-que-usar-o-modo-produção)
+
+# Autores
+
+- [Lucas Marcel](https://github.com/L-Marcel)
+- [Henrique Barbosa](https://github.com/Henrique-Barbosaa)
+- [Fellipe Souza](https://github.com/Fellpz9)
+
+# Tomada de decisões
+
+Todas as decisões tomadas para o desenvolvimento dessa aplicação foram feitas levando em conta os interesses e conhecimentos dos membros do grupo. E como o foco é o `Front-end` nessa disciplina, também deixamos de lado algumas coisas no `Back-end`. Por exemplo: não estamos criptografando as senhas no banco de dados (então nada de usar senhas reais, viu?).
 
 # Instruções (Gerais)
 
@@ -86,4 +107,4 @@ pnpm linux:frontend
 
 ## Por que usar o modo produção?
 
-Ele é extremamente mais rápido, já que é compilado com antecedência.
+Embora não temos como objetivo realizar o `deploy` dessa aplicação (não vai ser necessário), esse modo é extremamente mais rápido, já que é compilado com antecedência.
