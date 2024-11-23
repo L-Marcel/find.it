@@ -17,7 +17,6 @@ export const itemSchema = z.object({
       .min(12, "Descição muito pequena!")
       .max(360, "Descrição muito grande!")
   ),
-  cityAndState: z.string(),
   district: z.optional(z.string().max(200, "Limite de caracteres excedido!")),
   street: z.optional(z.string().max(200, "Limite de caracteres excedido!")),
   number: z.optional(

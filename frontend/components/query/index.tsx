@@ -28,7 +28,10 @@ export default function Query() {
             "Content-type": "application/json",
           },
         }
-      ).then((res) => res.json() as Promise<Item[]>);
+      ).then((res) => {
+        if (!res.ok) return [];
+        return res.json() as Promise<Item[]>;
+      });
     },
     retry: false,
     queryKey: [_city, query, donateds, finds, losts],

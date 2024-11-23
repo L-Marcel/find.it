@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   description: "Veja nossos usuários mais pontuados!",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function Rank() {
   const ranks = await getUsersRank();
 

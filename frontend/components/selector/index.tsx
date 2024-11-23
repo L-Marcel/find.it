@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 "use client";
 
 import { CaretDown } from "@phosphor-icons/react/dist/ssr";
@@ -125,6 +123,7 @@ export function Selector({
                 try {
                   if (document.activeElement)
                     (document.activeElement as HTMLElement).blur();
+                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 } catch (_) {}
               }}
               onKeyDown={(e) => {
@@ -143,6 +142,7 @@ export function Selector({
                   try {
                     if (document.activeElement)
                       (document.activeElement as HTMLElement).blur();
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                   } catch (_) {}
                 }
               }}

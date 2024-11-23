@@ -24,9 +24,9 @@ import {
   callCreateItemToast,
   callInvalidFormToast,
 } from "@/components/ui/toasts";
+import { useCity } from "@/context/cities";
 
 const initial: CreateItemData = {
-  cityAndState: "Natal - RN",
   title: "",
   description: "",
   picture: "",
@@ -51,6 +51,7 @@ interface CreateItemFormProps {
 export default function CreateItemForm({ user, token }: CreateItemFormProps) {
   //#region States
   const navigation = useNavigation();
+  const city = useCity();
   const [banner, setBanner] = useState<string>("");
   const { loading, setLoading } = useLoading();
   const [data, setData] = useState<CreateItemData>(initial);
@@ -108,10 +109,9 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
       e.preventDefault();
       if (validate()) {
         setLoading(true);
-        const { cityAndState, ..._data } = data;
-        const parts = cityAndState.split(" - ");
-        const city = parts[0];
-        const state = parts[1];
+        const parts = city.split(" - ");
+        const _city = parts[0];
+        const _state = parts[1];
         fetch(`${process.env.API_URL}/items`, {
           method: "POST",
           headers: {
@@ -119,13 +119,13 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
             Authorization: token,
           },
           body: JSON.stringify({
-            ..._data,
+            ...data,
             number: data.number?.trim() || undefined,
             street: data.street?.trim() || undefined,
             district: data.district?.trim() || undefined,
             complement: data.complement?.trim() || undefined,
-            state,
-            city,
+            state: _state,
+            city: _city,
             owner: user.id,
           }),
         })
@@ -149,7 +149,7 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
         callInvalidFormToast();
       }
     },
-    [data, navigation, token, user, validate, setErrors, setLoading]
+    [data, city, navigation, token, user, validate, setErrors, setLoading]
   );
 
   useEffect(() => {

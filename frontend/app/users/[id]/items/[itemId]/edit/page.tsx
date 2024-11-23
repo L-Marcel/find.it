@@ -59,7 +59,7 @@ export default async function EditItem({ params }: EditItemProps) {
       <main className={styles.edit}>
         <section className="sm:-mt-4 2xl:mt-4 mb-6">
           <Image src={logo} alt="Fint.it" />
-          <SearchProvider>
+          <SearchProvider city={item.city + " - " + item.state}>
             <RemoveItemDialog token={token} item={item}>
               <EditItemForm token={token} item={item} />
             </RemoveItemDialog>

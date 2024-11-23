@@ -45,9 +45,8 @@ export default function CropImageDialogue({
     try {
       const result = await getCroppedImg(src, area);
       if (result) onFileLoaded(result.base64, result.blob);
-    } catch (e) {
-      console.error(e);
-    }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (_) {}
   }, [src, area, onFileLoaded]);
 
   return (

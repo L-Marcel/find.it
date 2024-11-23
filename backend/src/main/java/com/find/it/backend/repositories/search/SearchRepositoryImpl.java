@@ -59,7 +59,7 @@ public class SearchRepositoryImpl extends SimpleJpaRepository<Item, Long> implem
                 .should(f.match().field("title").matching(query).fuzzy(2)))
             .must(f.match().field("city").matching(city))
             .must(f.match().field("state").matching(state))
-            .must(f.terms().field("type").matchingAny(types)))
+            .must(types.isEmpty() ? f.matchNone() : f.terms().field("type").matchingAny(types)))
         .sort(s -> s.field("updated_at").desc())
         .fetch(offset, offset + page.getPageSize());
 
@@ -92,7 +92,7 @@ public class SearchRepositoryImpl extends SimpleJpaRepository<Item, Long> implem
                 .should(f.wildcard().field("title").matching("*" + query + "*"))
                 .should(f.match().field("title").matching(query).fuzzy(2)))
             .must(f.match().field("user.id").matching(user))
-            .must(f.terms().field("type").matchingAny(types)))
+            .must(types.isEmpty() ? f.matchNone() : f.terms().field("type").matchingAny(types)))
         .sort(s -> s.field("updated_at").desc())
         .fetch(offset, offset + page.getPageSize());
 

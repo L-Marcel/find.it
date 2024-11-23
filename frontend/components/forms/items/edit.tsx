@@ -28,9 +28,9 @@ import {
   callUpdateItemToast,
 } from "@/components/ui/toasts";
 import { DialogTrigger } from "@/components/ui/dialog";
+import { useCity } from "@/context/cities";
 
 const initial: CreateItemData = {
-  cityAndState: "Natal - RN",
   title: "",
   description: "",
   picture: "",
@@ -55,12 +55,12 @@ interface UpdateItemFormProps {
 export default function EditItemForm({ item, token }: UpdateItemFormProps) {
   //#region States
   const navigation = useNavigation();
+  const city = useCity();
   const [banner, setBanner] = useState<string>(
     item.picture ? `${process.env.API_DOMAIN}/items/${item.picture}` : ""
   );
   const { loading, setLoading } = useLoading();
   const [data, setData] = useState<CreateItemData>({
-    cityAndState: `${item.city} - ${item.state}`,
     title: item.title,
     description: item.description,
     picture: item.picture,
@@ -124,10 +124,9 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
       e.preventDefault();
       if (validate()) {
         setLoading(true);
-        const { cityAndState, ..._data } = data;
-        const parts = cityAndState.split(" - ");
-        const city = parts[0];
-        const state = parts[1];
+        const parts = city.split(" - ");
+        const _city = parts[0];
+        const _state = parts[1];
         fetch(`${process.env.API_URL}/items/${item.id}`, {
           method: "PUT",
           headers: {
@@ -135,14 +134,14 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
             Authorization: token,
           },
           body: JSON.stringify({
-            ..._data,
+            ...data,
             number: data.number?.trim() || undefined,
             street: data.street?.trim() || undefined,
             district: data.district?.trim() || undefined,
             complement: data.complement?.trim() || undefined,
             picture: data.picture === item.picture ? undefined : data.picture,
-            state,
-            city,
+            state: _state,
+            city: _city,
             owner: item.user.id,
           }),
         })
@@ -155,7 +154,6 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
             }
           })
           .catch((error) => {
-            console.log(error);
             setLoading(false);
             setErrors({
               new: true,

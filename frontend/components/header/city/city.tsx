@@ -9,15 +9,14 @@ interface CitySelectorProps {
 }
 
 export default function CitySelector({ small = false }: CitySelectorProps) {
-  const { cities, setCity } = useSearchCities();
+  const { cities, city, setCity } = useSearchCities();
   const [selected, setSelected] = useState<number>(-1);
 
   useEffect(() => {
-    if (selected == -1) {
-      const city = cities.find((city) => city === "Natal - RN");
-      if (city) setSelected(cities.indexOf(city));
+    if (selected == -1 && city) {
+      setSelected(cities.indexOf(city));
     }
-  }, [cities, selected]);
+  }, [cities, selected, setSelected, city]);
 
   return (
     <Selector

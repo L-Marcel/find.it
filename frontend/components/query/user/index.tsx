@@ -26,7 +26,10 @@ export default function UserQuery({ userId }: UserQueryProps) {
             "Content-type": "application/json",
           },
         }
-      ).then((res) => res.json() as Promise<Item[]>);
+      ).then((res) => {
+        if (!res.ok) return [];
+        return res.json() as Promise<Item[]>;
+      });
     },
     retry: false,
     queryKey: [userId, query, donateds, finds, losts],

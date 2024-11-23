@@ -8,7 +8,12 @@ export type City = { name: string; state: string };
 export function getCities(): Promise<City[]> {
   return new Promise(async (resolve, reject) => {
     const states = await fetch(
-      "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
+      "https://servicodados.ibge.gov.br/api/v1/localidades/estados",
+      { 
+        next: { 
+          revalidate: 60 * 60 * 24 
+        } 
+      }
     )
       .then(async (response) => {
         if (response.ok) return await response.json();
@@ -21,7 +26,12 @@ export function getCities(): Promise<City[]> {
     const cities = await Promise.all(
       states.map(async (state) => {
         return await fetch(
-          `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state}/municipios`
+          `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state}/municipios`,
+          { 
+            next: { 
+              revalidate: 60 * 60 * 24 
+            }
+          }
         )
           .then(async (response) => {
             if (response.ok) return await response.json();
@@ -53,6 +63,11 @@ export default function useSearchCities() {
     setCity,
   };
 }
+
+export function useCity() {
+  return useContextSelector(searchContext, (context) => context.city);
+}
+
 
 export function cityToString(city: City) {
   return `${city.name} - ${city.state}`;
