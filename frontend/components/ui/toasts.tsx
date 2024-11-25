@@ -14,6 +14,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { toast } from "sonner";
 import { v4 as uuid } from "uuid";
+import styles from "./index.module.scss";
 
 const duration = 6500;
 
@@ -34,7 +35,11 @@ export function callUpdateUserToast(id = "update-user-" + uuid()) {
   toast.success("Dados atualizados!", {
     id,
     cancel: (
-      <Button theme="green-fill" onClick={() => toast.dismiss(id)}>
+      <Button
+        className={styles.button}
+        theme="green-fill"
+        onClick={() => toast.dismiss(id)}
+      >
         OK
       </Button>
     ),
@@ -49,7 +54,11 @@ export function callRegisterToast(id = "register-" + uuid()) {
   toast.success("Cadastro realizado!", {
     id,
     cancel: (
-      <Button theme="green-fill" onClick={() => toast.dismiss(id)}>
+      <Button
+        className={styles.button}
+        theme="green-fill"
+        onClick={() => toast.dismiss(id)}
+      >
         OK
       </Button>
     ),
@@ -64,7 +73,11 @@ export function callLoginToast(id = "login-" + uuid()) {
   toast("Login realizado!", {
     id,
     cancel: (
-      <Button theme="default-fill" onClick={() => toast.dismiss(id)}>
+      <Button
+        className={styles.button}
+        theme="default-fill"
+        onClick={() => toast.dismiss(id)}
+      >
         OK
       </Button>
     ),
@@ -79,7 +92,11 @@ export function callLogoutToast(id = "logout-" + uuid()) {
   toast("Logout realizado!", {
     id,
     cancel: (
-      <Button theme="default-fill" onClick={() => toast.dismiss(id)}>
+      <Button
+        className={styles.button}
+        theme="default-fill"
+        onClick={() => toast.dismiss(id)}
+      >
         OK
       </Button>
     ),
@@ -94,7 +111,11 @@ export function callCreateItemToast(id = "create-item-" + uuid()) {
   toast.success("Item criado!", {
     id,
     cancel: (
-      <Button theme="green-fill" onClick={() => toast.dismiss(id)}>
+      <Button
+        className={styles.button}
+        theme="green-fill"
+        onClick={() => toast.dismiss(id)}
+      >
         OK
       </Button>
     ),
@@ -109,7 +130,11 @@ export function callUpdateItemToast(id = "update-item-" + uuid()) {
   toast.success("Item atualizado!", {
     id,
     cancel: (
-      <Button theme="green-fill" onClick={() => toast.dismiss(id)}>
+      <Button
+        className={styles.button}
+        theme="green-fill"
+        onClick={() => toast.dismiss(id)}
+      >
         OK
       </Button>
     ),
@@ -124,7 +149,11 @@ export function callRemoveItemToast(id = "remove-item-" + uuid()) {
   toast.warning("Item removido!", {
     id,
     cancel: (
-      <Button theme="pink-fill" onClick={() => toast.dismiss(id)}>
+      <Button
+        className={styles.button}
+        theme="pink-fill"
+        onClick={() => toast.dismiss(id)}
+      >
         OK
       </Button>
     ),
@@ -139,7 +168,11 @@ export function callCloseItemToast(id = "close-item-" + uuid()) {
   toast.success("Item fechado!", {
     id,
     cancel: (
-      <Button theme="green-fill" onClick={() => toast.dismiss(id)}>
+      <Button
+        className={styles.button}
+        theme="green-fill"
+        onClick={() => toast.dismiss(id)}
+      >
         OK
       </Button>
     ),
@@ -154,7 +187,11 @@ export function callUnauthorizedToast(id = "unauthorized-" + uuid()) {
   toast.warning("Credenciais, por favor?", {
     id,
     cancel: (
-      <Button theme="pink-fill" onClick={() => toast.dismiss(id)}>
+      <Button
+        className={styles.button}
+        theme="pink-fill"
+        onClick={() => toast.dismiss(id)}
+      >
         OK
       </Button>
     ),
@@ -169,7 +206,11 @@ export function callInvalidImageToast(id = "invalid-image-" + uuid()) {
   toast.warning("Formato inválido", {
     id,
     cancel: (
-      <Button theme="pink-fill" onClick={() => toast.dismiss(id)}>
+      <Button
+        className={styles.button}
+        theme="pink-fill"
+        onClick={() => toast.dismiss(id)}
+      >
         OK
       </Button>
     ),
@@ -184,7 +225,11 @@ export function callInvalidFormToast(id = "invalid-form-" + uuid()) {
   toast.warning("Algo não está certo!", {
     id,
     cancel: (
-      <Button theme="pink-fill" onClick={() => toast.dismiss(id)}>
+      <Button
+        className={styles.button}
+        theme="pink-fill"
+        onClick={() => toast.dismiss(id)}
+      >
         OK
       </Button>
     ),
@@ -199,7 +244,11 @@ export function callTextCopiedToast(id = "text-copied-" + uuid()) {
   toast("Texto copiado!", {
     id,
     cancel: (
-      <Button theme="default-fill" onClick={() => toast.dismiss(id)}>
+      <Button
+        className={styles.button}
+        theme="default-fill"
+        onClick={() => toast.dismiss(id)}
+      >
         OK
       </Button>
     ),
