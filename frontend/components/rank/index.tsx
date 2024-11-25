@@ -21,6 +21,8 @@ export default function RankCard({ user, index }: UserCardProps) {
         return "after:bg-zinc-500";
       case 2:
         return "after:bg-yellow-700";
+      default:
+        return "after:bg-zinc-900 after:text-zinc-200";
     }
   };
 
@@ -38,7 +40,7 @@ export default function RankCard({ user, index }: UserCardProps) {
           className={`${styles.medal} ${getMedalStyles()}`}
         >
           <Avatar
-            picture={`${process.env.API_DOMAIN}/users/${user.picture}`}
+            picture={`${process.env.API_DOMAIN}/users/${user.picture}?v=${user.updatedAt.replace(/ /g, "_")}`}
             big
           />
         </Link>

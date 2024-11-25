@@ -6,6 +6,8 @@ Aplicação desenvolvida com fins didáticos durante a disciplina de `Web I`, of
 
 - [Autores](#autores)
 - [Tomada de decisões](#tomada-de-decisões)
+  - [Pasta de recursos](#pasta-de-recursos)
+- [Recursos, implementações e dados](#recursos-implementações-e-dados)
 - [Instruções (Gerais)](#instruções-gerais)
 - [Instruções (Front-end)](#instruções-front-end)
 - [Instruções (Back-end)](#instruções-back-end)
@@ -22,6 +24,33 @@ Aplicação desenvolvida com fins didáticos durante a disciplina de `Web I`, of
 # Tomada de decisões
 
 Todas as decisões tomadas para o desenvolvimento dessa aplicação foram feitas levando em conta os interesses e conhecimentos dos membros do grupo. E como o foco é o `Front-end` nessa disciplina, também deixamos de lado algumas coisas no `Back-end`. Por exemplo: não estamos criptografando as senhas no banco de dados (então nada de usar senhas reais, viu?).
+
+## Imagens
+
+Apenas para que não estranhe, a pasta [`images`](/images/) existe para armazenar algumas imagens que poderemos usar na apresentação do projeto. Para que não seja necessário procurar na internet durante a apresentação.
+
+As imagens importadas/gerenciadas pelo `backend` ficam guardadas em [`data/items`](/data/items/) e [`data/users`](/data/users/).
+
+# Recursos, implementações e dados
+
+Usamos:
+
+- Busca avançada de texto utilizando `Full Text Search`;
+- Virtualização;
+- Paginação;
+- Cache;
+- Mensagens rápidas (`toasts`);
+- Caixas de diálogo;
+- Validação (no `backend` e no `frontend`);
+- Importação e recorte de imagens;
+- Autenticação com `JSON Web Token`;
+- [`Middleware`](/frontend/middleware.ts);
+- Grade fluída (`masonry`);
+- Página de erros;
+- Login redirecionável (para quando o `token` expirar);
+- Entre outras coisas.
+
+Além da nossa própria `API`, consumimos dados do [`IBGE`](https://www.ibge.gov.br/) para obter a lista das cidades.
 
 # Instruções (Gerais)
 

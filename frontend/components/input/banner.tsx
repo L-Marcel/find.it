@@ -1,8 +1,8 @@
-import Image from "next/image";
 import { Download } from "@phosphor-icons/react/dist/ssr";
 import CropImageDialogue from "../dialogues/crop";
 import { bannerSize } from "./sizes";
 import styles from "./index.module.scss";
+import Image from "next/image";
 
 interface BannerProps {
   value?: string;

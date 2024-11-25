@@ -46,6 +46,10 @@ export default function RemoveItemDialog({
         if (!response.ok) throw await response.json();
         setLoading(false);
         callRemoveItemToast();
+        navigation.remove("/items/" + item.id);
+        navigation.remove(
+          "/users/" + item.user.id + "/items/" + item.id + "/edit"
+        );
         navigation.replace("/users/" + item.user.id);
       })
       .catch(() => {

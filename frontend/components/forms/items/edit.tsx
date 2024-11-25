@@ -2,10 +2,10 @@
 
 import styles from "../index.module.scss";
 import {
-  At,
   City,
   ClipboardText,
   Hash,
+  PencilLine,
   SolarRoof,
 } from "@phosphor-icons/react/dist/ssr";
 import Button from "../../button";
@@ -57,7 +57,9 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
   const navigation = useNavigation();
   const city = useCity();
   const [banner, setBanner] = useState<string>(
-    item.picture ? `${process.env.API_DOMAIN}/items/${item.picture}` : ""
+    item.picture
+      ? `${process.env.API_DOMAIN}/items/${item.picture}?v=${item.updatedAt.replace(/ /g, "_")}`
+      : ""
   );
   const { loading, setLoading } = useLoading();
   const [data, setData] = useState<CreateItemData>({
@@ -165,7 +167,7 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
         callInvalidFormToast();
       }
     },
-    [data, navigation, token, item, validate, setErrors, setLoading]
+    [data, city, navigation, token, item, validate, setErrors, setLoading]
   );
 
   useEffect(() => {
@@ -226,7 +228,7 @@ export default function EditItemForm({ item, token }: UpdateItemFormProps) {
           value={data.description}
           onChange={(e) => update("description", e.currentTarget.value)}
           error={errors["description"]}
-          icon={At}
+          icon={PencilLine}
           placeholder="Descrição"
         />
         <div>

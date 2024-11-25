@@ -6,5 +6,6 @@ export default function useNavigation() {
     back: context.back,
     replace: context.replace,
     push: context.push,
+    remove: context.remove,
   }));
 }

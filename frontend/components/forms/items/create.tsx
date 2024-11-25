@@ -2,10 +2,10 @@
 
 import styles from "../index.module.scss";
 import {
-  At,
   City,
   ClipboardText,
   Hash,
+  PencilLine,
   SolarRoof,
 } from "@phosphor-icons/react/dist/ssr";
 import Button from "../../button";
@@ -210,7 +210,7 @@ export default function CreateItemForm({ user, token }: CreateItemFormProps) {
           value={data.description}
           onChange={(e) => update("description", e.currentTarget.value)}
           error={errors["description"]}
-          icon={At}
+          icon={PencilLine}
           placeholder="Descrição"
         />
         <div>

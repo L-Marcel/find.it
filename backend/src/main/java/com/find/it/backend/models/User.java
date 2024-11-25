@@ -1,8 +1,12 @@
 package com.find.it.backend.models;
 
 import java.util.List;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.UUID;
+
+import org.hibernate.search.engine.backend.types.Sortable;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.find.it.backend.dtos.records.UserCreateData;
@@ -53,6 +57,9 @@ public class User {
 
   private int finds = 0;
 
+  @Column(nullable = false)
+  private Timestamp updatedAt = new Timestamp(System.currentTimeMillis());;
+
   @Enumerated(EnumType.ORDINAL)
   private ContactType contact = ContactType.NONE;
 
@@ -61,6 +68,7 @@ public class User {
   private List<Item> items = new ArrayList<>();
 
   public User(UserCreateData user) {
+    this.updatedAt = new Timestamp(System.currentTimeMillis());
     this.name = user.name();
     this.phone = user.phone();
     this.email = user.email();
@@ -70,6 +78,7 @@ public class User {
   };
 
   public void update(UserUpdateData user) {
+    this.updatedAt = new Timestamp(System.currentTimeMillis());
     this.name = user.name();
     this.phone = user.phone();
     this.email = user.email();

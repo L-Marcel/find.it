@@ -17,6 +17,7 @@ import { callLoginToast, callLogoutToast } from "@/components/ui/toasts";
 
 export type Context = {
   back: (alternative?: string) => void;
+  remove: (path: string) => void;
   replace: (to: string) => void;
   push: (to: string) => void;
   login: (email: string, password: string, _redirect?: string) => Promise<void>;
@@ -110,7 +111,16 @@ export default function Provider({ children, cities }: ProviderProps) {
       });
       router.replace(to);
     },
-    [reduce, router]
+    [reduce, router, setHistory]
+  );
+
+  const remove = useCallback(
+    (path: string) => {
+      setHistory((prev) => {
+        return prev.filter((value) => value !== path);
+      });
+    },
+    [setHistory]
   );
   //#endregion
 
@@ -162,6 +172,7 @@ export default function Provider({ children, cities }: ProviderProps) {
       value={{
         back,
         replace,
+        remove,
         push,
         login,
         logout,

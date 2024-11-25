@@ -48,7 +48,6 @@ public class PictureRepository {
   public String createToUser(UUID id, String data) {
     try {
       String path = this.getUsersPath().toString();
-      System.out.println("PATH: " + path);
       return this.create(data, id.toString(), path);
     } catch (Exception e) {
       return "";

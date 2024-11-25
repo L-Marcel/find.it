@@ -41,6 +41,10 @@ export default function CloseItemDialog({ item, token }: CloseItemDialogProps) {
         else {
           setLoading(false);
           callCloseItemToast();
+          navigation.remove("/items/" + item.id);
+          navigation.remove(
+            "/users/" + item.user.id + "/items/" + item.id + "/edit"
+          );
           navigation.replace("/users/" + item.user.id);
         }
       })

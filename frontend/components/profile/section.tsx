@@ -14,7 +14,7 @@ export default function ProfileSection({ user }: ProfileSectionProps) {
     <section className={styles.userProfileSection}>
       <div>
         <Avatar
-          picture={`${process.env.API_DOMAIN}/users/${user.picture}`}
+          picture={`${process.env.API_DOMAIN}/users/${user.picture}?v=${user.updatedAt.replace(/ /g, "_")}`}
           big
         />
         <Label canCopy header="SEU NOME É...">

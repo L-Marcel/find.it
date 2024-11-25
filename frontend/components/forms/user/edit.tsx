@@ -54,7 +54,9 @@ export default function EditUserForm({ user, token }: EditUserFormProps) {
   const navigation = useNavigation();
   const [updatePassword, setUpdatePassword] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<string>(
-    user.picture ? `${process.env.API_DOMAIN}/users/${user.picture}` : ""
+    user.picture
+      ? `${process.env.API_DOMAIN}/users/${user.picture}?v=${user.updatedAt.replace(/ /g, "_")}`
+      : ""
   );
   const { loading, setLoading } = useLoading();
   const [data, setData] = useState<UpdateUserData>({

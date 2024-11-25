@@ -19,6 +19,7 @@ public class ItemData {
   private int number = 0;
   private String complement = "";
   private UserData user;
+  private String updatedAt;
 
   public ItemData(Item item) {
     this.id = item.getId();
@@ -33,5 +34,6 @@ public class ItemData {
     this.number = item.getNumber();
     this.complement = item.getComplement();
     this.user = new UserData(item.getUser(), false);
+    this.updatedAt = item.getUpdatedAt().toString();
   };
 }

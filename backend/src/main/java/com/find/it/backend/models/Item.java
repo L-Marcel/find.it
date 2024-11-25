@@ -62,7 +62,8 @@ public class Item {
   private String complement = "";
 
   @GenericField(name = "updated_at", sortable = Sortable.YES)
-  private Timestamp updateAt;
+  @Column(nullable = false)
+  private Timestamp updatedAt = new Timestamp(System.currentTimeMillis());;
 
   @ManyToOne
   @JoinColumn(name = "owner")
@@ -70,7 +71,7 @@ public class Item {
   private User user;
 
   public Item(ItemFormData item, User user) {
-    this.updateAt = new Timestamp(System.currentTimeMillis());
+    this.updatedAt = new Timestamp(System.currentTimeMillis());
     if (item.type() != null) {
       this.type = item.type();
     }
@@ -86,7 +87,7 @@ public class Item {
   };
 
   public void update(ItemFormData item) {
-    this.updateAt = new Timestamp(System.currentTimeMillis());
+    this.updatedAt = new Timestamp(System.currentTimeMillis());
     if (item.type() != null) {
       this.type = item.type();
     }

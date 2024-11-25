@@ -2994,3 +2994,9 @@ create global temporary table HTE_items(number integer, rn_ integer not null, ty
 2024-11-23 18:36:53.926939-03:00 jdbc[23]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "HTE_ITEMS" already exists; SQL statement:
 create global temporary table HTE_items(number integer, rn_ integer not null, type tinyint, id bigint, update_at timestamp(6), owner uuid, description varchar(360), city varchar(255), complement varchar(255), district varchar(255), picture varchar(255), state varchar(255), street varchar(255), title varchar(255), primary key (rn_)) TRANSACTIONAL [42101-232]
+2024-11-25 16:00:38.648179-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'' (ITEMS: ""ID"" BIGINT NOT NULL)"; SQL statement:
+INSERT INTO "PUBLIC"."ITEMS"("ID","CITY","COMPLEMENT","DESCRIPTION","DISTRICT","NUMBER","PICTURE","STATE","STREET","TITLE","TYPE","OWNER","UPDATED_AT")VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?) [22018-232]
+2024-11-25 16:00:38.649103-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'' (ITEMS: ""ID"" BIGINT NOT NULL)"; SQL statement:
+INSERT INTO "PUBLIC"."ITEMS"("ID","CITY","COMPLEMENT","DESCRIPTION","DISTRICT","NUMBER","PICTURE","STATE","STREET","TITLE","TYPE","OWNER","UPDATED_AT")VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?) [22018-232]

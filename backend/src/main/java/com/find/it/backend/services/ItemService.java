@@ -174,7 +174,7 @@ public class ItemService {
     Item item = this.findById(id);
     User owner = item.getUser();
     Auth.validate(owner.getId(), token);
-    System.out.println(item.getType());
+
     switch (item.getType()) {
       case ItemType.FIND:
         owner.find();
@@ -190,6 +190,11 @@ public class ItemService {
     }
 
     users.save(owner);
+
+    if (item.getPicture() != null) {
+      pictures.deleteToItem(item.getPicture());
+    }
+
     repository.delete(item);
   };
 
@@ -197,6 +202,11 @@ public class ItemService {
     Item item = this.findById(id);
     User owner = item.getUser();
     Auth.validate(owner.getId(), token);
+
+    if (item.getPicture() != null) {
+      pictures.deleteToItem(item.getPicture());
+    }
+
     repository.delete(item);
   };
 

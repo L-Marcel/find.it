@@ -84,6 +84,7 @@ export type User = {
   donated: number;
   recovered: number;
   finds: number;
+  updatedAt: string;
 };
 
 export type PublicUser = {
@@ -97,6 +98,7 @@ export type PublicUser = {
   donated: number;
   recovered: number;
   finds: number;
+  updatedAt: string;
 };
 
 export type UsersRank = {

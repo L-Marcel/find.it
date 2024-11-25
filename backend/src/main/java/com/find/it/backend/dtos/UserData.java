@@ -19,6 +19,7 @@ public class UserData {
   private int recovered = 0;
   private int finds = 0;
 
+  private String updatedAt;
   private ContactType contact = ContactType.NONE;
 
   public UserData(User user, boolean authenticated) {
@@ -30,6 +31,7 @@ public class UserData {
     this.recovered = user.getRecovered();
     this.finds = user.getFinds();
     this.whatsapp = user.isWhatsapp();
+    this.updatedAt = user.getUpdatedAt().toString();
     if (authenticated) {
       this.email = user.getEmail();
       this.phone = user.getPhone();

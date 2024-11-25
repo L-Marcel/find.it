@@ -1,7 +1,6 @@
 import BackButton from "@/components/button/back";
 import HeaderProfile from "@/components/header/profile";
 import { getItem, typeToText } from "@/context/items";
-import Image from "next/image";
 import styles from "./index.module.scss";
 import Label from "@/components/label";
 import { MapPinArea, Pencil, Stamp } from "@phosphor-icons/react/dist/ssr";
@@ -12,6 +11,7 @@ import { headers } from "next/headers";
 import { getUser, PublicUser, User } from "@/context/user";
 import ProfileSection from "@/components/profile/section";
 import { Metadata } from "next";
+import Image from "next/image";
 
 interface ItemPageProps {
   params: Promise<{ id: string }>;
@@ -129,8 +129,8 @@ export default async function ItemPage({ params }: ItemPageProps) {
       >
         <section className={styles.info}>
           <Image
-            src={`${process.env.API_DOMAIN}/items/${item.picture}`}
-            alt="Item Photo"
+            src={`${process.env.API_DOMAIN}/items/${item.picture}?v=${item.updatedAt.replace(/ /g, "_")}`}
+            alt=""
             width={736}
             height={322}
           />

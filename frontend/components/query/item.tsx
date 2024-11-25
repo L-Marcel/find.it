@@ -1,7 +1,6 @@
 import { Item, typeToText } from "@/context/items";
 import { VirtualItem } from "@tanstack/react-virtual";
 import Button from "../button";
-import Image from "next/image";
 import Profile from "../profile";
 import {
   At,
@@ -11,6 +10,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { bannerSize } from "../input/sizes";
 import styles from "./index.module.scss";
+import Image from "next/image";
 
 interface MasonryItemProps {
   item?: Item;
@@ -74,9 +74,10 @@ export default function MasonryItem({
           <span>{typeToText(item.type)}</span>
           {item.picture && (
             <Image
+              unoptimized
               width={width}
               height={bannerSize.height}
-              src={`${process.env.API_DOMAIN}/items/${item.picture}`}
+              src={`${process.env.API_DOMAIN}/items/${item.picture}?v=${item.updatedAt.replace(/ /g, "_")}`}
               alt={item.title}
             />
           )}
@@ -85,6 +86,7 @@ export default function MasonryItem({
             name={item.user?.name}
             picture={item.user?.picture}
             theme={theme}
+            updatedAt={item.user?.updatedAt}
           />
         </header>
         <main>

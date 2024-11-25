@@ -43,6 +43,7 @@ export type Item = {
   district: string;
   number: number;
   complement: string;
+  updatedAt: string;
   user: {
     id: string;
     name: string;
@@ -54,6 +55,7 @@ export type Item = {
     recovered: number;
     email: string;
     phone: string;
+    updatedAt: string;
   };
 };
 

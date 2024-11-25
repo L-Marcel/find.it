@@ -31,6 +31,7 @@ export default async function HeaderProfile({
             id={user.id}
             name={!justIcon ? user.name : undefined}
             picture={user.picture}
+            updatedAt={user.updatedAt}
           />
         )}
         <LogoutButton />

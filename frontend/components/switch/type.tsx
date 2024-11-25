@@ -38,7 +38,7 @@ export default function TypeSwitch({
         checked={type === "LOST"}
         onClick={() => onChange("LOST")}
       >
-        {alternative ? "Recuperados" : "Perdi"}
+        {alternative ? "Perdidos" : "Perdi"}
       </Switch>
       <Switch
         theme="green"
